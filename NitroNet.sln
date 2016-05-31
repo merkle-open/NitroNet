@@ -1,0 +1,94 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroNet.Mvc", "NitroNet.Mvc\NitroNet.Mvc.csproj", "{B91E9371-631F-4F33-AD32-2B78724C85D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroNet.ViewEngine", "NitroNet.ViewEngine\NitroNet.ViewEngine.csproj", "{A2395B2D-F69E-420F-9534-E640DFE86138}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroNet.ViewEngine.TemplateHandler", "NitroNet.ViewEngine.TemplateHandler\NitroNet.ViewEngine.TemplateHandler.csproj", "{F164E253-7164-47B9-B6E9-65965AE5724D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Veil_Src", "Veil_Src", "{81827048-6FBD-4957-BDFC-247650732662}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veil", "Veil\Src\Veil\Veil.csproj", "{97D96B66-EDFE-474B-BC72-D8439830FC76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veil.Handlebars", "Veil\Src\Veil.Handlebars\Veil.Handlebars.csproj", "{3335691A-38B6-4DD1-96CB-A1C262CEF4CC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BD778325-2F52-4ED1-9E3D-1164D749367F}"
+	ProjectSection(SolutionItems) = preProject
+		TestSettings.testsettings = TestSettings.testsettings
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroNet.UnityModules", "NitroNet.UnityModules\NitroNet.UnityModules.csproj", "{56B54925-161C-4195-898B-DF0F1AE85C2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroNet", "NitroNet\NitroNet.csproj", "{43E25C7E-2A65-41F9-86D9-C64B8B0232D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{DA52C9ED-5676-4415-AC22-A26B74F354CE}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroNet.Test", "NitroNet.Test\NitroNet.Test.csproj", "{53891204-B74C-4FEF-AF1F-7E3081E83582}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroNet.ViewEngine.Test", "NitroNet.ViewEngine.Test\NitroNet.ViewEngine.Test.csproj", "{8E0FD9F2-77E0-4D4B-B241-9746B24E86B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroNet.Common", "NitroNet.Common\NitroNet.Common.csproj", "{5E84D392-7825-4449-89A2-9C1B8E376CAE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B91E9371-631F-4F33-AD32-2B78724C85D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B91E9371-631F-4F33-AD32-2B78724C85D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B91E9371-631F-4F33-AD32-2B78724C85D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B91E9371-631F-4F33-AD32-2B78724C85D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2395B2D-F69E-420F-9534-E640DFE86138}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2395B2D-F69E-420F-9534-E640DFE86138}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2395B2D-F69E-420F-9534-E640DFE86138}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2395B2D-F69E-420F-9534-E640DFE86138}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F164E253-7164-47B9-B6E9-65965AE5724D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F164E253-7164-47B9-B6E9-65965AE5724D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F164E253-7164-47B9-B6E9-65965AE5724D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F164E253-7164-47B9-B6E9-65965AE5724D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97D96B66-EDFE-474B-BC72-D8439830FC76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97D96B66-EDFE-474B-BC72-D8439830FC76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97D96B66-EDFE-474B-BC72-D8439830FC76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97D96B66-EDFE-474B-BC72-D8439830FC76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3335691A-38B6-4DD1-96CB-A1C262CEF4CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3335691A-38B6-4DD1-96CB-A1C262CEF4CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3335691A-38B6-4DD1-96CB-A1C262CEF4CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3335691A-38B6-4DD1-96CB-A1C262CEF4CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56B54925-161C-4195-898B-DF0F1AE85C2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56B54925-161C-4195-898B-DF0F1AE85C2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56B54925-161C-4195-898B-DF0F1AE85C2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56B54925-161C-4195-898B-DF0F1AE85C2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43E25C7E-2A65-41F9-86D9-C64B8B0232D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43E25C7E-2A65-41F9-86D9-C64B8B0232D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43E25C7E-2A65-41F9-86D9-C64B8B0232D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43E25C7E-2A65-41F9-86D9-C64B8B0232D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53891204-B74C-4FEF-AF1F-7E3081E83582}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53891204-B74C-4FEF-AF1F-7E3081E83582}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53891204-B74C-4FEF-AF1F-7E3081E83582}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53891204-B74C-4FEF-AF1F-7E3081E83582}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E0FD9F2-77E0-4D4B-B241-9746B24E86B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E0FD9F2-77E0-4D4B-B241-9746B24E86B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E0FD9F2-77E0-4D4B-B241-9746B24E86B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E0FD9F2-77E0-4D4B-B241-9746B24E86B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E84D392-7825-4449-89A2-9C1B8E376CAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E84D392-7825-4449-89A2-9C1B8E376CAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E84D392-7825-4449-89A2-9C1B8E376CAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E84D392-7825-4449-89A2-9C1B8E376CAE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{97D96B66-EDFE-474B-BC72-D8439830FC76} = {81827048-6FBD-4957-BDFC-247650732662}
+		{3335691A-38B6-4DD1-96CB-A1C262CEF4CC} = {81827048-6FBD-4957-BDFC-247650732662}
+		{53891204-B74C-4FEF-AF1F-7E3081E83582} = {BD778325-2F52-4ED1-9E3D-1164D749367F}
+		{8E0FD9F2-77E0-4D4B-B241-9746B24E86B6} = {BD778325-2F52-4ED1-9E3D-1164D749367F}
+	EndGlobalSection
+EndGlobal

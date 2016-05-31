@@ -1,0 +1,10 @@
+template,data,result
+Basic/PropertyBinding/template.html,Basic/PropertyBinding/data.json,Basic/PropertyBinding/result.html
+Basic/ConditionalBinding/template_string.html,Basic/ConditionalBinding/data_string.json,Basic/ConditionalBinding/result_string.html
+Basic/ConditionalBinding/template.html,Basic/ConditionalBinding/data_noproperty.json,Basic/ConditionalBinding/result_false.html
+Basic/ConditionalBinding/template.html,Basic/ConditionalBinding/data_boolean_true.json,Basic/ConditionalBinding/result_true.html
+Basic/ConditionalBinding/template.html,Basic/ConditionalBinding/data_boolean_false.json,Basic/ConditionalBinding/result_false.html
+Basic/Loop/template.html,Basic/Loop/data.json,Basic/Loop/result.html
+Basic/Loop/template.html,Basic/Loop/data_empty.json,Basic/Loop/result_empty.html
+Basic/Loop/template_nested.html,Basic/Loop/data_nested.json,Basic/Loop/result_nested.html
+Basic/Plain/template.html,Basic/Plain/data.json,Basic/Plain/result.html

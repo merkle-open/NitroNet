@@ -1,0 +1,22 @@
+﻿{
+    "do":  true,
+    "property1": [
+        {
+            "inner1": "val11",
+            "inner2": "val12",
+            "inner3": [
+                "1",
+                "2",
+                "3"
+            ]
+        },
+        {
+            "inner1": "val21",
+            "inner2": "val22",
+            "inner3": [
+                "1"
+            ]
+        }
+    ]
+
+}

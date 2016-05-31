@@ -1,0 +1,6 @@
+﻿{
+    "property1": "property1value",
+    "property2": { 
+        "innerProperty":  "innerproperty2value"
+    }
+}
