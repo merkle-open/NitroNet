@@ -7,8 +7,8 @@
     <ProjectGuid>{43E25C7E-2A65-41F9-86D9-C64B8B0232D6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NitroNet</RootNamespace>
-    <AssemblyName>NitroNet</AssemblyName>
+    <RootNamespace>NitroNet.Core</RootNamespace>
+    <AssemblyName>NitroNet.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="NitroNet.nuspec" />
+    <None Include="NitroNet.Core.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

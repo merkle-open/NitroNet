@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/namics/NitroNet</projectUrl>
     <iconUrl>http://sitecore.namics.com/wp-content/themes/terrific/terrific/img/favicon.ico</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>NitroNet main package</description>
+    <description>NitroNet core package</description>
     <copyright>Copyright 2016</copyright>
     <tags>nitro mvc handlebars viewengine</tags>
   </metadata>
