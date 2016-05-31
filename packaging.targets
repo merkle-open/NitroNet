@@ -34,10 +34,8 @@
     <PackageOutputDir>$([System.IO.Path]::GetDirectoryName('$(ProjectDir)$(IntermediateOutputPath)'))</PackageOutputDir>
     <PackageSpec>$(ProjectPath.Replace('.csproj', '.nuspec'))</PackageSpec>
     <PackageOutput>$(ProjectName.Replace('.csproj', '')).*.nupkg</PackageOutput>
-    <PackageSymbolsOutput>$(ProjectName.Replace('.csproj', '')).*.symbols.nupkg</PackageSymbolsOutput>
     <BuildCommandSolution Condition="'$(PackageVersion)' != ''">$(NuGetCommand) pack "$(ProjectPath)" -Properties "Configuration=$(Configuration);Platform=$(Platform)" $(NonInteractiveSwitch) -OutputDirectory "$(PackageOutputDir)" -Symbols $(IncludeReferencedProjects) -Version "$(PackageVersion)"</BuildCommandSolution>
     <PublishCommand>$(NuGetCommand) push "$(PackageOutputDir)\$(PackageOutput)" $(_NugetApiKey) -source "$(NugetRepository)"</PublishCommand>
-    <PublishSymbolsCommand>$(NuGetCommand) push "$(PackageOutputDir)\$(PackageSymbolsOutput)" $(_NugetApiKey) -source "$(NugetRepository)"</PublishSymbolsCommand>
   </PropertyGroup>
   <Target Name="PublishPackage" Condition="'$(PublishPackage)' == 'true'">
     <Exec Command="$(PublishCommand)" LogStandardErrorAsError="true" />
