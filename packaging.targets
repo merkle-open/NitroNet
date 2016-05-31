@@ -39,7 +39,6 @@
   </PropertyGroup>
   <Target Name="PublishPackage" Condition="'$(PublishPackage)' == 'true'">
     <Exec Command="$(PublishCommand)" LogStandardErrorAsError="true" />
-    <Exec Command="$(PublishSymbolsCommand)" LogStandardErrorAsError="true" />
   </Target>
   <Target Name="BuildPackageCustom" Condition="$(BuildPackageCustom) == 'true'">
     <Exec Command="$(BuildCommandSolution)" LogStandardErrorAsError="true" />
