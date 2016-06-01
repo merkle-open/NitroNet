@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Content Include="config.json" />
     <None Include="NitroNet.Core.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
