@@ -11,6 +11,8 @@ Nitro is simple, fast and flexible. It works on OSX, Windows and Linux. Use this
 
 NitroNet is a full integration of Nitro-Frontends into ASP.NET. Nitro itself based on the Template-Engine handlebars.js. NitroNet using the same Template-Engine as Nitro with the parsing framework [Veil](https://github.com/csainty/Veil/tree/master/Src/Veil.Handlebars) of [Chris Sainty](https://github.com/csainty) and combine the best of both worlds. In summary, NitroNet is a completely new and simple View-Engine for ASP.NET MVC Web Applications. NitroNet is created by [Fabian Geiger](https://github.com/fgeiger).
 
+### Subprojects
+As a popular Subproject, we have extend NitroNet to use this .Net View-Engine in the Web Content Management System [Sitecore](http://www.sitecore.net). You can find more informations about this Project under [NitroNetSitecore](https://github.com/namics/NitroNetSitecore).
 
 ## Installation
 
