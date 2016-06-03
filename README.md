@@ -22,7 +22,7 @@ You need a own Nitro Project as precondition of this installation manuel. Please
 ### Step 1 - Create a ASP.NET MVC Application
 Create a ASP.NET MVC Solution on your local machine with Visual Studio and compile the solution. 
 
-### Step 2 - Install NitroNet for Sitecore
+### Step 2 - Install NitroNet
 
 Please choose between variant **A** with Unity or **B** with another IoC Framework.
 
