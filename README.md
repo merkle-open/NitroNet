@@ -9,32 +9,34 @@ Nitro is simple, fast and flexible. It works on OSX, Windows and Linux. Use this
 
 ### What's NitroNet ?
 
-NitroNet is a full integration of Nitro-Frontends into ASP.NET. Nitro itself based on the Template-Engine handlebars.js. NitroNet using the same Template-Engine as Nitro with the parsing framework [Veil](https://github.com/csainty/Veil/tree/master/Src/Veil.Handlebars) of [Chris Sainty](https://github.com/csainty) and combine the best of both worlds. In summary, NitroNet is a completely new and simple View-Engine for ASP.NET MVC Web Applications. NitroNet is created by [Fabian Geiger](https://github.com/fgeiger).
+NitroNet is a full integration of Nitro frontends into ASP.NET. Nitro itself is based on the template engine handlebars.js. NitroNet uses the same template engine as Nitro with the parsing framework [Veil](https://github.com/csainty/Veil/tree/master/Src/Veil.Handlebars) of [Chris Sainty](https://github.com/csainty) and combine the best of both worlds. In summary, NitroNet is a completely new and simple view engine for ASP.NET MVC web applications. NitroNet is created by [Fabian Geiger](https://github.com/fgeiger).
 
-### Subprojects
-As a popular Subproject, we have extend NitroNet to use this .Net View-Engine in the Web Content Management System [Sitecore](http://www.sitecore.net). You can find more informations about this Project under [NitroNetSitecore](https://github.com/namics/NitroNetSitecore).
+### Sub projects
+As a popular sub project, we have extend NitroNet to use this .Net view engine in the Web Content Management System [Sitecore](http://www.sitecore.net). You can find more informations about this project under [NitroNetSitecore](https://github.com/namics/NitroNetSitecore).
 
 ## Installation
 
 ### Preconditions
-You need a own Nitro Project as precondition of this installation manuel. Please follow the beautiful guide of Nitro: [Link](https://github.com/namics/generator-nitro/)
+You need your own Nitro project as precondition of this installation manuel. Please follow the beautiful guide of Nitro: [Link](https://github.com/namics/generator-nitro/)
 
-### Step 1 - Create a ASP.NET MVC Application
-Create a ASP.NET MVC Solution on your local machine with Visual Studio and compile the solution. 
+### Step 1 - Create a ASP.NET MVC application
+Create a ASP.NET MVC solution on your local machine with Visual Studio and compile the solution. 
 
 ### Step 2 - Install NitroNet
 
-Please choose between variant **A** with Unity or **B** with another IoC Framework.
+Please choose between variant **A** with Unity or **B** with another IoC framework.
 
-#### (A) Directly with Unity IoC Container
+#### (A) Directly with Unity IoC container
 
-##### NuGet Package Installation
-There are several ways to install NitroNet in your MVC Application. The easiest way is to use NitroNet together with Unity. Execute following Line in your NuGet Package Manager or search the Package in your NuGet Browser:
+##### NuGet Package installation
+There are several ways to install NitroNet in your MVC application. The easiest way is to use NitroNet together with Unity. Execute following Line in your NuGet Package Manager or search the package in your NuGet browser:
 
 `PM >` `Install-Package NitroNet.UnityModules` 
 
+Optionally, we recommend to install the [Unity.Mvc](https://www.nuget.org/packages/Unity.Mvc/) which is a lightweight Unity bootstrapper for MVC applications.
+
 ##### Extend your Global.asax
-To activate NitroNet it's important to add/register the new View-Engine in your Application. You can do this, with these lines of code ([Gist](https://gist.github.com/daniiiol/62dd61615fcd73dc8386f56b69ed1a06):
+To activate NitroNet it's important to add/register the new view engine in your application. You can do this, with these lines of code ([Gist](https://gist.github.com/daniiiol/62dd61615fcd73dc8386f56b69ed1a06):
 
 	<%@Application Language='C#' %>
 	<%@ Import Namespace="NitroNet" %>
@@ -46,8 +48,8 @@ To activate NitroNet it's important to add/register the new View-Engine in your 
 	    }
 	</Script>
 
-##### Register the Unity IoC Containers
-In this NuGet Package, you got all necessary code classes to configure and register NitroNet with Unity. To Activate NitroNet, please add these lines to your UnityConfig.cs ([Gist](https://gist.github.com/daniiiol/a3c9d214dbe555dcb4550d7642d14c35))
+##### Register the Unity IoC containers
+In this NuGet package, you got all necessary code classes to configure and register NitroNet with Unity. To activate NitroNet, please add these lines to your application ([Gist](https://gist.github.com/daniiiol/a3c9d214dbe555dcb4550d7642d14c35))
 
 	public static void RegisterTypes(IUnityContainer container)
     {
@@ -57,16 +59,16 @@ In this NuGet Package, you got all necessary code classes to configure and regis
         new DefaultUnityModule(basePath).Configure(container);
     }
 
-#### (B) Directly without the Unity IoC Framework
-You don't like Unity and you design your application with an other IoC Framework? No Problem. In this case, you can install NitroNet only with our Base-Package:
+#### (B) Directly without the Unity IoC framework
+You don't like Unity and you design your application with an other IoC framework? No Problem. In this case, you can install NitroNet only with our base package:
 
 `PM >` `Install-Package NitroNet`
 
 ##### Extend your Global.asax
 *Please extend your Global.asax in the same way as in scenario (A)* 
 
-##### Register NitroNet with your own IoC Framework
-Actually, we only made a Unity-Integration with NitroNet. But it's easy to use an other IoC Framework. Following our Unity-Sample as a template for you ([Gist](https://gist.github.com/daniiiol/036be44e535768fac2df5eec0aff9180)):
+##### Register NitroNet with your own IoC framework
+Actually, we only made a Unity integration with NitroNet. But it's easy to use another IoC Framework. Please follow our Unity sample as a template for you ([Gist](https://gist.github.com/daniiiol/036be44e535768fac2df5eec0aff9180)):
 
 ###### DefaultUnityModule
 
