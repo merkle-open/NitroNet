@@ -76,7 +76,7 @@
       <Project>{a2395b2d-f69e-420f-9534-e640dfe86138}</Project>
       <Name>NitroNet.ViewEngine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NitroNet\NitroNet.Core.csproj">
+    <ProjectReference Include="..\NitroNet.Core\NitroNet.Core.csproj">
       <Project>{43e25c7e-2a65-41f9-86d9-c64b8b0232d6}</Project>
       <Name>NitroNet.Core</Name>
     </ProjectReference>

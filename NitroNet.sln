@@ -22,7 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BD778325
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroNet.UnityModules", "NitroNet.UnityModules\NitroNet.UnityModules.csproj", "{56B54925-161C-4195-898B-DF0F1AE85C2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroNet.Core", "NitroNet\NitroNet.Core.csproj", "{43E25C7E-2A65-41F9-86D9-C64B8B0232D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroNet.Core", "NitroNet.Core\NitroNet.Core.csproj", "{43E25C7E-2A65-41F9-86D9-C64B8B0232D6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{DA52C9ED-5676-4415-AC22-A26B74F354CE}"
 	ProjectSection(SolutionItems) = preProject
