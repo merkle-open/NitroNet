@@ -24,16 +24,20 @@ Create a ASP.NET MVC solution on your local machine with Visual Studio and compi
 
 ### Step 2 - Install NitroNet
 
-Please choose between variant **A** with Unity or **B** with another IoC framework.
+Please choose between variant **A** with Unity/CastleWindsor or **B** with another IoC Framework.
 
 #### (A) Directly with Unity IoC container
 
 ##### NuGet Package installation
-There are several ways to install NitroNet in your MVC application. The easiest way is to use NitroNet together with Unity. Execute following Line in your NuGet Package Manager or search the package in your NuGet browser:
+There are several ways to install NitroNet into Sitecore. The easiest way is to use NitroNet together with Unity or CastleWindsor. Execute following line in your NuGet Package Manager to install NitroNet for Sitecore:
 
-`PM >` `Install-Package NitroNet.UnityModules` 
+`PM >` `Install-Package NitroNet.UnityModules`
 
 Optionally, we recommend to install the [Unity.Mvc](https://www.nuget.org/packages/Unity.Mvc/) which is a lightweight Unity bootstrapper for MVC applications.
+
+*or*
+
+`PM >` `Install-Package NitroNet.CastleWindsorModules` 
 
 ##### Extend your Global.asax
 To activate NitroNet it's important to add/register the new view engine in your application. You can do this, with these lines of code ([Gist](https://gist.github.com/daniiiol/62dd61615fcd73dc8386f56b69ed1a06):
@@ -48,7 +52,7 @@ To activate NitroNet it's important to add/register the new view engine in your 
 	    }
 	</Script>
 
-##### Register the Unity IoC containers
+##### Register the IoC containers
 In this NuGet package, you got all necessary code classes to configure and register NitroNet with Unity. To activate NitroNet, please add these lines to your application ([Gist](https://gist.github.com/daniiiol/a3c9d214dbe555dcb4550d7642d14c35))
 
 	public static void RegisterTypes(IUnityContainer container)
@@ -57,6 +61,16 @@ In this NuGet package, you got all necessary code classes to configure and regis
         var basePath = PathInfo.Combine(PathInfo.Create(rootPath), PathInfo.Create(ConfigurationManager.AppSettings["NitroNet.BasePath"])).ToString();
         
         new DefaultUnityModule(basePath).Configure(container);
+    }
+
+Also you got all necessary code classes to configure and register NitroNet with CastleWindsor. To activate NitroNet add these lines to your application (https://gist.github.com/daniiiol/0f5c8f3cc8725d329e27e4c7bb6bb16f)
+
+	public static void RegisterTypes(IWindsorContainer container)
+    {
+        var rootPath = HostingEnvironment.MapPath("~/");
+        var basePath = PathInfo.Combine(PathInfo.Create(rootPath), PathInfo.Create(ConfigurationManager.AppSettings["NitroNet.BasePath"])).ToString();
+        
+        new DefaultCastleWindsorModule(basePath).Configure(container);
     }
 
 #### (B) Directly without the Unity IoC framework
