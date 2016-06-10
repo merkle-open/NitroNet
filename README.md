@@ -26,7 +26,7 @@ Create a ASP.NET MVC solution on your local machine with Visual Studio and compi
 
 Please choose between variant **A** with Unity/CastleWindsor or **B** with another IoC Framework.
 
-#### (A) Directly with Unity IoC container
+#### (A) Directly with IoC container
 
 ##### NuGet Package installation
 There are several ways to install NitroNet into Sitecore. The easiest way is to use NitroNet together with Unity or CastleWindsor. Execute following line in your NuGet Package Manager to install NitroNet for Sitecore:
