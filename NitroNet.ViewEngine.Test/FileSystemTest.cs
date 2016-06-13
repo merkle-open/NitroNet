@@ -33,14 +33,16 @@ namespace NitroNet.ViewEngine.Test
             Assert.AreEqual(false, FileSystem.FileExists(TestFileName1));
 
 			var completion = new TaskCompletionSource<IFileInfo>();
-			await FileSystem.SubscribeAsync(TestFilePattern, info => completion.TrySetResult(info)).ConfigureAwait(false);
+		    using (await FileSystem.SubscribeAsync(TestFilePattern, info => completion.SetResult(info)).ConfigureAwait(false))
+		    {
+                using (var stream = new StreamWriter(FileSystem.OpenWrite(TestFileName1)))
+                {
+                    stream.Write("123456");
+                }
 
-			using (var stream = new StreamWriter(FileSystem.OpenWrite(TestFileName1)))
-			{
-				stream.Write("123456");
-			}
+                await completion.Task.ConfigureAwait(false);
+            }
 
-			await completion.Task.ConfigureAwait(false);
 			Assert.AreEqual(true, FileSystem.FileExists(TestFileName1));
 
 			FileSystem.RemoveFile(TestFileName1);
@@ -53,7 +55,8 @@ namespace NitroNet.ViewEngine.Test
             Assert.AreEqual(false, FileSystem.FileExists(TestFileName2));
 
             var completion = new TaskCompletionSource<IFileInfo>();
-		    using (await FileSystem.SubscribeAsync(TestFilePattern, info => completion.TrySetResult(info)).ConfigureAwait(false))
+		    using (
+		        await FileSystem.SubscribeAsync(TestFilePattern, info => completion.SetResult(info)).ConfigureAwait(false))
 		    {
                 using (var stream = new StreamWriter(FileSystem.OpenWrite(TestFileName2)))
                 {
@@ -61,39 +64,46 @@ namespace NitroNet.ViewEngine.Test
                 }
 
                 await completion.Task.ConfigureAwait(false);
-                Assert.AreEqual(true, FileSystem.FileExists(TestFileName2));
             }
 
+            Assert.AreEqual(true, FileSystem.FileExists(TestFileName2));
+
             var completion2 = new TaskCompletionSource<IFileInfo>();
-		    using (await FileSystem.SubscribeAsync(TestFilePattern, info => completion2.TrySetResult(info)).ConfigureAwait(false))
+		    using (
+		        await FileSystem.SubscribeAsync(TestFilePattern, info => completion2.SetResult(info)).ConfigureAwait(false)
+		        )
 		    {
-		        using (var stream = new StreamReader(FileSystem.OpenRead(TestFileName2)))
-		        {
-		            Assert.AreEqual("123456", stream.ReadToEnd());
-		        }
+                using (var stream = new StreamReader(FileSystem.OpenRead(TestFileName2)))
+                {
+                    Assert.AreEqual("123456", stream.ReadToEnd());
+                }
 
-		        using (var stream = new StreamWriter(FileSystem.OpenWrite(TestFileName2)))
-		        {
-		            stream.Write("654321");
-		        }
+                using (var stream = new StreamWriter(FileSystem.OpenWrite(TestFileName2)))
+                {
+                    stream.Write("654321");
+                }
 
-		        await completion2.Task.ConfigureAwait(false);
-		        Assert.AreEqual(true, FileSystem.FileExists(TestFileName2));
-		    }
+                await completion2.Task.ConfigureAwait(false);
+            }
+            
+            Assert.AreEqual(true, FileSystem.FileExists(TestFileName2));
 
-		    var completion3 = new TaskCompletionSource<IFileInfo>();
-		    using (await FileSystem.SubscribeAsync(TestFilePattern, info => completion3.TrySetResult(info)).ConfigureAwait(false))
+            var completion3 = new TaskCompletionSource<IFileInfo>();
+		    using (
+		        await FileSystem.SubscribeAsync(TestFilePattern, info => completion3.SetResult(info)).ConfigureAwait(false)
+		        )
 		    {
-		        using (var stream = new StreamReader(FileSystem.OpenRead(TestFileName2)))
-		        {
-		            Assert.AreEqual("654321", stream.ReadToEnd());
-		        }
+                using (var stream = new StreamReader(FileSystem.OpenRead(TestFileName2)))
+                {
+                    Assert.AreEqual("654321", stream.ReadToEnd());
+                }
 
-		        FileSystem.RemoveFile(TestFileName2);
-		        await completion3.Task.ConfigureAwait(false);
-		    }
+                FileSystem.RemoveFile(TestFileName2);
 
-		    try
+                await completion3.Task.ConfigureAwait(false);
+            }
+
+            try
             {
                 using (var stream = new StreamReader(FileSystem.OpenRead(TestFileName2)))
                 {
@@ -104,5 +114,5 @@ namespace NitroNet.ViewEngine.Test
             {
             }
         }
-	}
+    }
 }
