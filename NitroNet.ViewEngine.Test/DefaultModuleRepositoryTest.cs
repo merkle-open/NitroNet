@@ -14,7 +14,7 @@ namespace NitroNet.ViewEngine.Test
         {
             var templateRepository = CreateRepository(
                 new ComponentMockup {Id = "modules/Mod1/Mod1", Path = "modules/Mod1/Mod1.html", Type = TemplateType.Component},
-                new ComponentMockup {Id = "modules/Mod2/Mod2", Path = "modules/Mod2/Mod2.html", Type = TemplateType.Component },
+                new ComponentMockup {Id = "modules/Mod2/mod2", Path = "modules/Mod2/mod2.html", Type = TemplateType.Component },
                 new ComponentMockup {Id = "layouts/Layout1", Path = "layouts/Layout1.html", Type = TemplateType.View });
 
             var underTest = new DefaultComponentRepository(templateRepository);
@@ -24,7 +24,7 @@ namespace NitroNet.ViewEngine.Test
             Assert.AreEqual("Mod1", result[0].Id);
             Assert.AreEqual("Mod2", result[1].Id);
         }
-        
+
         [TestMethod]
         public void TestModuleContainsSkins()
         {

@@ -51,7 +51,7 @@ namespace NitroNet.ViewEngine
 		    FileTemplateInfo defaultTemplate = null;
 		    foreach (var defaultTemplateCandidate in defaultTemplateCandidates)
 		    {
-                defaultTemplate = t.FirstOrDefault(a => a.Path.ToString().Contains(defaultTemplateCandidate));
+                defaultTemplate = t.FirstOrDefault(a => a.Path.ToString().ToLower().Contains(defaultTemplateCandidate.ToLower()));
 		        if (defaultTemplate != null)
 		        {
 		            break;
