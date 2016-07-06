@@ -27,13 +27,12 @@ namespace NitroNet.ViewEngine.TemplateHandler.Grid
 		{
 			double ratio = 1.0;
 			string ratioValue;
-			if (parameters.TryGetValue("ratio", out ratioValue))
-			{
-				if (!double.TryParse(ratioValue, out ratio))
-					ratio = 1.0;
-			}
+		    if (parameters.TryGetValue("ratio", out ratioValue) && !double.TryParse(ratioValue, out ratio))
+		    {
+		        ratio = 1.0;
+		    }
 
-			var gridStack = GridStack.FromContext(context);
+		    var gridStack = GridStack.FromContext(context);
 			return (int)(GetWidth(gridStack) * ratio);
 		}
 	}

@@ -101,17 +101,14 @@ namespace NitroNet.ViewEngine.IO
 
         private string GetFullPath(PathInfo path)
         {
-            if (path == null)
-                return _rootPathString;
-
-            return Path.Combine(_rootPath, path).ToString();
+            return path == null ? _rootPathString : Path.Combine(_rootPath, path).ToString();
         }
 
-		private class ZipFileInfo : IFileInfo
+        private class ZipFileInfo : IFileInfo
 		{
-			public PathInfo FilePath { get; private set; }
+			public PathInfo FilePath { get;}
 
-			public string Etag { get; private set; }
+			public string Etag { get;}
 
 			public ZipFileInfo(PathInfo filePath, string etag)
 			{
@@ -125,7 +122,6 @@ namespace NitroNet.ViewEngine.IO
             public PathInfo Combine(params PathInfo[] parts)
             {
                 return PathInfo.Combine(parts);
-                //return PathInfo.Create(PathUtility.Combine(parts.Select(s => s.ToString()).ToArray()));
             }
 
             public PathInfo GetDirectoryName(PathInfo filePath)

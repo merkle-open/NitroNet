@@ -14,10 +14,7 @@ namespace NitroNet.ViewEngine.IO
             {
                 string baseInFile;
                 var filePath = GetFilePath(new Uri(path, UriKind.RelativeOrAbsolute), out baseInFile);
-                if (!Path.IsPathRooted(filePath))
-                    filePath = Path.GetFullPath(Path.Combine(hostPath, filePath));
-                else
-                    filePath = Path.GetFullPath(filePath);
+                filePath = Path.GetFullPath(!Path.IsPathRooted(filePath) ? Path.Combine(hostPath, filePath) : filePath);
 
                 fileSystem = CreateZipFileSystem(filePath, baseInFile);
                 basePath = string.Empty;
@@ -25,8 +22,6 @@ namespace NitroNet.ViewEngine.IO
             else
             {
 				basePath = PathInfo.Combine(PathInfo.Create(hostPath), PathInfo.Create(path)).ToString();
-                //fileSystem = new FileSystem(basePath);
-
                 basePath = string.Empty;
             }
             return fileSystem;
@@ -40,7 +35,7 @@ namespace NitroNet.ViewEngine.IO
         private static string GetFilePath(Uri uri, out string rootPath)
         {
             var pathBuilder = new StringBuilder();
-            string result = String.Empty;
+            var result = string.Empty;
 
             var host = uri.IsAbsoluteUri ? new[] {uri.Host} : new string[0];
 
@@ -49,13 +44,15 @@ namespace NitroNet.ViewEngine.IO
                 var part = segment.TrimEnd('/');
                 pathBuilder.Append(part);
 
-                if (!String.IsNullOrEmpty(Path.GetExtension(part)))
+                if (!string.IsNullOrEmpty(Path.GetExtension(part)))
                 {
                     result = pathBuilder.ToString();
                     pathBuilder.Clear();
                 }
                 else
+                {
                     pathBuilder.Append('/');
+                }
             }
 
             rootPath = pathBuilder.ToString();

@@ -20,9 +20,7 @@ namespace NitroNet.ViewEngine.IO
         private HashSet<PathInfo> _fileInfo;
 		private HashSet<PathInfo> _directoryInfo;
 		private Dictionary<PathInfo, FileInfo> _fileInfoCache = new Dictionary<PathInfo, FileInfo>();
-		private List<FileSystemWatcher> _watchers = new List<FileSystemWatcher>();
-		private readonly string _basePathConverted;
-
+		private readonly List<FileSystemWatcher> _watchers = new List<FileSystemWatcher>();
 		public FileSystem(INitroNetConfig configuration)
 			: this(string.Empty, configuration)
 		{
@@ -32,11 +30,12 @@ namespace NitroNet.ViewEngine.IO
 		{
             _configuration = configuration;
 
-            if (string.IsNullOrEmpty(basePath))
-				basePath = Environment.CurrentDirectory;
+	        if (string.IsNullOrEmpty(basePath))
+	        {
+	            basePath = Environment.CurrentDirectory;
+	        }
 
 			_basePath = PathInfo.Create(basePath);
-			_basePathConverted = basePath;
 
             Initialize();
 			InitializeWatcher();
@@ -63,7 +62,7 @@ namespace NitroNet.ViewEngine.IO
                 InitializeFilesAndDirectories(Path.Combine(_basePath, componentPath).ToString());
             }
 
-            _fileInfoCache = _fileInfo.ToDictionary(i => GetRootPath(i), i => FileInfo.Create(GetRootPath(i)));
+            _fileInfoCache = _fileInfo.ToDictionary(GetRootPath, i => FileInfo.Create(GetRootPath(i)));
         }
 
 	    private void InitializeFilesAndDirectories(string basePath)
@@ -209,11 +208,7 @@ namespace NitroNet.ViewEngine.IO
 		public IFileInfo GetFileInfo(PathInfo filePath)
 		{
 			FileInfo result;
-			if (_fileInfoCache.TryGetValue(GetRootPath(filePath), out result))
-				return result;
-
-			return null;
-			return FileInfo.Create(GetRootPath(filePath));
+		    return _fileInfoCache.TryGetValue(GetRootPath(filePath), out result) ? result : null;
 		}
 
 		public Stream OpenWrite(PathInfo filePath)
@@ -252,7 +247,6 @@ namespace NitroNet.ViewEngine.IO
 			public PathInfo Combine(params PathInfo[] parts)
 			{
 				return PathInfo.Combine(parts);
-				//return PathInfo.Create(PathUtility.Combine(parts.Select(s => s == null ? null : s.ToString()).ToArray()));
 			}
 
 			public PathInfo GetDirectoryName(PathInfo filePath)
@@ -352,7 +346,7 @@ namespace NitroNet.ViewEngine.IO
 			    {
 			        fileInfo = new System.IO.FileInfo(filePath.ToString());
 			    }
-			    catch (Exception ex)
+			    catch
 			    {
                     fileInfo = null;
 			    }

@@ -12,13 +12,12 @@ namespace NitroNet.ViewEngine.IO
 		private static readonly IPathHelper PathHelper = new FileSystem.FilePathHelper();
 		private readonly Assembly _assembly;
 		private readonly IDictionary<PathInfo, string> _names;
-		private string _etag;
+		private readonly string _etag;
 
 		public EmbeddedResourceFileSystem(Assembly assembly)
 		{
 			_assembly = assembly;
 			_names = _assembly.GetManifestResourceNames().ToDictionary(s => Path.Combine(PathInfo.Create(s)), s => s);
-
 			_etag = _assembly.GetName().Version.ToString(4);
 		}
 

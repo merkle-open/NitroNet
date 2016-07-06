@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
@@ -33,7 +34,7 @@ namespace NitroNet.Mvc
 	    public void RenderComponent(RenderingParameter component, RenderingParameter skin, RenderingParameter dataVariation, object model,
 	        RenderingContext context)
 	    {
-            const string ThisIdentifier = "this";
+            const string thisIdentifier = "this";
 
             var mvcContext = context as MvcRenderingContext;
             if (mvcContext == null)
@@ -49,7 +50,7 @@ namespace NitroNet.Mvc
 
             object subModel = null;
 
-            if (dataVariation.Value.Equals(ThisIdentifier))
+            if (dataVariation.Value.Equals(thisIdentifier))
             {
                 subModel = model;
             }
@@ -97,7 +98,7 @@ namespace NitroNet.Mvc
                 return string.Empty;
             }
 
-            return text.Replace(" ", string.Empty).Replace("-", string.Empty).ToLower();
+            return text.Replace(" ", string.Empty).Replace("-", string.Empty).ToLower(CultureInfo.InvariantCulture);
         }
 
         //TODO: duplicate function -> remove
@@ -133,7 +134,7 @@ namespace NitroNet.Mvc
         {
             modelValue = null;
             var dataProperty =
-                model.GetType().GetProperties().FirstOrDefault(prop => prop.Name.ToLower().Equals(propertyName));
+                model.GetType().GetProperties().FirstOrDefault(prop => prop.Name.ToLower(CultureInfo.InvariantCulture).Equals(propertyName));
             if (dataProperty == null)
             {
                 return false;
@@ -179,7 +180,6 @@ namespace NitroNet.Mvc
             HtmlHelper a = new HtmlHelper(mvcContext.ViewContext, mvcContext.ViewDataContainer);
             //.RenderAction("Index", component.Value);
             a.RenderPartial(template);
-			//throw new NotImplementedException();
 		}
 
     }
