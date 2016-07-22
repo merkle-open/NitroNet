@@ -1,11 +1,11 @@
 ﻿{
-	"viewPaths": [
+  "viewPaths": [
+    "."
+  ],
+	"partialPaths": [
 		"."
 	],
 	"componentPaths": [
-		"."
-	],
-	"fileWatcherPaths": [
 		"."
 	]
 }

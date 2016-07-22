@@ -16,7 +16,8 @@ namespace NitroNet.ViewEngine.IO
 		private readonly List<LookupFileSystemSubscription> _subscriptions = new List<LookupFileSystemSubscription>();
 		private readonly HashSet<LookupDirectoryFileSystemSubscription> _directorySubscriptions = new HashSet<LookupDirectoryFileSystemSubscription>();
 
-		private HashSet<PathInfo> _fileInfo;
+        private HashSet<PathInfo> _tempPaths;
+        private HashSet<PathInfo> _fileInfo;
 		private HashSet<PathInfo> _directoryInfo;
 		private Dictionary<PathInfo, FileInfo> _fileInfoCache = new Dictionary<PathInfo, FileInfo>();
 		private List<FileSystemWatcher> _watchers = new List<FileSystemWatcher>();
@@ -78,17 +79,22 @@ namespace NitroNet.ViewEngine.IO
 
 		private void InitializeWatcher()
 		{
-		    foreach (var fileWatcherPath in _configuration.ViewPaths)
-		    {
-                _watchers.Add(CreateWatcher(Path.Combine(_basePath, fileWatcherPath).ToString()));
-            }
-            foreach (var fileWatcherPath in _configuration.PartialPaths)
+		    _tempPaths = new HashSet<PathInfo>();
+
+		    InitializeWatcher(_configuration.ViewPaths);
+            InitializeWatcher(_configuration.PartialPaths);
+            InitializeWatcher(_configuration.ComponentPaths);
+        }
+
+	    private void InitializeWatcher(IEnumerable<PathInfo> paths)
+	    {
+            foreach (var fileWatcherPath in paths)
             {
-                _watchers.Add(CreateWatcher(Path.Combine(_basePath, fileWatcherPath).ToString()));
-            }
-            foreach (var fileWatcherPath in _configuration.ComponentPaths)
-            {
-                _watchers.Add(CreateWatcher(Path.Combine(_basePath, fileWatcherPath).ToString()));
+                if (!_tempPaths.Contains(fileWatcherPath))
+                {
+                    _watchers.Add(CreateWatcher(Path.Combine(_basePath, fileWatcherPath).ToString()));
+                    _tempPaths.Add(fileWatcherPath);
+                }
             }
         }
 
@@ -113,8 +119,8 @@ namespace NitroNet.ViewEngine.IO
 			Initialize();
 
 			var fileInfo = FileInfo.Create(GetRootPath(PathInfo.GetSubPath(_basePath, a.FullPath)));
-			if (fileInfo != null)
-				NotifySubscriptions(fileInfo);
+
+		    NotifySubscriptions(fileInfo);
 		}
 
 		private void NotifySubscriptions(IFileInfo file)
