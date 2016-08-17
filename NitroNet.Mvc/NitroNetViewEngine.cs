@@ -47,17 +47,12 @@ namespace NitroNet.Mvc
         {
 			TemplateInfo templateInfo = null;
             var componentDefinition = await _componentRepository.GetComponentDefinitionByIdAsync(viewName).ConfigureAwait(false);
-            if (componentDefinition == null)
-                componentDefinition = await _componentRepository.GetComponentDefinitionByIdAsync(controllerName).ConfigureAwait(false);
 
 			if (componentDefinition != null)
 				templateInfo = componentDefinition.DefaultTemplate;
 
             if (templateInfo == null)
                 templateInfo = await _templateRepository.GetTemplateAsync(viewName).ConfigureAwait(false);
-
-            if (templateInfo == null)
-                templateInfo = await _templateRepository.GetTemplateAsync(controllerName).ConfigureAwait(false);
 
             if (templateInfo != null)
             {

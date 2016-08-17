@@ -44,12 +44,11 @@ namespace NitroNet.ViewEngine.TemplateHandler.Grid
 		{
 			double result = defaultValue;
 			string value;
-			if (parameters.TryGetValue(key, out value))
-			{
-				if (!double.TryParse(value, out result) && !DefaultRatioTable.TryGetValue(value, out result))
-					result = defaultValue;
-			}
-			return result;
+		    if (parameters.TryGetValue(key, out value) && !double.TryParse(value, out result) && !DefaultRatioTable.TryGetValue(value, out result))
+		    {
+		        result = defaultValue;
+		    }
+		    return result;
 		}
 
 		private static double? GetValueNullable(IDictionary<string, string> parameters, string key)
@@ -58,8 +57,10 @@ namespace NitroNet.ViewEngine.TemplateHandler.Grid
 			if (parameters.TryGetValue(key, out value))
 			{
 				double result;
-				if (!double.TryParse(value, out result) && !DefaultRatioTable.TryGetValue(value, out result))
-					return result;
+			    if (!double.TryParse(value, out result) && !DefaultRatioTable.TryGetValue(value, out result))
+			    {
+			        return result;
+			    }
 			}
 			return null;
 		}

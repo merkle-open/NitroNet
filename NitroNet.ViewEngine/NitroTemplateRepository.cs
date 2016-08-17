@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NitroNet.Common.Exceptions;
 using NitroNet.ViewEngine.Config;
 using NitroNet.ViewEngine.IO;
 
@@ -122,11 +123,11 @@ namespace NitroNet.ViewEngine
             List<FileTemplateInfo> templateInfos;
 		    if (_templatesByName.TryGetValue(id, out templateInfos))
 		    {
-		        var firstPartialFound = templateInfos.FirstOrDefault(t => t.Type.Equals(TemplateType.Partial));
-		        if (firstPartialFound != null)
+		        if (templateInfos.Count > 1)
 		        {
-                    return Task.FromResult<TemplateInfo>(firstPartialFound);
-                }
+		            throw new NitroNetTemplateNotFoundException(
+                        string.Format("Couldn't find view template. There is more than one template with id {0}. Please specify the view name including the path relative to the NitroNet root folder.", id));
+		        }
 
                 return Task.FromResult<TemplateInfo>(templateInfos.FirstOrDefault());
             }

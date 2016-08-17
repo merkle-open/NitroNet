@@ -146,3 +146,12 @@ Actually, we only made a Unity integration with NitroNet. But it's easy to use a
 
 ## Configuration
 ... comming soon.
+
+
+## Credits and special thanks
+
+Thanks to all the people who made and released these awesome resources for free!
+
+Special thanks to [Marco Schälle](https://github.com/marcoschaelle) and [Stefan Schälle](https://github.com/schaelle) who fight for a smart way to integrate Frontends into ASP.NET and create the predecessor [TerrificNet](https://github.com/namics/TerrificNet) of NitroNet itself. Marco and Stefan were our opinion leaders of this product.
+
+Also special thanks to [Mark Cassidy](https://github.com/cassidydotdk) for all product commits and propagation of our idea to the whole world.

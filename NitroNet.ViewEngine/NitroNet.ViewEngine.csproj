@@ -93,6 +93,10 @@
     <Compile Include="IO\ZipFileSystem.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NitroNet.Common\NitroNet.Common.csproj">
+      <Project>{5E84D392-7825-4449-89A2-9C1B8E376CAE}</Project>
+      <Name>NitroNet.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Veil\Src\Veil.Handlebars\Veil.Handlebars.csproj">
       <Project>{3335691A-38B6-4DD1-96CB-A1C262CEF4CC}</Project>
       <Name>Veil.Handlebars</Name>

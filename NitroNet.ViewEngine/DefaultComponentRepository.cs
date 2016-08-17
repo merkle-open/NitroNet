@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using NitroNet.ViewEngine.Config;
 
 namespace NitroNet.ViewEngine
 {
@@ -51,7 +51,7 @@ namespace NitroNet.ViewEngine
 		    FileTemplateInfo defaultTemplate = null;
 		    foreach (var defaultTemplateCandidate in defaultTemplateCandidates)
 		    {
-                defaultTemplate = t.FirstOrDefault(a => a.Path.ToString().Contains(defaultTemplateCandidate));
+                defaultTemplate = t.FirstOrDefault(a => a.Path.ToString().ToLower(CultureInfo.InvariantCulture).Contains(defaultTemplateCandidate.ToLower(CultureInfo.InvariantCulture)));
 		        if (defaultTemplate != null)
 		        {
 		            break;
@@ -74,7 +74,7 @@ namespace NitroNet.ViewEngine
 	    {
 	        yield return string.Concat(componentId, '/', "default.html");
 	        var fileName = Path.GetFileName(componentId);
-	        yield return string.Concat(componentId, '/', !string.IsNullOrEmpty(fileName) ? fileName.Replace("-", "") : null, ".html");
+	        yield return string.Concat(componentId, '/', !string.IsNullOrEmpty(fileName) ? fileName.Replace("-", string.Empty) : null, ".html");
 	    }
 
 	    private static string GetComponentId(string componentId)
