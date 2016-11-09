@@ -15,9 +15,8 @@ namespace NitroNet.ViewEngine.ViewEngines
 
 		public override MemberInfo FindMember(Type modelType, string name, MemberTypes types)
 		{
-			name = _namingRule.GetPropertyName(name);
-			return base.FindMember(modelType, _namingRule.GetPropertyName(name), types);
-		}
+            return base.FindMember(modelType, _namingRule.GetPropertyName(name), types);
+        }
 
 	}
 }
