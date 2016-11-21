@@ -32,7 +32,7 @@ namespace Veil.Handlebars
             { x => x.Content == "#flush", HandleFlush },
             { x => x.Content.StartsWith("#with"), HandleWith },
             { x => x.Content == "/with", HandleEndWith },
-            { x => x.Content.StartsWith(">"), HandlePartial },
+            //{ x => x.Content.StartsWith(">"), HandlePartial },
             { x => x.Content.StartsWith("<"), HandleMaster },
             { x => x.Content == "body", HandleBody }
         };
@@ -99,7 +99,7 @@ namespace Veil.Handlebars
 				{
 					{x => x.Content.StartsWith("#") && helper.IsSupported(x.Content.Substring(1)), state => HandleHelperStart(state, blockHelper)},
 					{x => x.Content.StartsWith("/") && helper.IsSupported(x.Content.Substring(1)), state => HandleHelperEnd(state, blockHelper)}
-				};
+                };
 		    }
 
 		    return new Dictionary<Func<HandlebarsToken, bool>, Action<HandlebarsParserState>>
