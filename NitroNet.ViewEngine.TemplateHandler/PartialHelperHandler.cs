@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Veil;
 using Veil.Helper;
 
@@ -16,12 +17,15 @@ namespace NitroNet.ViewEngine.TemplateHandler
 
 		public bool IsSupported(string name)
 		{
-			return name.StartsWith("partial", StringComparison.OrdinalIgnoreCase);
+		    var isSupported = name.StartsWith("partial", StringComparison.OrdinalIgnoreCase) || name.StartsWith(">", StringComparison.OrdinalIgnoreCase);
+		    return isSupported;
 		}
 
 		public void Evaluate(object model, RenderingContext context, IDictionary<string, string> parameters)
 		{
-			var template = parameters["name"].Trim('"', '\'');
+		    string value;
+		    value = parameters.TryGetValue("name", out value) ? value.Trim('"', '\'') : parameters.First().Key.Trim('"', '\'');
+			var template = value;
 			_handler.RenderPartial(template, model, context);
 		}
 	}
