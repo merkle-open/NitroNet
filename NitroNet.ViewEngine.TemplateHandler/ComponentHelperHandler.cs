@@ -17,7 +17,7 @@ namespace NitroNet.ViewEngine.TemplateHandler
 
         public bool IsSupported(string name)
         {
-            return name.StartsWith("component", StringComparison.OrdinalIgnoreCase);
+            return name.StartsWith("component", StringComparison.OrdinalIgnoreCase) || name.StartsWith("pattern", StringComparison.OrdinalIgnoreCase);
         }
 
 		public void Evaluate(object model, RenderingContext context, IDictionary<string, string> parameters)
