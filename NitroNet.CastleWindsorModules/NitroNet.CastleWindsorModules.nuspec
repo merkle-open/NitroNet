@@ -13,7 +13,7 @@
     <copyright>Copyright 2016</copyright>
     <tags>nitro castle windsor handlebars viewengine</tags>
     <dependencies>
-      <dependency id="NitroNet" version="$version$" />
+      <dependency id="NitroNet" version="$dependentVersion$" />
     </dependencies>
   </metadata>
 </package>
