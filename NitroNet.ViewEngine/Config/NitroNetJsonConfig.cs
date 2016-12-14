@@ -7,5 +7,6 @@ namespace NitroNet.ViewEngine.Config
         public IEnumerable<string> ViewPaths { get; set; }
         public IEnumerable<string> PartialPaths { get; set; }
         public IEnumerable<string> ComponentPaths { get; set; }
-	}
+        public IEnumerable<string> Extensions { get; set; }
+    }
 }

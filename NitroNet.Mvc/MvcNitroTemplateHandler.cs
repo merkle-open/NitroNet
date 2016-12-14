@@ -55,11 +55,9 @@ namespace NitroNet.Mvc
                 subModel = model;
             }
 
-            var modelFound = false;
-
-            if (subModel == null)
+	        if (subModel == null)
             {
-                modelFound = GetValueFromObjectHierarchically(model, propertyName, out subModel);
+                GetValueFromObjectHierarchically(model, propertyName, out subModel);
             }
 
             if (subModel != null && !(subModel is string))
@@ -69,8 +67,8 @@ namespace NitroNet.Mvc
                 return;
             }
 
-            new HtmlHelper(mvcContext.ViewContext, mvcContext.ViewDataContainer).RenderAction("Index", component.Value);
-        }
+	        //new HtmlHelper(mvcContext.ViewContext, mvcContext.ViewDataContainer).RenderAction("Index", component.Value);
+	    }
 
         //TODO: duplicate function -> remove
         private string GetComponentId(string componentId, string skin)
@@ -178,8 +176,7 @@ namespace NitroNet.Mvc
                 throw new InvalidOperationException("MvcNitroTemplateHandler can only be used inside a Mvc application.");
 
             HtmlHelper a = new HtmlHelper(mvcContext.ViewContext, mvcContext.ViewDataContainer);
-            //.RenderAction("Index", component.Value);
-            a.RenderPartial(template);
+            a.RenderPartial(template, model);
 		}
 
     }
