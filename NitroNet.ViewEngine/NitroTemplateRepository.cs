@@ -31,9 +31,12 @@ namespace NitroNet.ViewEngine
             var componentSubscriptions = new List<IDisposable>();
             foreach (var componentPath in _configuration.ComponentPaths)
             {
-                componentSubscriptions.Add(
+                foreach (var configurationExtension in _configuration.Extensions)
+                {
+                    componentSubscriptions.Add(
                     _fileSystem.SubscribeDirectoryGetFilesAsync(PathInfo.Create(componentPath.ToString()),
-                        "html", files => InitCache()));
+                        configurationExtension, files => InitCache()));
+                }
             }
 
             _componentSubscriptions = componentSubscriptions;
@@ -41,9 +44,12 @@ namespace NitroNet.ViewEngine
             var partialSubscriptions = new List<IDisposable>();
             foreach (var partialPath in _configuration.PartialPaths)
             {
-                partialSubscriptions.Add(
-                    _fileSystem.SubscribeDirectoryGetFilesAsync(PathInfo.Create(partialPath.ToString()),
-                        "html", files => InitCache()));
+                foreach (var configurationExtension in _configuration.Extensions)
+                {
+                    partialSubscriptions.Add(
+                        _fileSystem.SubscribeDirectoryGetFilesAsync(PathInfo.Create(partialPath.ToString()),
+                            configurationExtension, files => InitCache()));
+                }
             }
 
             _partialSubscriptions = partialSubscriptions;
@@ -51,9 +57,12 @@ namespace NitroNet.ViewEngine
             var viewSubscriptions = new List<IDisposable>();
             foreach (var viewPath in _configuration.ViewPaths)
             {
-                viewSubscriptions.Add(
-                    _fileSystem.SubscribeDirectoryGetFilesAsync(PathInfo.Create(viewPath.ToString()),
-                        "html", files => InitCache()));
+                foreach (var configurationExtension in _configuration.Extensions)
+                {
+                    viewSubscriptions.Add(
+                        _fileSystem.SubscribeDirectoryGetFilesAsync(PathInfo.Create(viewPath.ToString()),
+                            configurationExtension, files => InitCache()));
+                }
             }
 
             _viewSubscriptions = viewSubscriptions;
@@ -64,34 +73,43 @@ namespace NitroNet.ViewEngine
             List<FileTemplateInfo> viewTemplates = new List<FileTemplateInfo>();
             foreach (var viewPath in _configuration.ViewPaths)
             {
-                viewTemplates.AddRange(
-                    _fileSystem.DirectoryGetFiles(viewPath, "html").Select(f =>
-                    {
-                        var relativePath = GetTemplateId(f).RemoveStartSlash();
-                        return new FileTemplateInfo(relativePath.ToString(), TemplateType.View, f, _fileSystem);
-                    }));
+                foreach (var configurationExtension in _configuration.Extensions)
+                {
+                    viewTemplates.AddRange(
+                        _fileSystem.DirectoryGetFiles(viewPath, configurationExtension).Select(f =>
+                        {
+                            var relativePath = GetTemplateId(f).RemoveStartSlash();
+                            return new FileTemplateInfo(relativePath.ToString(), TemplateType.View, f, _fileSystem);
+                        }));
+                }
             }
 
             List<FileTemplateInfo> partialTemplates = new List<FileTemplateInfo>();
             foreach (var partialPath in _configuration.PartialPaths)
             {
-                partialTemplates.AddRange(
-                    _fileSystem.DirectoryGetFiles(partialPath, "html").Select(f =>
-                    {
-                        var relativePath = GetTemplateId(f).RemoveStartSlash();
-                        return new FileTemplateInfo(relativePath.ToString(), TemplateType.Partial, f, _fileSystem);
-                    }));
+                foreach (var configurationExtension in _configuration.Extensions)
+                {
+                    partialTemplates.AddRange(
+                        _fileSystem.DirectoryGetFiles(partialPath, configurationExtension).Select(f =>
+                        {
+                            var relativePath = GetTemplateId(f).RemoveStartSlash();
+                            return new FileTemplateInfo(relativePath.ToString(), TemplateType.Partial, f, _fileSystem);
+                        }));
+                }
             }
 
             List<FileTemplateInfo> componentTemplates = new List<FileTemplateInfo>();
 		    foreach (var componentPath in _configuration.ComponentPaths)
 		    {
-		        componentTemplates.AddRange(
-                    _fileSystem.DirectoryGetFiles(componentPath, "html").Select(f =>
-                    {
-                        var relativePath = GetTemplateId(f).RemoveStartSlash();
-                        return new FileTemplateInfo(relativePath.ToString(), TemplateType.Component, f, _fileSystem);
-                    }));
+		        foreach (var configurationExtension in _configuration.Extensions)
+		        {
+		            componentTemplates.AddRange(
+		                _fileSystem.DirectoryGetFiles(componentPath, configurationExtension).Select(f =>
+		                {
+		                    var relativePath = GetTemplateId(f).RemoveStartSlash();
+		                    return new FileTemplateInfo(relativePath.ToString(), TemplateType.Component, f, _fileSystem);
+		                }));
+		        }
 		    }
 
             _templates = componentTemplates
