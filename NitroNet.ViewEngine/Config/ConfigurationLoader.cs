@@ -35,11 +35,18 @@ namespace NitroNet.ViewEngine.Config
             return new NitroNetConfig
             {
                 ViewPaths = jsonConfig.ViewPaths.Select(path => GetDefaultValueIfNotSet(path, PathInfo.Create("views"))),
+                Extensions = jsonConfig.Extensions.Select(extension => GetDefaultValueIfNotSet(extension, "html")),
                 PartialPaths = jsonConfig.PartialPaths.Select(path => GetDefaultValueIfNotSet(path, PathInfo.Create("partials"))),
                 ComponentPaths = jsonConfig.ComponentPaths.Select(path => GetDefaultValueIfNotSet(path, PathInfo.Create("components"),
                     PathInfo.Create("modules")))
             };
         }
+
+        private static string GetDefaultValueIfNotSet(string extension, string defaultValue)
+        {
+            return string.IsNullOrEmpty(extension) ? defaultValue : extension;
+        }
+
 
         private static PathInfo GetDefaultValueIfNotSet(string value, params PathInfo[] defaultLocation)
         {

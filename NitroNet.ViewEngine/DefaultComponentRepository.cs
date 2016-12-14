@@ -72,10 +72,13 @@ namespace NitroNet.ViewEngine
 
 	    private static IEnumerable<string> GetDefaultTemplateCandidates(string componentId)
 	    {
+            // todo extension should be configurable or ignored
 	        yield return string.Concat(componentId, '/', "default.html");
-	        var fileName = Path.GetFileName(componentId);
+            yield return string.Concat(componentId, '/', "default.hbs");
+            var fileName = Path.GetFileName(componentId);
 	        yield return string.Concat(componentId, '/', !string.IsNullOrEmpty(fileName) ? fileName.Replace("-", string.Empty) : null, ".html");
-	    }
+            yield return string.Concat(componentId, '/', !string.IsNullOrEmpty(fileName) ? fileName.Replace("-", string.Empty) : null, ".hbs");
+        }
 
 	    private static string GetComponentId(string componentId)
 		{
