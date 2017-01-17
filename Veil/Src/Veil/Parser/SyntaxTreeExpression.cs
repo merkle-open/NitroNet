@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Veil.Compiler;
 using Veil.Helper;
 using Veil.Parser.Nodes;
@@ -155,7 +156,7 @@ namespace Veil.Parser
 				foreach (var value in parameter.Skip(1))
 				{
 					var tmp = value.Split(new[] {'='}, 2);
-					data.Add(tmp[0], tmp.Length == 2 ? tmp[1] : string.Empty);
+					data.Add(Trim(tmp[0]), tmp.Length == 2 ? tmp[1] : string.Empty);
 				}
 			}
 
@@ -167,5 +168,15 @@ namespace Veil.Parser
                 HelperHandler = helperHandler
 			};
 		}
+
+	    private static string Trim(string token)
+	    {
+	        if (string.IsNullOrEmpty(token))
+	        {
+	            return token;
+	        }
+
+	        return token.Trim('\t', '\n', '\r');
+	    }
 	}
 }
