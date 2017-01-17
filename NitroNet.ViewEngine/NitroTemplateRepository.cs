@@ -129,7 +129,7 @@ namespace NitroNet.ViewEngine
                     .GroupBy(p => p.Id, StringComparer.InvariantCultureIgnoreCase)
                     .ToDictionary(i => i.Key, i => i.First(), StringComparer.InvariantCultureIgnoreCase);
 
-
+		    _templates = FilterTemplates(templates);
             _templatesByName = new Dictionary<string, List<FileTemplateInfo>>();
             foreach (var template in _templates)
             {
@@ -206,13 +206,20 @@ namespace NitroNet.ViewEngine
             var filteredTemplates = new Dictionary<string, FileTemplateInfo>();
 
             foreach (var template in templates)
-	        {
+            {
+                var isFiltered = false;
+
                 foreach (var filter in _filters)
                 {
                     if (filter.IsMatch(template.Value.Path.ToString()))
                     {
-                        filteredTemplates.Add(template.Key, template.Value);
+                        isFiltered = true;
                     }
+                }
+
+                if (!isFiltered)
+                {
+                    filteredTemplates.Add(template.Key, template.Value);
                 }
             }
 
