@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NitroNet.Common.Exceptions;
 using NitroNet.ViewEngine.Config;
@@ -12,6 +13,7 @@ namespace NitroNet.ViewEngine
 	{
 		private readonly IFileSystem _fileSystem;
         private readonly INitroNetConfig _configuration;
+	    private readonly IEnumerable<Regex> _filters;
 		private Dictionary<string, FileTemplateInfo> _templates;
         private Dictionary<string, List<FileTemplateInfo>> _templatesByName;
         private IEnumerable<IDisposable> _viewSubscriptions;
@@ -23,7 +25,16 @@ namespace NitroNet.ViewEngine
 			_fileSystem = fileSystem;
             _configuration = configuration;
 
-			InitCache();
+            if (_configuration.Filters == null || !_configuration.Filters.Any())
+            {
+                _filters = new List<Regex>();
+            }
+            else
+            {
+                _filters = _configuration.Filters.Select(f => new Regex(f, RegexOptions.Compiled));
+            }
+
+            InitCache();
 
 			if (!_fileSystem.SupportsSubscribe)
 				return;
@@ -34,8 +45,8 @@ namespace NitroNet.ViewEngine
                 foreach (var configurationExtension in _configuration.Extensions)
                 {
                     componentSubscriptions.Add(
-                    _fileSystem.SubscribeDirectoryGetFilesAsync(PathInfo.Create(componentPath.ToString()),
-                        configurationExtension, files => InitCache()));
+                        _fileSystem.SubscribeDirectoryGetFilesAsync(PathInfo.Create(componentPath.ToString()),
+                            configurationExtension, files => InitCache()));
                 }
             }
 
@@ -112,11 +123,13 @@ namespace NitroNet.ViewEngine
 		        }
 		    }
 
-            _templates = componentTemplates
-                .Concat(partialTemplates)
-                .Concat(viewTemplates)
-                .GroupBy(p => p.Id, StringComparer.InvariantCultureIgnoreCase)
-                .ToDictionary(i => i.Key, i => i.First(), StringComparer.InvariantCultureIgnoreCase);
+            var templates = componentTemplates
+                    .Concat(partialTemplates)
+                    .Concat(viewTemplates)
+                    .GroupBy(p => p.Id, StringComparer.InvariantCultureIgnoreCase)
+                    .ToDictionary(i => i.Key, i => i.First(), StringComparer.InvariantCultureIgnoreCase);
+
+
             _templatesByName = new Dictionary<string, List<FileTemplateInfo>>();
             foreach (var template in _templates)
             {
@@ -182,6 +195,29 @@ namespace NitroNet.ViewEngine
 			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
+
+	    protected virtual Dictionary<string, FileTemplateInfo> FilterTemplates(Dictionary<string, FileTemplateInfo> templates)
+	    {
+            if (!_filters.Any())
+	        {
+	            return templates;
+	        }
+
+            var filteredTemplates = new Dictionary<string, FileTemplateInfo>();
+
+            foreach (var template in templates)
+	        {
+                foreach (var filter in _filters)
+                {
+                    if (filter.IsMatch(template.Value.Path.ToString()))
+                    {
+                        filteredTemplates.Add(template.Key, template.Value);
+                    }
+                }
+            }
+
+	        return filteredTemplates;
+	    }
 
 		protected virtual void Dispose(bool disposing)
 		{

@@ -9,5 +9,6 @@ namespace NitroNet.ViewEngine.Config
         public IEnumerable<PathInfo> PartialPaths { get; set; }
         public IEnumerable<PathInfo> ComponentPaths { get; set; }
         public IEnumerable<string> Extensions { get; set; }
+        public IEnumerable<string> Filters { get; set; }
     }
 }
