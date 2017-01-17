@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using NitroNet.Common.Exceptions;
 
 namespace NitroNet.ViewEngine
 {
@@ -12,7 +14,7 @@ namespace NitroNet.ViewEngine
 		private IEnumerable<FileTemplateInfo> _templatesOriginal;
 		private Dictionary<string, ComponentDefinition> _templatesCached;
 
-		public DefaultComponentRepository(ITemplateRepository templateRepository)
+        public DefaultComponentRepository(ITemplateRepository templateRepository)
 		{
 			_templateRepository = templateRepository;
         }
@@ -29,11 +31,28 @@ namespace NitroNet.ViewEngine
 		    {
                 _templatesCached = new Dictionary<string, ComponentDefinition>();
 
-                _templatesCached = _templatesCached.Concat(templates
-                    .Where(t => t.Type.Equals(TemplateType.Component))
-                    .GroupBy(t => Path.GetDirectoryName(t.Path.ToString()))
-                    .Select(CreateComponentDefinition)
-                    .ToDictionary(i => i.Id, i => i)).ToDictionary(i => i.Key, i => i.Value);
+		        var filteredTemplates = templates
+		            .Where(t => t.Type.Equals(TemplateType.Component))
+		            .GroupBy(t => Path.GetDirectoryName(t.Path.ToString()))
+		            .Select(CreateComponentDefinition);
+
+		        var duplicates = filteredTemplates.GroupBy(x => x.Id).Where(group => group.Count() > 1);
+
+                // Throw an error if there are duplicates in the component repository
+		        if (duplicates.Any())
+		        {
+                    string pathsString = string.Empty;
+                    var duplicateTemplates = duplicates.SelectMany(group => group);
+
+                    foreach (var templ in duplicateTemplates)
+                    {
+                        pathsString += "_id: " + templ.Id + " _path: " + templ.DefaultTemplate.Path + Environment.NewLine;
+                    }
+
+                    throw new NitroNetComponentException("The following duplicate ids in the template repository were found: " + Environment.NewLine + pathsString);
+		        }
+
+                _templatesCached = _templatesCached.Concat(filteredTemplates.ToDictionary(i => i.Id, i => i)).ToDictionary(i => i.Key, i => i.Value);
             }
 
 			return _templatesCached;
