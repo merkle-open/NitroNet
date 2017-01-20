@@ -143,7 +143,7 @@ namespace Veil.Parser
 
 		public static HelperExpressionNode Helper(string expression, IHelperHandler helperHandler, SourceLocation location)
 		{
-			var parts = expression.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+			var parts = expression.Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
 			return Helper(parts, helperHandler, location);
 		}
 
@@ -156,7 +156,7 @@ namespace Veil.Parser
 				foreach (var value in parameter.Skip(1))
 				{
 					var tmp = value.Split(new[] {'='}, 2);
-					data.Add(Trim(tmp[0]), tmp.Length == 2 ? tmp[1] : string.Empty);
+					data.Add(tmp[0], tmp.Length == 2 ? tmp[1] : string.Empty);
 				}
 			}
 
@@ -168,15 +168,5 @@ namespace Veil.Parser
                 HelperHandler = helperHandler
 			};
 		}
-
-	    private static string Trim(string token)
-	    {
-	        if (string.IsNullOrEmpty(token))
-	        {
-	            return token;
-	        }
-
-	        return token.Trim('\t', '\n', '\r');
-	    }
 	}
 }
