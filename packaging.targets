@@ -29,7 +29,7 @@
 	</When>
 	<Otherwise>
 	  <PropertyGroup>
-	    <NugetPackageVersion>$(PackageVersion).$(BuildNumber)</NugetPackageVersion>
+	    <NugetPackageVersion>$(PackageVersion)</NugetPackageVersion>
 	  </PropertyGroup>
 	</Otherwise>
   </Choose>
