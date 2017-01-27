@@ -37,7 +37,6 @@ namespace NitroNet.UnityModules
 
         protected virtual void RegisterApplication(IUnityContainer container)
         {
-            container.RegisterInstance(new AsyncLocal<HttpContext>(), new ContainerControlledLifetimeManager());
             container.RegisterType<IHelperHandlerFactory, DefaultRenderingHelperHandlerFactory>(
                 new ContainerControlledLifetimeManager());
             container.RegisterType<IMemberLocator, MemberLocatorFromNamingRule>();

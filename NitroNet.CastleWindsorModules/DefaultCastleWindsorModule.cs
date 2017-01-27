@@ -37,7 +37,6 @@ namespace NitroNet.CastleWindsorModules
 
         protected virtual void RegisterApplication(IWindsorContainer container)
         {
-            container.Register(Component.For<AsyncLocal<HttpContext>>().Instance(new AsyncLocal<HttpContext>()).LifestyleSingleton());
             container.Register(Component.For<IHelperHandlerFactory>().ImplementedBy<DefaultRenderingHelperHandlerFactory>().LifestyleSingleton());
             container.Register(Component.For<IMemberLocator>().ImplementedBy<MemberLocatorFromNamingRule>().LifestyleSingleton());
             container.Register(Component.For<INamingRule>().ImplementedBy<NamingRule>().LifestyleSingleton());
