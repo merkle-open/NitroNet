@@ -18,7 +18,7 @@
     <PublishPackage Condition="'$(PublishPackage)' == ''">true</PublishPackage>
     <!-- push to local nuget repository -->
     <NugetRepository Condition="'$(NugetRepository)' == ''">C:\nuget_local</NugetRepository>
-	<PrereleaseVersion Condition="'$(PrereleaseVersion)' == ''">alpha</PrereleaseVersion>
+	<PrereleaseVersion Condition="'$(PrereleaseVersion)' == ''"></PrereleaseVersion>
   </PropertyGroup>
   <!-- get package version from versioning.target, if any -->
   <Choose>  

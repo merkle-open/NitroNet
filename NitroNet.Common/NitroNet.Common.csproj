@@ -42,7 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Async\AsyncLocal.cs" />
     <Compile Include="Exceptions\NitroNetComponentException.cs" />
     <Compile Include="Exceptions\NitroNetTemplateNotFoundException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
