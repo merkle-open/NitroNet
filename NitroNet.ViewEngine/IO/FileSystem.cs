@@ -351,7 +351,7 @@ namespace NitroNet.ViewEngine.IO
                     fileInfo = null;
 			    }
 
-				if (fileInfo == null || !fileInfo.Exists)
+				if (fileInfo == null)
 					return null;
 
 				return new FileInfo(filePath, fileInfo);
