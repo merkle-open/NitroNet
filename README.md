@@ -1,6 +1,6 @@
 # NitroNet
 
-### What's Nitro?
+### What's Nitro? 
 
 [Nitro](https://github.com/namics/generator-nitro/) is a Node.js application for simple and complex frontend development with a tiny footprint.  
 It provides a proven but flexible structure to develop your frontend code, even in a large team.  
