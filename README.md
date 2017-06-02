@@ -17,7 +17,7 @@ As a popular sub project, we have extended NitroNet to use this .Net view engine
 ## Installation
 
 ### Preconditions
-You need your own Nitro project as precondition of this installation manuel. Please follow the beautiful guide of Nitro: [Link](https://github.com/namics/generator-nitro/)
+You need your own Nitro project as precondition of this installation manual. Please follow the beautiful guide of Nitro: [Link](https://github.com/namics/generator-nitro/)
 
 ### Step 1 - Create a ASP.NET MVC application
 Create a ASP.NET MVC solution on your local machine with Visual Studio and compile the solution. 
@@ -29,7 +29,7 @@ Please choose between variant **A** with Unity/CastleWindsor or **B** with anoth
 #### (A) Directly with IoC container
 
 ##### NuGet Package installation
-There are several ways to install NitroNet into Sitecore. The easiest way is to use NitroNet together with Unity or CastleWindsor. Execute following line in your NuGet Package Manager to install NitroNet for Sitecore:
+There are several ways to install NitroNet into Sitecore. The easiest way is to use NitroNet together with Unity or CastleWindsor. Execute the following line in your NuGet Package Manager to install NitroNet for Sitecore:
 
 `PM >` `Install-Package NitroNet.UnityModules`
 
