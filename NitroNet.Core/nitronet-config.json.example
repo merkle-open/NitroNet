@@ -9,5 +9,13 @@
     "frontend/components/atoms",
     "frontend/components/molecules",
     "frontend/components/organisms"
+  ],
+  "extensions": [
+    "hbs",
+    "html"
+  ],
+  "filters": [
+    ".*?\\/template\\/([\\w][^\\/]+)$",
+    ".*?\\/spec\\/([\\w][^\\/]+)$"
   ]
 }

@@ -10,14 +10,14 @@ namespace NitroNet.ViewEngine.Config
     {
         public static INitroNetConfig LoadNitroConfiguration(string basePath)
         {
-            return LoadNitroConfiguration(basePath, "config.json");
+            return LoadNitroConfiguration(basePath, "nitronet-config.json");
         }
 
         public static INitroNetConfig LoadNitroConfiguration(string basePath, string fileName)
         {
             if (basePath == null)
             {
-                throw new ArgumentNullException("basePath");
+                throw new ArgumentNullException(nameof(basePath));
             }
 
             var basePathInfo = PathInfo.Create(basePath);
