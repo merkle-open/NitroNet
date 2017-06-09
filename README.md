@@ -181,6 +181,42 @@ As default it is set to be located at the root folder of your web application. I
 </configuration>
 ```
 
+### Change the Nitro file paths
+In addition, you got a new `nitronet-config.json.example`-File in the root directory of the website project after installation of NitroNet for Sitecore. Rename it to `nitronet-config.json` to activate the config.
+
+```json
+{
+  "viewPaths": [
+    "frontend/views/"
+  ],
+  "partialPaths": [
+    "frontend/views/_partials",
+  ],
+  "componentPaths": [
+    "frontend/patterns/atoms",
+    "frontend/patterns/molecules",
+    "frontend/patterns/organisms",
+  ],
+  "extensions": [
+    "hbs",
+    "html"
+  ],
+    "filters": [
+    ".*?\\/template\\/([\\w][^\\/]+)$",
+    ".*?\\/spec\\/([\\w][^\\/]+)$"
+ ]
+}
+```
+
+Explanation to the individual settings/properties:
+* **viewPaths**: The file path to your views, starting at your `NitroNet.BasePath`
+* **partialPaths**: The file path to your partials, starting at your `NitroNet.BasePath`
+* **componentPaths**: The file path to your components, starting at your `NitroNet.BasePath`
+* **extensions**: The extensions of your handlebar files.
+* **filters**: File paths which match with the `filters` regex are being ignored
+
+That's all about view logic resolving of Nitro.
+
 ## Credits and special thanks
 
 Thanks to all the people who made and released these awesome resources for free!
