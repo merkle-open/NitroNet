@@ -37,7 +37,10 @@ Please choose between variant
 #### (A) With Unity or CastleWindsor
 
 ##### NuGet Package installation
-Execute the following line in your NuGet Package Manager to install NitroNet with **Unity**:
+
+Execute following the line in your NuGet Package Manager to install NitroNet for Sitecore with your preferred IoC framework:
+
+**Unity**
 
 `PM >` `Install-Package NitroNet.UnityModules`
 
@@ -45,7 +48,7 @@ Optionally, we recommend to install the [Unity.Mvc](https://www.nuget.org/packag
 
 `PM >` `Install-Package Unity.Mvc`
 
-or to install NitroNet with **CastleWindsor**:
+**CastleWindsor**:
 
 `PM >` `Install-Package NitroNet.CastleWindsorModules`
 
