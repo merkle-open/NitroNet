@@ -10,10 +10,10 @@
     <iconUrl>http://sitecore.namics.com/wp-content/themes/terrific/terrific/img/favicon.ico</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>NitroNet Castle Windsor package</description>
-    <copyright>Copyright 2016</copyright>
+    <copyright>Copyright 2017</copyright>
     <tags>nitro castle windsor handlebars viewengine</tags>
     <dependencies>
-      <dependency id="NitroNet" version="$dependentVersion$" />
+      <dependency id="NitroNet.Core" version="$dependentVersion$" />
     </dependencies>
   </metadata>
 </package>
