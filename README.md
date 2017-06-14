@@ -20,7 +20,6 @@ As a popular sub project, we have extended NitroNet to use this .NET view engine
 
 
 ## Table of contents
-- [NitroNet](https://github.com/namics/NitroNet)
 - [Installation](docs/installation.md)
 - [Configuration](docs/configuration.md)
 - [Getting started](docs/getting-started.md)
