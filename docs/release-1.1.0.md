@@ -30,6 +30,6 @@
 
 ### Update/Installation Instructions
 
-**NitroNet configuration upgrade informations:**  
+#### Configuration upgrade
 Do a backup of your current `config.json` before updating NitroNet to this version. After updating you must have a `nitronet-config.json` instead of the `config.json`. Please make sure to move your settings from the `config.json` to the `nitronet-config.json` and that all config nodes are present in the config (*viewpaths*, *partialPaths*, *componentPaths*, *extensions* and *filters*). If nodes are missing there will be an exception.  
 For more information read the [configuration instructions](https://github.com/namics/NitroNet/blob/master/docs/configuration.md).
