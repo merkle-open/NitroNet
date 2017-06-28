@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Veil;
 
 namespace NitroNet.ViewEngine.TemplateHandler
@@ -6,7 +7,7 @@ namespace NitroNet.ViewEngine.TemplateHandler
     {
         void RenderPlaceholder(object model, string key, string index, RenderingContext context);
 
-        void RenderComponent(RenderingParameter component, RenderingParameter skin, RenderingParameter dataVariation, object model, RenderingContext context);
+        void RenderComponent(RenderingParameter component, RenderingParameter skin, RenderingParameter dataVariation, object model, RenderingContext context, IDictionary<string, string> parameters);
         
 		void RenderLabel(string key, RenderingContext context);
         

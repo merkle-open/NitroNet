@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using Newtonsoft.Json.Serialization;
 using NitroNet.ViewEngine.TemplateHandler;
 using Veil;
 
@@ -32,7 +35,7 @@ namespace NitroNet.Mvc
 		}
 
 	    public void RenderComponent(RenderingParameter component, RenderingParameter skin, RenderingParameter dataVariation, object model,
-	        RenderingContext context)
+	        RenderingContext context, IDictionary<string, string> parameters)
 	    {
             const string thisIdentifier = "this";
 
@@ -62,6 +65,8 @@ namespace NitroNet.Mvc
 
             if (subModel != null && !(subModel is string))
             {
+                TrySettingPassedArguments(model, subModel, parameters);
+
                 var componentIdBySkin = GetComponentId(component.Value, skin.Value);
                 RenderPartial(componentIdBySkin, subModel, context);
                 return;
@@ -69,6 +74,66 @@ namespace NitroNet.Mvc
 
 	        //new HtmlHelper(mvcContext.ViewContext, mvcContext.ViewDataContainer).RenderAction("Index", component.Value);
 	    }
+
+	    private void TrySettingPassedArguments(object model, object subModel, IDictionary<string, string> parameters)
+	    {
+	        /*
+             1.) Search for a property in the subModel with the key of a parameter (key maybe has to be cleaned beforehand)
+             2.) If found, try to assign this parameter value to the property of the subModel
+               2.1) Now you have to distinguish between strings and properties of parent objects
+                 2.1.1) If it is a string, you can just assign it
+                 2.1.2) If it is a property of a parent object, you have to search for it and pass it on
+             3.) Also implement ExceptionHandling and make it as robust as possible
+             4.) Do refactorings
+            */
+
+            var defaultKeys = new HashSet<string> {"name", "template", "data"};
+	        var filteredParameters = parameters.Where(p => !defaultKeys.Contains(p.Key))
+	            .ToDictionary(p => p.Key, p => p.Value);
+
+            foreach (var parameter in filteredParameters)
+            {
+                var parameterValue = CleanName(parameter.Value);
+                var subModelProperties = subModel.GetType().GetProperties();
+                var subModelProperty = subModelProperties.FirstOrDefault(p => p.Name.ToLower().Equals(parameter.Key, StringComparison.InvariantCultureIgnoreCase));
+
+                if (parameterValue.StartsWith("\"") || parameterValue.StartsWith("'"))
+                {                   
+                    parameterValue = parameterValue.Trim('"', '\'');
+
+                    subModelProperty?.SetValue(subModel, parameterValue);
+                }
+                else
+                {
+                    var propertyHierarchy = parameterValue.Split('.');
+
+                    PropertyInfo modelProperty = null;
+                    object subPropertyValue = model;
+
+                    for (int i = 0; i < propertyHierarchy.Length; i++)
+                    {
+                        PropertyInfo[] modelProperties;
+                        var propName = propertyHierarchy.ElementAt(i);
+
+                        if (i == 0)
+                        {
+                            modelProperties = model.GetType().GetProperties();
+                        }
+                        else
+                        {
+                            subPropertyValue = modelProperty?.GetValue(model);
+                            modelProperties = subPropertyValue?.GetType().GetProperties();
+                        }
+                        modelProperty = modelProperties?.FirstOrDefault(p => p.Name.ToLower(CultureInfo.InvariantCulture).Equals(propName));
+
+                        if (i == propertyHierarchy.Length - 1)
+                        {
+                            subModelProperty?.SetValue(subModel, modelProperty?.GetValue(subPropertyValue));
+                        }
+                    }
+                }
+            }
+        }
 
         //TODO: duplicate function -> remove
         private string GetComponentId(string componentId, string skin)
@@ -103,6 +168,7 @@ namespace NitroNet.Mvc
         private bool GetValueFromObjectHierarchically(object model, string propertyName, out object modelValue)
         {
             modelValue = null;
+            //TODO: Check if this if-clause is still needed. I think there are no situations like this.
             if (propertyName.IndexOf(".", StringComparison.Ordinal) <= 0)
             {
                 return GetValueFromObject(model, propertyName, out modelValue);

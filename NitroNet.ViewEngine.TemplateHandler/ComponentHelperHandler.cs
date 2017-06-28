@@ -39,7 +39,7 @@ namespace NitroNet.ViewEngine.TemplateHandler
             var skin = CreateRenderingParameter("template", parameters);
 		    var dataVariation = CreateRenderingParameter("data", parameters);
 
-            _handler.RenderComponent(template, skin, dataVariation, model, context);
+            _handler.RenderComponent(template, skin, dataVariation, model, context, parameters);
 		}
 
         private RenderingParameter CreateRenderingParameter(string name, IDictionary<string, string> parameters)
