@@ -10,6 +10,9 @@
 	- An example config is now delivered
 - NitroNet now has the ability to read multi line handlebars helpers
 - The assembly infos have been unified and updated
+- Exception handling has been improved:
+	- An Exception is thrown if the view name is not unique. Generally it is recommended to use full file paths
+	- An Exception is thrown if there is more than one pattern/component with the same name
 - Greatly improved documentation:
 	- Updated, corrected and extended
 	- Improved structure
@@ -17,6 +20,7 @@
 - ...and many code refactorings and small improvements
 
 ### Fixed Issues
+- NitroNet invoked multiple controllers in plain MVC applications. This has been fixed.
 - A specific path is now only watched by one file watcher (`NitroNet.ViewEngine.IO.FileSystem`)
 - More robust resolving of the *DefaultTemplate* (`NitroNet.ViewEngine.DefaultComponentRepository`)
 - `NitroNet.UnityModules` and `NitroNet.CastleWindsorModules` now reference the correct `NitroNet` dependency
@@ -27,6 +31,7 @@
 - NitroNet configuration:
 	- The file was renamed from `config.json` to `nitronet-config.json`
 	- The initial example config has to be renamed from `nitronet-config.json.example` to `nitronet-config.json` to make *NitroNet* work
+- AsyncLocal has been removed. It was legacy code from the previous project and is no longer needed.
 
 ### Update/Installation Instructions
 
