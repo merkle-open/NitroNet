@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -70,8 +69,8 @@ namespace NitroNet.ViewEngine
 		    FileTemplateInfo defaultTemplate = null;
 		    foreach (var defaultTemplateCandidate in defaultTemplateCandidates)
 		    {
-                defaultTemplate = t.FirstOrDefault(a => a.Path.ToString().ToLower(CultureInfo.InvariantCulture).Contains(defaultTemplateCandidate.ToLower(CultureInfo.InvariantCulture)));
-		        if (defaultTemplate != null)
+                defaultTemplate = t.FirstOrDefault(a => a.Path.ToString().EndsWith(defaultTemplateCandidate, StringComparison.InvariantCultureIgnoreCase));
+                if (defaultTemplate != null)
 		        {
 		            break;
 		        }
@@ -89,17 +88,26 @@ namespace NitroNet.ViewEngine
 			return new ComponentDefinition(componentId, defaultTemplate, skins);
 		}
 
-	    private static IEnumerable<string> GetDefaultTemplateCandidates(string componentId)
-	    {
+        private static IEnumerable<string> GetDefaultTemplateCandidates(string componentId)
+        {
             // todo extension should be configurable or ignored
-	        yield return string.Concat(componentId, '/', "default.html");
+            yield return string.Concat(componentId, '/', "default.html");
             yield return string.Concat(componentId, '/', "default.hbs");
             var fileName = Path.GetFileName(componentId);
-	        yield return string.Concat(componentId, '/', !string.IsNullOrEmpty(fileName) ? fileName.Replace("-", string.Empty) : null, ".html");
-            yield return string.Concat(componentId, '/', !string.IsNullOrEmpty(fileName) ? fileName.Replace("-", string.Empty) : null, ".hbs");
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                yield return string.Concat(componentId, '/', fileName.Replace("-", string.Empty), ".html");
+                yield return string.Concat(componentId, '/', fileName, ".html");
+            }
+
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                yield return string.Concat(componentId, '/', fileName.Replace("-", string.Empty), ".hbs");
+                yield return string.Concat(componentId, '/', fileName, ".hbs");
+            }
         }
 
-	    private static string GetComponentId(string componentId)
+        private static string GetComponentId(string componentId)
 		{
 		    var normalizedPath = componentId.Replace('\\', '/');
 		    var pathSegments = normalizedPath.Split('/');

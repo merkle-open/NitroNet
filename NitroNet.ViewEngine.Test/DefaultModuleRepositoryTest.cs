@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using NitroNet.ViewEngine.Config;
 using NitroNet.ViewEngine.IO;
 
 namespace NitroNet.ViewEngine.Test
@@ -60,7 +59,25 @@ namespace NitroNet.ViewEngine.Test
             Assert.AreEqual("modules/Mod1/Mod1", result[0].DefaultTemplate.Id);
             Assert.AreEqual(2, result[0].Skins.Count, "Two skins expected for module");
         }
-        
+
+        [TestMethod]
+        public void TestModuleContainsHypensIntheName()
+        {
+            var templateRepository = CreateRepository(
+                new ComponentMockup { Id = "modules/Mod-1/Mod-1", Path = "modules/Mod-1/Mod-1.html", Type = TemplateType.Component },
+                new ComponentMockup { Id = "modules/Mod-1/Mod-1-skin1", Path = "modules/Mod-1/Mod-1-skin1.html", Type = TemplateType.Component },
+                new ComponentMockup { Id = "modules/Mod-1/Mod-1-skin2", Path = "modules/Mod-1/Mod-1-skin2.html", Type = TemplateType.Component });
+
+            var underTest = new DefaultComponentRepository(templateRepository);
+            var result = underTest.GetAll().ToList();
+
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual("Mod-1", result[0].Id, "Module name should be Mod-1");
+            Assert.IsNotNull(result[0].DefaultTemplate);
+            Assert.AreEqual("modules/Mod-1/Mod-1", result[0].DefaultTemplate.Id);
+            Assert.AreEqual(2, result[0].Skins.Count, "Two skins expected for module");
+        }
+
         [TestMethod]
         public void TestModuleContainsUseDefaultTemplateWhenOnlyOneTemplate()
         {
