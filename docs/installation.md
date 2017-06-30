@@ -99,8 +99,8 @@ Please follow our Unity sample as a template for you ([Gist](https://gist.github
 ###### DefaultUnityModule.cs
 
 ```csharp
+using System.Web;
 using Microsoft.Practices.Unity;
-using NitroNet;
 using NitroNet.Mvc;
 using NitroNet.ViewEngine;
 using NitroNet.ViewEngine.Cache;
@@ -108,47 +108,48 @@ using NitroNet.ViewEngine.Config;
 using NitroNet.ViewEngine.IO;
 using NitroNet.ViewEngine.TemplateHandler;
 using NitroNet.ViewEngine.ViewEngines;
-using System.Web;
 using Veil.Compiler;
 using Veil.Helper;
 
 namespace NitroNet.UnityModules
 {
-  public class DefaultUnityModule : IUnityModule
-  {
-    private readonly string _basePath;
-
-    public DefaultUnityModule(string basePath)
+    public class DefaultUnityModule : IUnityModule
     {
-      this._basePath = basePath;
-    }
+        private readonly string _basePath;
 
-    public void Configure(IUnityContainer container)
-    {
-      this.RegisterConfiguration(container);
-      this.RegisterApplication(container);
-    }
+        public DefaultUnityModule(string basePath)
+        {
+            _basePath = basePath;
+        }
 
-    protected virtual void RegisterConfiguration(IUnityContainer container)
-    {
-      INitroNetConfig nitroNetConfig = ConfigurationLoader.LoadNitroConfiguration(this._basePath);
-      UnityContainerExtensions.RegisterInstance<INitroNetConfig>(container, nitroNetConfig);
-      UnityContainerExtensions.RegisterInstance<IFileSystem>(container, (IFileSystem) new FileSystem(this._basePath, nitroNetConfig));
-    }
+        public void Configure(IUnityContainer container)
+        {
+            RegisterConfiguration(container);
+            RegisterApplication(container);
+        }
 
-    protected virtual void RegisterApplication(IUnityContainer container)
-    {
-      UnityContainerExtensions.RegisterInstance<AsyncLocal<HttpContext>>(container, new AsyncLocal<HttpContext>(), (LifetimeManager) new ContainerControlledLifetimeManager());
-      UnityContainerExtensions.RegisterType<IHelperHandlerFactory, DefaultRenderingHelperHandlerFactory>(container, (LifetimeManager) new ContainerControlledLifetimeManager(), new InjectionMember[0]);
-      UnityContainerExtensions.RegisterType<IMemberLocator, MemberLocatorFromNamingRule>(container);
-      UnityContainerExtensions.RegisterType<INamingRule, NamingRule>(container);
-      UnityContainerExtensions.RegisterType<IModelTypeProvider, DefaultModelTypeProvider>(container);
-      UnityContainerExtensions.RegisterType<IViewEngine, VeilViewEngine>(container);
-      UnityContainerExtensions.RegisterType<ICacheProvider, MemoryCacheProvider>(container);
-      UnityContainerExtensions.RegisterType<IComponentRepository, DefaultComponentRepository>(container, (LifetimeManager) new ContainerControlledLifetimeManager(), new InjectionMember[0]);
-      UnityContainerExtensions.RegisterType<ITemplateRepository, NitroTemplateRepository>(container, (LifetimeManager) new ContainerControlledLifetimeManager(), new InjectionMember[0]);
-      UnityContainerExtensions.RegisterType<INitroTemplateHandlerFactory, MvcNitroTemplateHandlerFactory>(container, (LifetimeManager) new ContainerControlledLifetimeManager(), new InjectionMember[0]);
+        protected virtual void RegisterConfiguration(IUnityContainer container)
+        {
+            var config = ConfigurationLoader.LoadNitroConfiguration(_basePath);
+            container.RegisterInstance(config);
+
+            container.RegisterInstance<IFileSystem>(new FileSystem(_basePath, config));
+        }
+
+        protected virtual void RegisterApplication(IUnityContainer container)
+        {
+            container.RegisterType<IHelperHandlerFactory, DefaultRenderingHelperHandlerFactory>(
+                new ContainerControlledLifetimeManager());
+            container.RegisterType<IMemberLocator, MemberLocatorFromNamingRule>();
+            container.RegisterType<INamingRule, NamingRule>();
+            container.RegisterType<IModelTypeProvider, DefaultModelTypeProvider>();
+            container.RegisterType<IViewEngine, VeilViewEngine>();
+            container.RegisterType<ICacheProvider, MemoryCacheProvider>();
+            container.RegisterType<IComponentRepository, DefaultComponentRepository>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ITemplateRepository, NitroTemplateRepository>(new ContainerControlledLifetimeManager());
+            container.RegisterType<INitroTemplateHandlerFactory, MvcNitroTemplateHandlerFactory>(
+                new ContainerControlledLifetimeManager());
+        }
     }
-  }
 }
 ```
