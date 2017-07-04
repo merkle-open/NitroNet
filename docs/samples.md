@@ -100,4 +100,76 @@ public class LinkModel
 ```
 
 #### A component with subcomponents
-TODO
+Nested components are handled by one Controller action and don't invoke a new Controller action for each subcomponent. But it is necessary that you provide a model of the subcomponent.
+
+In the following example we will look more detailed into that:
+The `LocationController` has the responsibility to create all parts of the `LocationModel` which also includes data of the sub component `Bubble`.
+
+#### Handlebars markup
+
+```html
+<div class="m-location" data-t-name="Location">
+    <a href="#">{{selectedLocation}}</a>
+    <div>
+        {{component name="Bubble" data="bubbleLocation"}}
+        <ul>
+            {{#each locations}}
+                <li>
+                    <a data-location-key="{{locationKey}}" href="{{target}}">{{name}}</a>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+</div>
+
+<div class="a-bubble" data-t-name="Bubble">
+    {{description}}
+	<a data-location-key="{{key}}" href="{{target}}">{{name}}</a>
+</div>
+```
+
+#### C# Models
+
+```csharp
+public class LocationModel
+{
+    public string SelectedLocation { get; set; }
+    public BubbleLocationModel BubbleLocation { get; set; }
+    public IEnumerable<LocationModel> Locations { get; set; }
+}
+
+public class BubbleModel
+{
+	public string Description { get; set; }
+    public string Key { get; set; }
+    public string Target { get; set; }
+    public string Name { get; set; }
+}
+```
+
+You need to make sure that there is always a property defined in the model for each subcomponent. It holds the data which is then passed to the subcomponent. Make sure that it either matches the `name` or `data` (but only when the `data` attribute is present) attribute of the corresponding component helper. You don't need to worry about case sensitivity and hyphens.
+
+##### Situation A - Component with name
+View snippet:
+
+```
+{{component name="Bubble"}}
+```
+
+Model snippet (maps the `name` attribute)
+
+```csharp
+public BubbleModel Bubble { get; set; }
+```
+
+##### Situation B - Component with name and data
+View snippet:
+```
+{{component name="Bubble" data="bubbleLocation"}}
+```
+
+Model snippet (maps the `data` attribute)
+
+```csharp
+public BubbleModel BubbleLocation { get; set; }
+```

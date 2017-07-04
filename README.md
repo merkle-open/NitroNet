@@ -27,6 +27,14 @@ As a popular sub project, we have extended NitroNet to use this .NET view engine
 - [Release Notes](https://github.com/namics/NitroNet/releases)
 - [Known Issues](docs/known-issues.md)
 
+## Future roadmap
+- [ ] Flexible attributes on component helper. [Link to the Nitro documentation](https://github.com/namics/generator-nitro/blob/master/generators/app/templates/project/docs/nitro.md#render-patterns).
+- [ ] Render patterns with children. [Link to the Nitro documentation](https://github.com/namics/generator-nitro/blob/master/generators/app/templates/project/docs/nitro.md#render-patterns-with-children).
+- [ ] Partials with handlebars expressions.
+- [ ] Clean up of unused IO classes
+- [ ] Move the logic for template/data controller parameters from NitroNet.Sitecore to NitroNet
+- [ ] Make the underlying handlebars parser updatable. Implement a abstraction layer. Update to the newest Handlerbars.Net or Veil.
+- [ ] Generate and validate model classes from the schema.json
 
 ## Credits and special thanks
 

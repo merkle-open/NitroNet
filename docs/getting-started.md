@@ -31,7 +31,14 @@ public class TeaserController : System.Web.Mvc.Controller
 }
 ```
 
-The whole magic of NitroNet happens on the returning line `return View("teaser", model);`. The string `"teaser"` must fit the directory path of a Nitro component relative to your `NitroNet.BasePath`.
+The whole magic of NitroNet happens on the returning line `return View("teaser", model);`. The model is mapped on the teaser view with the NitroNet view engine.
+
+There are two ways how you can specify a view:
+- Just set the name of the pattern (as shown in the example above): `return View("teaser", model);`
+- Set the complete view path (relative to your `Nitro.BasePath`). An example:
+	- Your view file location is: `[web app root path]/frontend/patterns/molecules/teaser/teaser`
+	- Your `NitroNet.BasePath` is: `"/frontend"`
+	- Your resulting return statement is: `return View("patterns/molecules/teaser/teaser", model);`
 
 The guidelines about how to create a corresponding C# model for the selected Nitro component get explained in the next section.
 
