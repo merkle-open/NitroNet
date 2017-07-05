@@ -87,7 +87,7 @@ public static void RegisterTypes(IWindsorContainer container)
 You don't like Unity and you design your application with an other IoC framework? No Problem.
 In this case, you can install NitroNet only with our base package:
 
-`PM >` `Install-Package NitroNet`
+`PM >` `Install-Package NitroNet.Core`
 
 ##### Extend your Global.asax(.cs)
 *Please extend your Global.asax(.cs) in the same way as in scenario A*
