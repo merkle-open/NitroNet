@@ -5,7 +5,11 @@
 	"partialPaths": [
 		"."
 	],
-	"componentPaths": [
-		"."
-	]
+  "componentPaths": [
+    "."
+  ],
+  "extensions": [
+  ],
+  "filters": [
+  ]
 }
