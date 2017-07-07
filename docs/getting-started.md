@@ -13,63 +13,64 @@
 To use a Nitro based component in Sitecore, you have to create a Controller which inherits the normal `System.Web.Mvc.Controller` of ASP.NET MVC:
 
 ```csharp
-public class TeaserController : System.Web.Mvc.Controller
+public class MovieController : System.Web.Mvc.Controller
 {
-	// GET: Teaser
+	// GET: Movie
 	public ActionResult Index()
 	{
-		var model = new TeaserModel
+		var model = new MovieModel
 		{
-			Headline = "Lorem ipsum",
-			Abstract = "Praesent ac massa at ligula laoreet iaculis. Cras id dui.",
-			Richtext = "<p>Sed lectus. Suspendisse nisl elit, rhoncus eget, <a href='#'>elementum ac</a>, condimentum eget, diam. Curabitur turpis. Ut non enim eleifend felis pretium feugiat. Vivamus aliquet elit ac nisl.</p>",
-			ButtonText = "Button text"
+			Title = "The best movie ever",
+			Abstract = "<p>Sed lectus. Suspendisse nisl elit, rhoncus eget, <a href='#'>elementum ac</a>, condimentum eget, diam. Curabitur turpis. Ut non enim eleifend felis pretium feugiat. Vivamus aliquet elit ac nisl.</p>"
+			ProductionYear = 2007,
+			Director = "Michael Bay",
+			ImdbRating = 8.2
 		};
 
-		return View("teaser", model);
+		return View("movie", model);
 	}
 }
 ```
 
-The whole magic of NitroNet happens on the returning line `return View("teaser", model);`. The model is mapped on the teaser view with the NitroNet view engine.
+The whole magic of NitroNet happens on the returning line `return View("movie", model);`. The model is mapped on the movie view with the NitroNet view engine.
 
 There are two ways how you can specify a view:
-- Just set the name of the pattern (as shown in the example above): `return View("teaser", model);`
+- Just set the name of the pattern (as shown in the example above): `return View("movie", model);`
 - Set the complete view path (relative to your `Nitro.BasePath`). An example:
-	- Your view file location is: `[web app root path]/frontend/patterns/molecules/teaser/teaser`
+	- Your view file location is: `[web app root path]/frontend/patterns/molecules/movie/movie`
 	- Your `NitroNet.BasePath` is: `"/frontend"`
-	- Your resulting return statement is: `return View("patterns/molecules/teaser/teaser", model);`
+	- Your resulting return statement is: `return View("patterns/molecules/movie/movie", model);`
 
 The guidelines about how to create a corresponding C# model for the selected Nitro component get explained in the next section.
 
 ### Create a C# Model
 It is quite easy to create a C# model based on the Nitro component.
 
-Let's take a look at a specific example (teaser component from the previous section). In the Nitro folder of your component you find all needed information for the model definition.
+Let's take a look at a specific example (movie component from the previous section). In the Nitro folder of your component you find all needed information for the model definition.
 In the handlebars file (mostly `.hbs` or `.html`) you will see all the properties of the component:
 
 ```html
-<div class="m-teaser">
-	<div class="m-teaser__wrapper-left">
-
-		<h2 class="font-page-title m-teaser__headline">
-			{{#if headline}}
-			<span class="m-teaser__headline-text">{{headline}}</span>
-			{{/if}}
+<div class="m-movie">
+	{{#if title}}
+		<h2>
+			{{title}}
 		</h2>
-	</div>
+	{{/if}}
 
-	<div class="l-tile__content">
-		{{#if abstract}}
-		<h3 class="font-big-title m-teaser__abstract">{{{abstract}}}</h3>
-		{{/if}}
-		{{#if richtext}}
-		<div class="font-copy-text m-teaser__rte">
-				{{{richtext}}}
+	<div class="m-movie__content">
+		<div class="m-movie__abstract">
+			{{{abstract}}}
 		</div>
-		{{/if}}
+		<div class="m-movie__production-year">
+			Production Year: {{productionYear}}
+		</div>
+		<div class="m-movie__director">
+			Director: {{director}}
+		</div>
+		<div class="m-movie__imdb-rating">
+			IMDb-Rating: {{imdbRating}}
+		</div>
 	</div>
-	<a href="#" class="a-button a-button--primary m-teaser__button">{{buttonText}}</a>
 </div>
 ```
 
@@ -77,10 +78,11 @@ To determine the data types of the individual properties you have to look at the
 
 ```json
 {
-	"headline" : "Lorem ipsum",
-	"abstract" : "Praesent ac massa at ligula laoreet iaculis. Cras id dui.",
-	"richtext" : "<p>Sed lectus. Suspendisse nisl elit, rhoncus eget, <a href='#'>elementum ac</a>, condimentum eget, diam. Curabitur turpis. Ut non enim eleifend felis pretium feugiat. Vivamus aliquet elit ac nisl.</p>",
-	"ButtonText" : "Button text"
+	"title" : "The best movie ever",
+	"abstract" : "<p>Sed lectus. Suspendisse nisl elit, rhoncus eget, <a href='#'>elementum ac</a>, condimentum eget, diam. Curabitur turpis. Ut non enim eleifend felis pretium feugiat. Vivamus aliquet elit ac nisl.</p>"
+	"productionYear" : 2007,
+	"director" : "Michael Bay",
+	"imdbRating" : 8.2
 }
 ```
 
@@ -89,12 +91,13 @@ In this case every property is of type `string`.
 Now let's create the corresponding C# model class. Please make sure that the properties have the same name. The only thing you don't need to worry about is case sensitivity. Possible hyphens are also ignored:
 
 ```csharp
-public class TeaserModel
+public class MovieModel
 {
-    public string Headline { get; set; }
-    public string Abstract { get; set; }
-    public string Richtext { get; set; }
-    public string ButtonText { get; set; }
+	public string Title { get; set; }
+	public string Abstract { get; set; }
+	public int ProductionYear { get; set; }
+	public string Director { get; set; }
+	public double { get; set; }
 }
 ```
 
