@@ -79,7 +79,7 @@ To determine the data types of the individual properties you have to look at the
 ```json
 {
 	"title" : "The best movie ever",
-	"abstract" : "<p>Sed lectus. Suspendisse nisl elit, rhoncus eget, <a href='#'>elementum ac</a>, condimentum eget, diam. Curabitur turpis. Ut non enim eleifend felis pretium feugiat. Vivamus aliquet elit ac nisl.</p>"
+	"abstract" : "<p>Sed lectus. Suspendisse nisl elit, rhoncus eget, <a href='#'>elementum ac</a>, condimentum eget, diam. Curabitur turpis. Ut non enim eleifend felis pretium feugiat. Vivamus aliquet elit ac nisl.</p>",
 	"productionYear" : 2007,
 	"director" : "Michael Bay",
 	"imdbRating" : 8.2
