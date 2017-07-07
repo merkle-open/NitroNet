@@ -26,7 +26,7 @@ Please choose between variant
 
 ##### NuGet Package installation
 
-Execute following the line in your NuGet Package Manager to install NitroNet for Sitecore with your preferred IoC framework:
+Execute the following line in your NuGet Package Manager to install NitroNet for Sitecore with your preferred IoC framework:
 
 **Unity**
 
@@ -47,10 +47,7 @@ To activate NitroNet it's important to add/register the new view engine in your 
 ```csharp
 protected void Application_Start()
 {
-	AreaRegistration.RegisterAllAreas();
-	FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-	RouteConfig.RegisterRoutes(RouteTable.Routes);
-	BundleConfig.RegisterBundles(BundleTable.Bundles);
+	// ...
 
 	ViewEngines.Engines.Add(DependencyResolver.Current.GetService<NitroNetViewEngine>());
 }
