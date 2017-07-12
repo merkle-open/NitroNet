@@ -8,8 +8,13 @@
 
 ## Configuration
 
-### Change the location of your Nitro application
-The location of your Nitro application can be configured very flexibly.
+### Requirements regarding the file structure of your frontend application
+There are not many things to consider. But you have to make sure that your your partials respectively components are split into dictinct files and that every file name is unique.
+
+If you are building your frontend with [Nitro](https://github.com/namics/generator-nitro/) you already have a valid file structure and there is nothing to consider.
+
+### Change the location of your frontend application
+The location of your frontend application can be configured very flexibly.
 
 As default it is set to be located at the root folder of your web application. If you like to change it, you can add an AppSetting with the Key-Value *NitroNet.BasePath* in your *Web.config*:
 
@@ -21,7 +26,7 @@ As default it is set to be located at the root folder of your web application. I
 </configuration>
 ```
 
-### Change the Nitro file paths
+### Change the frontend file paths
 In addition, you got a new `nitronet-config.json.example`-File in the root directory of the website project after installation of NitroNet for Sitecore. Rename it to `nitronet-config.json` to activate the config.
 
 ```json
@@ -55,4 +60,35 @@ Explanation to the individual settings/properties:
 * **extensions**: The extensions of your handlebar files.
 * **filters**: File paths which match with the `filters` regex are being ignored
 
-That's all about view logic resolving of Nitro.
+### *Optional:* Add and register your own custom helpers
+As mentioned before NitroNet comes with support for the [Nitro](https://github.com/namics/generator-nitro/) custom handlebars helpers by default.
+
+But you can add your own helpers as well. You can achieve this by doing the following steps (the instructions are shown using the Unity IoC framework):
+
+1.) Create your own helpers by implementing the `Veil.Helper.IHelperHandler`. See the classes in `NitroNet.ViewEngine.TemplateHandler` for reference.
+
+2.) Create your own implementation of the `Veil.Helper.IHelperHandlerFactory`. You can take the `NitroNet.ViewEngine.TemplateHandler.DefaultRenderingHelperHandlerFactory` as a basis for your code.
+
+```csharp
+public class YourOwnHelperHandlerFactory : IHelperHandlerFactory
+{
+    public IEnumerable<IHelperHandler> Create()
+    {
+        //your own helpers
+    }
+}
+```
+
+3.) Add the following line to the `RegisterTypes()` method in the `UnityConfig` class:
+
+```csharp
+container.RegisterType<IHelperHandlerFactory, YourOwnHelperHandlerFactory>(new ContainerControlledLifetimeManager());
+
+```
+
+after the following line:
+
+
+```csharp
+new DefaultUnityModule(basePath).Configure(container);
+```

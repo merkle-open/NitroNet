@@ -9,8 +9,7 @@
 ## Installation
 
 ### Preconditions
-You need your own Nitro project as a precondition of this installation manual.
-Please follow the beautiful guide of Nitro: [Link](https://github.com/namics/generator-nitro/)
+You need a handlebars frontend with a specific file structure (learn more about that here) or a [Nitro](https://github.com/namics/generator-nitro/) project as a precondition of this installation manual.
 
 ### Step 1 - Create a ASP.NET MVC application
 Create a ASP.NET MVC solution on your local machine with Visual Studio and compile the solution.
