@@ -6,18 +6,26 @@
 - [Release Notes](https://github.com/namics/NitroNetSitecore/releases)
 - [Known Issues](known-issues.md)
 
-
-## Currently not implemented
+## Limitations
 
 ### General features
 
-#### Partials with handlebars expressions
-Currently it is not possible to have partials with handlebars expressions. Only static markup is supported.
+#### Partials with passed context or parameter
+Because of the underlying handlebars parser [Veil](https://github.com/csainty/Veil/tree/master/src/Veil.Handlebars) we are using in NitroNet, it is currently not possible to have partials with a passed context or a passed parameter:
+```
+{{> myPartial myOtherContext }}
 
-Use the `pattern` handlebars helper to achieve this functionality:
+{{> myPartial parameter=value }}
 ```
-{{pattern name='head'}}
+
+But for the first case there is a workaround. You can change the context with the `{{#with}}` like this:
 ```
+{{#with myOtherContext}}
+    {{> myPartial}}
+{{/with}}
+```
+
+## Currently not implemented
 
 ### Nitro features
 
