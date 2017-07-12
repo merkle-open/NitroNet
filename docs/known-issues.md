@@ -7,18 +7,19 @@
 - [Known Issues](known-issues.md)
 
 ## Limitations
+Unfortunately not all handlerbars features are supported in NitroNet. This is due to the underlying underlying handlebars parser [Veil](https://github.com/csainty/Veil/tree/master/src/Veil.Handlebars) we are using.
+
+To have an overview of what works and what not you can consult the [documentation of Veil.Handlebars](https://github.com/csainty/Veil/tree/master/src/Veil.Handlebars).
 
 ### General features
 
-#### Partials with passed context or parameter
-Because of the underlying handlebars parser [Veil](https://github.com/csainty/Veil/tree/master/src/Veil.Handlebars) we are using in NitroNet, it is currently not possible to have partials with a passed context or a passed parameter:
+#### Partials with passed context
+It is currently not possible (because of the underlying Veil) to have partials with a passed context:
 ```
 {{> myPartial myOtherContext }}
-
-{{> myPartial parameter=value }}
 ```
 
-But for the first case there is a workaround. You can change the context with the `{{#with}}` like this:
+But for this case there is a workaround. You can change the context with the `{{#with}}` like this:
 ```
 {{#with myOtherContext}}
     {{> myPartial}}
