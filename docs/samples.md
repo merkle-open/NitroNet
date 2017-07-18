@@ -145,7 +145,7 @@ public class LocationModel
 
 public class BubbleModel
 {
-	public string Description { get; set; }
+    public string Description { get; set; }
     public string Key { get; set; }
     public string Target { get; set; }
     public string Name { get; set; }

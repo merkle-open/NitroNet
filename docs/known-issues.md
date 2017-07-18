@@ -7,7 +7,7 @@
 - [Known Issues](known-issues.md)
 
 ## Limitations
-Unfortunately not all handlerbars features are supported in NitroNet. This is due to the underlying underlying handlebars parser [Veil](https://github.com/csainty/Veil/tree/master/src/Veil.Handlebars) we are using.
+Unfortunately not all handlerbars features are supported in NitroNet. This is due to the underlying handlebars parser [Veil](https://github.com/csainty/Veil/tree/master/src/Veil.Handlebars) we are using.
 
 To have an overview of what works and what not you can consult the [documentation of Veil.Handlebars](https://github.com/csainty/Veil/tree/master/src/Veil.Handlebars).
 

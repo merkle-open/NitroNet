@@ -37,7 +37,7 @@ public class MovieController : System.Web.Mvc.Controller
 The whole magic of NitroNet happens on the returning line `return View("movie", model);`. The model is mapped on the movie view with the NitroNet view engine.
 
 There are two ways how you can specify a view:
-- Just set the name of the pattern (as shown in the example above): `return View("movie", model);`
+- Just set the name of the component/pattern (as shown in the example above): `return View("movie", model);`
 - Set the complete view path (relative to your `Nitro.BasePath`). An example:
 	- Your view file location is: `[web app root path]/frontend/patterns/molecules/movie/movie`
 	- Your `NitroNet.BasePath` is: `"/frontend"`
@@ -76,7 +76,7 @@ In the handlebars file (mostly `.hbs` or `.html`) you will see all the propertie
 </div>
 ```
 
-To determine the data types of the individual properties you have to look at the *data.json* of the component. It is located under `./_data/<molecule-name>.json`. Oftentimes there is more than one *data.json* for the different states the component can have.
+If you are using Nitro as your frontend framework there is a *data.json* for each component. This file will help you to determin the data types of the individual properties. It is located under `./_data/<molecule-name>.json`. Oftentimes there is more than one *data.json* for the different states the component can have. If you don't have a *data.json* available then pick the type that suits the situation the best.
 
 ```json
 {
@@ -88,9 +88,9 @@ To determine the data types of the individual properties you have to look at the
 }
 ```
 
-In this case every property is of type `string`.
+In this case we have properties of type `string`, `int` and `double`.
 
-Now let's create the corresponding C# model class. Please make sure that the properties have the same name. The only thing you don't need to worry about is case sensitivity. Possible hyphens are also ignored:
+Now let's create the corresponding C# model class. Please make sure that the properties have the same name as the ones in the corresponding handlebars file. The only thing you don't need to worry about is case sensitivity. Possible hyphens are also ignored:
 
 ```csharp
 public class MovieModel
@@ -105,7 +105,7 @@ public class MovieModel
 
 #### Supported Types
 
-Every possible data type is supported if it corresponds with the Nitro component data structure (as mentioned before the *data.json* is crucial here).
+Every possible data type is supported if it corresponds with the Nitro component data structure (as mentioned before the *data.json* is crucial here). If you are using a complex type at the lowest level you need to make sure that the `ToString()` method is implemented.
 
 ```csharp
 public class FooModel

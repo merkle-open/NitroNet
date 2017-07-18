@@ -9,7 +9,7 @@
 ## Configuration
 
 ### Requirements regarding the file structure of your frontend application
-There are not many things to consider. But you have to make sure that your your partials respectively components are split into dictinct files and that every file name is unique.
+There are not many things to consider. But you have to make sure that your partials respectively components are split into dictinct files and that every file name is unique.
 
 If you are building your frontend with [Nitro](https://github.com/namics/generator-nitro/) you already have a valid file structure and there is nothing to consider.
 
@@ -79,7 +79,7 @@ public class YourOwnHelperHandlerFactory : IHelperHandlerFactory
 }
 ```
 
-3.) Add the following line to the `RegisterTypes()` method in the `UnityConfig` class:
+3.) Register your implementation of `IHelperHandlerFactory` to your IoC container. The following example is for Unity and is added to the `RegisterTypes()` method in the `UnityConfig` class:
 
 ```csharp
 container.RegisterType<IHelperHandlerFactory, YourOwnHelperHandlerFactory>(new ContainerControlledLifetimeManager());

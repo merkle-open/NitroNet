@@ -9,7 +9,7 @@
 ## Installation
 
 ### Preconditions
-You need a handlebars frontend with a specific file structure (learn more about that here) or a [Nitro](https://github.com/namics/generator-nitro/) project as a precondition of this installation manual.
+You need a handlebars frontend with a specific file structure (learn more about that [here](configuration.md)) or a [Nitro](https://github.com/namics/generator-nitro/) project as a precondition of this installation manual.
 
 ### Step 1 - Create a ASP.NET MVC application
 Create a ASP.NET MVC solution on your local machine with Visual Studio and compile the solution.
@@ -31,7 +31,7 @@ Execute the following line in your NuGet Package Manager to install NitroNet for
 
 `PM >` `Install-Package NitroNet.UnityModules`
 
-Optionally, we recommend to install the [Unity.Mvc](https://www.nuget.org/packages/Unity.Mvc/) which is a lightweight Unity bootstrapper for MVC applications:
+Optionally, it is recommended to install the [Unity.Mvc](https://www.nuget.org/packages/Unity.Mvc/) which is a lightweight Unity bootstrapper for MVC applications:
 
 `PM >` `Install-Package Unity.Mvc`
 
@@ -81,7 +81,7 @@ public static void RegisterTypes(IWindsorContainer container)
 
 #### (B) With another IoC Framework
 You don't like Unity and you design your application with an other IoC framework? No Problem.
-In this case, you can install NitroNet only with our base package:
+In this case, you can install NitroNet only with the base package:
 
 `PM >` `Install-Package NitroNet.Core`
 
