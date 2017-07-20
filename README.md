@@ -35,6 +35,13 @@ As a sub project, NitroNet was extended to be used in the WCMS [Sitecore](http:/
 	- [ ] Generate and validate model classes from the schema.json
 	- [ ] Render patterns with children. [Link to the Nitro documentation](https://github.com/namics/generator-nitro/blob/master/generators/app/templates/project/docs/nitro.md#render-patterns-with-children).
 
+## Contact / Contributing
+If you want to submit a bug or request a feature please feel free to open an issue.
+
+If you want to get in contact with us, just write an email to [Manuel Fischer](https://github.com/hombreDelPez) or [Fabian Geiger](https://github.com/naibafch).
+
+Pull requests are welcome!
+
 ## Credits and special thanks
 Thanks to all the people who made and released these awesome resources for free!
 
