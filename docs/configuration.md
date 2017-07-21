@@ -9,9 +9,18 @@
 ## Configuration
 
 ### Requirements regarding the file structure of your frontend application
-There are not many things to consider. But you have to make sure that your partials respectively components are split into dictinct files and that every file name is unique.
-
 If you are building your frontend with [Nitro](https://github.com/namics/generator-nitro/) you already have a valid file structure and there is nothing to consider.
+
+If you build your handlebars frontend yourself or with another generator, there are the following requirements the frontend has to meet:
+- Every partial respectively component must have its own file.
+- The partial/component name has to be identical to the file name of this component. And every partial/component must have a unique name!
+	- Example: The file for a teaser partial/component has to be named `teaser.[file extension]`
+- Every file name respectively partial/component name has to be unique.
+- The base partial/component has to be in a folder with the same name.
+	- Example: The `teaser` partial/component has to be in `[components folder]/teaser/teaser.[file extension]`
+- The variations respectively skins of your base partial/component have to be in the same folder as the base  partial/component. You can distinguish your variations with a `-` following the name of the variation.
+	- Example: the `teaser-blue` partial/component has to be in `[components folder]/teaser/teaser-blue.[file extension]`
+	- Example: the `teaser-red` partial/component has to be in `[components folder]/teaser/teaser-red.[file extension]`
 
 ### Change the location of your frontend application
 The location of your frontend application can be configured very flexibly.
