@@ -31,7 +31,6 @@ If your are not using the `{{component [...]}}` helper from Nitro, your frontend
 - Every partial must have its own file.
 - The partial name has to be identical to the file name of the respective partial. And every partial must have a unique name!
 	- Example: The file for a teaser partial has to be named `teaser.[file extension]`
-- The base component has to be in a folder with the same name.
 
 The file paths of your partials have to be registered in the **partialPaths** node of the configuration. [Read more down below](#change-the-frontend-file-paths).
 
