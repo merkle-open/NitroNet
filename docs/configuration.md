@@ -9,7 +9,7 @@
 ## Configuration
 
 ### Requirements regarding the file structure of your frontend application
-If you are building your frontend with [Nitro](https://github.com/namics/generator-nitro/) you already have a valid file structure and there is nothing to consider.
+If you are building your frontend with [Nitro](https://github.com/namics/generator-nitro/), you already have a valid file structure and there is nothing to consider.
 
 If you build your handlebars frontend yourself or with another generator, there are the following requirements the frontend has to meet:
 - Every partial respectively component must have its own file.
