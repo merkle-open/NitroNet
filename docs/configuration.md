@@ -47,6 +47,8 @@ As default it is set to be located at the root folder of your web application. I
 </configuration>
 ```
 
+But keep in mind that the *NitroNet.BasePath* has to be relative to the root directory. Absolute paths are not working.
+
 ### Change the frontend file paths
 In addition, you got a new `nitronet-config.json.example`-File in the root directory of the website project after installation of NitroNet for Sitecore. Rename it to `nitronet-config.json` to activate the config.
 
