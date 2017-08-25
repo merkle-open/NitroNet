@@ -26,6 +26,11 @@ But for this case there is a workaround. You can change the context with the `{{
 {{/with}}
 ```
 
+#### Master pages
+With our modified version of the handlebars parser *Veil* it is not possible to use the master page feature. This is because we made some major changes to the class *VeilEngine* and thus we are not passing the *VeilContext* here.
+
+A possible way to mitigate the absence of master templates is to extract all the common parts into partials or components (see the [samples](samples.md)).
+
 ## Currently not implemented
 
 ### Nitro features
