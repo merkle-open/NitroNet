@@ -74,6 +74,10 @@
       <Name>NitroNet.Common</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\NitroNet.ModelBuilder\NitroNet.ModelBuilder.csproj">
+      <Project>{66126cd2-8a91-49f9-881f-053ab13628b7}</Project>
+      <Name>NitroNet.ModelBuilder</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NitroNet.Mvc\NitroNet.Mvc.csproj">
       <Project>{b91e9371-631f-4f33-ad32-2b78724c85d3}</Project>
       <Name>NitroNet.Mvc</Name>

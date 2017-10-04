@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using Microsoft.Practices.Unity;
+using NitroNet.ModelBuilder;
 using NitroNet.Mvc;
 using NitroNet.ViewEngine;
 using NitroNet.ViewEngine.Cache;
@@ -31,7 +32,7 @@ namespace NitroNet.UnityModules
         {
             var config = ConfigurationLoader.LoadNitroConfiguration(_basePath);
             container.RegisterInstance(config);
-
+            container.RegisterInstance<ModelBuilderController>(new ModelBuilderController(new ModelBuilder.ModelBuilder(_basePath, config)));
             container.RegisterInstance<IFileSystem>(new FileSystem(_basePath, config));
         }
 
@@ -48,6 +49,7 @@ namespace NitroNet.UnityModules
             container.RegisterType<ITemplateRepository, NitroTemplateRepository>(new ContainerControlledLifetimeManager());
             container.RegisterType<INitroTemplateHandlerFactory, MvcNitroTemplateHandlerFactory>(
                 new ContainerControlledLifetimeManager());
+            
         }
     }
 }

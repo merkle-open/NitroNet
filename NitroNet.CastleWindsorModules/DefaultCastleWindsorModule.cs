@@ -1,6 +1,7 @@
 ﻿using System.Web;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
+using NitroNet.ModelBuilder;
 using NitroNet.Mvc;
 using NitroNet.ViewEngine;
 using NitroNet.ViewEngine.Cache;
@@ -33,6 +34,7 @@ namespace NitroNet.CastleWindsorModules
             var config = ConfigurationLoader.LoadNitroConfiguration(_basePath);
             container.Register(Component.For<INitroNetConfig>().Instance(config));
             container.Register(Component.For<IFileSystem>().Instance(new FileSystem(_basePath, config)));
+            container.Register(Component.For<ModelBuilderController>().Instance(new ModelBuilderController(new ModelBuilder.ModelBuilder(_basePath, config))));
         }
 
         protected virtual void RegisterApplication(IWindsorContainer container)
