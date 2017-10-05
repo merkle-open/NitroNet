@@ -134,7 +134,7 @@ namespace NitroNet.ModelBuilder
                 return _modelNamespace;
             }
 
-            var classNamespace = jsonFile.FullName.Replace(jsonFile.Name, string.Empty).Replace(_basePath.Replace("/", "\\"), string.Empty).Replace("/", ".").Replace("\\", ".").Replace("..", ".").Replace("_data", string.Empty);
+            var classNamespace = jsonFile.FullName.Replace(jsonFile.Name, jsonFile.Name.Replace(jsonFile.Extension, string.Empty)).Replace(_basePath.Replace("/", "\\"), string.Empty).Replace("/", ".").Replace("\\", ".").Replace("_data", string.Empty).Replace("..", ".");
             return PrettifyNamespace($"{_modelNamespace.TrimEnd('.')}.{classNamespace.TrimStart('.')}".TrimEnd('.').Replace("-", "_"));
         }
 
@@ -149,7 +149,7 @@ namespace NitroNet.ModelBuilder
             var prettyNamespace = new StringBuilder();
             foreach (var segment in prettyNamespaceSplitted)
             {
-                prettyNamespace.Append($"{FirstLetterToUpper(segment)}.");
+                prettyNamespace.Append(char.IsDigit(segment[0]) ? $"_{segment}" : $"{FirstLetterToUpper(segment)}.");
             }
 
             return prettyNamespace.ToString().TrimEnd('.');
