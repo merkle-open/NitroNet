@@ -48,6 +48,7 @@ namespace NitroNet.ModelBuilder
                 // TODO: Override the TypeNameGenerator? I dont like anonymous classes...
                 var generator = new CSharpGenerator(schema.Schema);
                 generator.Settings.Namespace = schema.Namespace;
+                generator.Settings.TypeNameGenerator = new NitroNetTypeNameGenerator();
                 generator.Settings.ClassStyle = CSharpClassStyle.Poco;
                 generator.Settings.GenerateDataAnnotations = schema.ShouldGenerateDataAnnotation;
                 generator.Settings.HandleReferences = true;
@@ -65,6 +66,7 @@ namespace NitroNet.ModelBuilder
                 }
                 else
                 {
+                    oneFileText.Append("\n\n");
                     oneFileText.Append(dataFileString);
                 }
             }
@@ -78,7 +80,7 @@ namespace NitroNet.ModelBuilder
         private IEnumerable<SchemaModel> GetAllSchemas(IEnumerable<FileInfo> fileList)
         {
             var schemaList = new List<SchemaModel>();
-            // TODO: Add definitions and References to the Schema
+            
             foreach (var jsonFile in fileList)
             {
                 var model = new SchemaModel
@@ -94,12 +96,13 @@ namespace NitroNet.ModelBuilder
 
                 if (jsonFile.Name.Equals("schema.json", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    schema = JsonSchema4.FromJsonAsync(jsonData).Result;
+                    schema = JsonSchema4.FromJsonAsync(jsonData, jsonFile.Directory.FullName).Result;
                     model.ClassName = $"Base{FirstLetterToUpper(jsonFile.Directory.Name)}";
                     generateDataAnnotations = true;
                 }
                 else
                 {
+                    // TODO: Add definitions and References to the Schema
                     schema = JsonSchema4.FromData(jsonData);
                 }
 
@@ -108,6 +111,17 @@ namespace NitroNet.ModelBuilder
                 schema.AllowAdditionalProperties = true;
                 model.ShouldGenerateDataAnnotation = generateDataAnnotations;
                 schemaList.Add(model);
+            }
+
+            foreach (var schemaModel in schemaList)
+            {
+                foreach (var schemaProperty in schemaModel.Schema.Properties)
+                {
+                    if(schemaProperty.Value.IsEnumeration || schemaProperty.Value.IsDictionary || schemaProperty.Value.Type == JsonObjectType.Object || schemaProperty.Value.Type == JsonObjectType.Array)
+                    {
+                        schemaProperty.Value.Title = schemaProperty.Value.Name;
+                    }
+                }
             }
 
             return schemaList;
