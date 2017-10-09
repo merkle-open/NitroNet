@@ -113,17 +113,6 @@ namespace NitroNet.ModelBuilder
                 schemaList.Add(model);
             }
 
-            foreach (var schemaModel in schemaList)
-            {
-                foreach (var schemaProperty in schemaModel.Schema.Properties)
-                {
-                    if(schemaProperty.Value.IsEnumeration || schemaProperty.Value.IsDictionary || schemaProperty.Value.Type == JsonObjectType.Object || schemaProperty.Value.Type == JsonObjectType.Array)
-                    {
-                        schemaProperty.Value.Title = schemaProperty.Value.Name;
-                    }
-                }
-            }
-
             return schemaList;
         }
 
