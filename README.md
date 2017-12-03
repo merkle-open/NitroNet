@@ -1,4 +1,4 @@
-![NitroNet Logo](docs/logo.png)
+![NitroNet Logo](docs/imgs/logo.png)
 
 NitroNet is an ASP.NET MVC view engine for [handlebars](http://handlebarsjs.com) with an intelligent built-in file system and the possibility to add custom helpers. It works with ASP.NET MVC web applications and uses [Veil](https://github.com/csainty/Veil/tree/master/Src/Veil.Handlebars) from [Chris Sainty](https://github.com/csainty) as the underlying handlebars parser. It is originally based on the project [TerrificNet](https://github.com/namics/TerrificNet).
 The support for the custom helpers used in [Nitro](https://github.com/namics/generator-nitro/) are already implemented by default.
