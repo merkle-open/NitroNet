@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NitroNet.ModelBuilder
+﻿namespace NitroNet.ModelBuilder
 {
     public interface IModelBuilder
     {
-        void GenerateModels();
+        ModelBuilderResult GenerateModels(bool overrideClasses);
+        bool GenerateSingleFile { get; }
     }
 }

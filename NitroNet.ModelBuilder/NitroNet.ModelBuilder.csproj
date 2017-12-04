@@ -82,6 +82,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BuilderModelResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ModelBuilderItem.cs" />
+    <Compile Include="ModelBuilderResult.cs" />
     <Compile Include="IModelBuilder.cs" />
     <Compile Include="ModelBuilder.cs" />
     <Compile Include="ModelBuilderController.cs" />

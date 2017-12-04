@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Web.Hosting;
@@ -19,6 +20,8 @@ namespace NitroNet.ModelBuilder
         private readonly bool _generateSingleFile;
         private readonly string _absoluteGenerationPath;
 
+        public bool GenerateSingleFile => _generateSingleFile;
+
         public ModelBuilder(string basePath, INitroNetConfig configuration)
         {
             var relativeGenerationPath = ConfigurationManager.AppSettings["NitroNet.Generation.Path"] ?? "Models";
@@ -30,22 +33,23 @@ namespace NitroNet.ModelBuilder
             _generateSingleFile = !generateSingleFileString.Equals("false", StringComparison.InvariantCultureIgnoreCase);
             _absoluteGenerationPath = PathInfo.Combine(PathInfo.Create(HostingEnvironment.MapPath("~/")), PathInfo.Create(relativeGenerationPath)).ToString();
         }
-
-        public void GenerateModels()
+        
+        public ModelBuilderResult GenerateModels(bool overrideClasses)
         {
             var fileList = GetAllFiles();
             var schemaList = GetAllSchemas(fileList);
 
-            GenerateModels(schemaList);
+            return GenerateModels(schemaList, overrideClasses);
         }
 
-        private void GenerateModels(IEnumerable<SchemaModel> schemaList)
+        private ModelBuilderResult GenerateModels(IEnumerable<SchemaModel> schemaList, bool overrideClasses = false)
         {
+            var timer = new Stopwatch();
+            timer.Start();
             var oneFileText = new StringBuilder();
-
+            var items = new List<ModelBuilderItem>();
             foreach (var schema in schemaList)
             {
-                // TODO: Override the TypeNameGenerator? I dont like anonymous classes...
                 var generator = new CSharpGenerator(schema.Schema);
                 generator.Settings.Namespace = schema.Namespace;
                 generator.Settings.TypeNameGenerator = new NitroNetTypeNameGenerator();
@@ -62,7 +66,21 @@ namespace NitroNet.ModelBuilder
 
                 if (!_generateSingleFile)
                 {
-                    File.WriteAllText($"{_absoluteGenerationPath}\\{schema.ClassName}Model.cs", dataFileString);
+                    var filePath = $"{_absoluteGenerationPath}\\{schema.ClassName}Model.cs";
+
+                    if (File.Exists(filePath) && overrideClasses != true)
+                    {
+                        continue;
+                    }
+
+                    File.WriteAllText(filePath, dataFileString);
+                    var item = new ModelBuilderItem
+                    {
+                        Name = filePath,
+                        Size = dataFileString.Length
+                    };
+
+                    items.Add(item);
                 }
                 else
                 {
@@ -73,8 +91,19 @@ namespace NitroNet.ModelBuilder
 
             if (_generateSingleFile)
             {
-                File.WriteAllText($"{_absoluteGenerationPath}\\NitroNetModels.cs", oneFileText.ToString());
+                var filePath = $"{_absoluteGenerationPath}\\NitroNetModels.cs";
+                File.WriteAllText(filePath, oneFileText.ToString());
+                var item = new ModelBuilderItem
+                {
+                    Name = filePath,
+                    Size = oneFileText.Length
+                };
+                items.Add(item);
             }
+            timer.Stop();
+            var result = new ModelBuilderResult(items) {GenerationTime = timer.Elapsed};
+
+            return result;
         }
 
         private IEnumerable<SchemaModel> GetAllSchemas(IEnumerable<FileInfo> fileList)
@@ -96,8 +125,8 @@ namespace NitroNet.ModelBuilder
 
                 if (jsonFile.Name.Equals("schema.json", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    schema = JsonSchema4.FromJsonAsync(jsonData, jsonFile.Directory.FullName).Result;
-                    model.ClassName = $"Base{FirstLetterToUpper(jsonFile.Directory.Name)}";
+                    schema = JsonSchema4.FromJsonAsync(jsonData, jsonFile.Directory?.FullName).Result;
+                    model.ClassName = $"Base{FirstLetterToUpper(jsonFile.Directory?.Name)}";
                     generateDataAnnotations = true;
                 }
                 else
