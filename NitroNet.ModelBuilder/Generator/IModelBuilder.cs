@@ -1,4 +1,6 @@
-﻿namespace NitroNet.ModelBuilder
+﻿using NitroNet.ModelBuilder.Generator.Models;
+
+namespace NitroNet.ModelBuilder.Generator
 {
     public interface IModelBuilder
     {

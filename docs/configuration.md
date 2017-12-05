@@ -115,3 +115,27 @@ after the following line:
 ```csharp
 new DefaultUnityModule(basePath).Configure(container);
 ```
+
+### Generate C# models based on your Json's (Experimental)
+
+Since Release 1.1.2, NitroNet supports the generation of C# classes based on the pattern Json-Files of Nitro.
+
+#### Configuration
+
+To configure the model generation, please add these settings to your website solution:
+
+```xml
+    <add key="NitroNet.ModelNamespace" value="NitroNet.Models" />
+    <add key="NitroNet.Generation.Path" value="Models" />
+    <add key="NitroNet.Generation.SingleFile" value="false" />
+```
+Key | Example | Description 
+--- | --- | --- 
+NitroNet.ModelNamespace | NitroNet.Models | Namespace-Prefix for all generated code
+NitroNet.Generation.Path | Models | Physical path, started at your hosting environment root-path (Absolute Paths are currently not supported, but it's possible to change the projectfolder with "`../`" commands)
+NitroNet.GenerationSingleFile | false | False = Generates a folder and class structure based on your frontend solution / True = Generates only one NitroNetModels.cs file for all C# models)
+
+#### Execution
+NitroNet injects by default a custom controller called `ModelBuilderController`. To generate the C# models, you need to execute the `ModelBuilderController` by default route of your solution (e.g. http(s)://yoursolution.dev/ModelBuilder/Index)
+
+*Note:* Only local requests are allowed to execute the `ModelBuilderController`.

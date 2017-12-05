@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
+using NitroNet.ModelBuilder.Generator;
 
-namespace NitroNet.ModelBuilder
+namespace NitroNet.ModelBuilder.Controllers
 {
     public class ModelBuilderController : Controller
     {
@@ -18,6 +16,11 @@ namespace NitroNet.ModelBuilder
 
         public string Index()
         {
+            if(!Request.IsLocal)
+            {
+                HttpNotFound();    
+            }
+
             var resultPage = BuilderModelResources.index;
             if (_modelBuilder.GenerateSingleFile)
             {
@@ -29,6 +32,11 @@ namespace NitroNet.ModelBuilder
 
         public string Generate()
         {
+            if (!Request.IsLocal)
+            {
+                HttpNotFound();
+            }
+
             var overrideClasses = CheckIfTrue(Request.QueryString["override"]);
             var resultPage = BuilderModelResources.index;
 

@@ -5,12 +5,15 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Web.Hosting;
+using NitroNet.ModelBuilder.Generator.Models;
+using NitroNet.ModelBuilder.Generator.Schema;
+using NitroNet.ModelBuilder.Generator.Utilities;
 using NitroNet.ViewEngine.Config;
 using NitroNet.ViewEngine.IO;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.CSharp;
 
-namespace NitroNet.ModelBuilder
+namespace NitroNet.ModelBuilder.Generator
 {
     public class ModelBuilder : IModelBuilder
     {
@@ -31,12 +34,14 @@ namespace NitroNet.ModelBuilder
             _basePath = basePath;
             _modelNamespace = ConfigurationManager.AppSettings["NitroNet.ModelNamespace"] ?? "NitroNet.Models";
             _generateSingleFile = !generateSingleFileString.Equals("false", StringComparison.InvariantCultureIgnoreCase);
+
+            // TODO: Allow also absolute paths
             _absoluteGenerationPath = PathInfo.Combine(PathInfo.Create(HostingEnvironment.MapPath("~/")), PathInfo.Create(relativeGenerationPath)).ToString();
         }
-        
+
         public ModelBuilderResult GenerateModels(bool overrideClasses)
         {
-            var fileList = GetAllFiles();
+            var fileList = GetAllComponents();
             var schemaList = GetAllSchemas(fileList);
 
             return GenerateModels(schemaList, overrideClasses);
@@ -66,19 +71,12 @@ namespace NitroNet.ModelBuilder
 
                 if (!_generateSingleFile)
                 {
-                    var filePath = $"{_absoluteGenerationPath}\\{schema.ClassName}Model.cs";
-
-                    if (File.Exists(filePath) && overrideClasses != true)
+                    var item = CreateModelFile(dataFileString, schema, overrideClasses);
+                    
+                    if(item == null)
                     {
                         continue;
                     }
-
-                    File.WriteAllText(filePath, dataFileString);
-                    var item = new ModelBuilderItem
-                    {
-                        Name = filePath,
-                        Size = dataFileString.Length
-                    };
 
                     items.Add(item);
                 }
@@ -101,15 +99,42 @@ namespace NitroNet.ModelBuilder
                 items.Add(item);
             }
             timer.Stop();
-            var result = new ModelBuilderResult(items) {GenerationTime = timer.Elapsed};
+            var result = new ModelBuilderResult(items) { GenerationTime = timer.Elapsed };
 
             return result;
+        }
+
+        private ModelBuilderItem CreateModelFile(string dataFileString, SchemaModel schema, bool overrideClasses)
+        {
+            var folderStructure = schema.Namespace.Replace(_modelNamespace, "").Trim('.').Replace(".", "\\");
+            var patternFolder = !string.IsNullOrEmpty(folderStructure) ? $"{_absoluteGenerationPath}\\{folderStructure}" : _absoluteGenerationPath;
+
+            if (!Directory.Exists(patternFolder))
+            {
+                Directory.CreateDirectory(patternFolder);
+            }
+
+            var filePath = $"{patternFolder}\\{schema.ClassName}Model.cs";
+
+            if (File.Exists(filePath) && overrideClasses != true)
+            {
+                return null;
+            }
+
+            File.WriteAllText(filePath, dataFileString);
+            var item = new ModelBuilderItem
+            {
+                Name = filePath,
+                Size = dataFileString.Length
+            };
+
+            return item;
         }
 
         private IEnumerable<SchemaModel> GetAllSchemas(IEnumerable<FileInfo> fileList)
         {
             var schemaList = new List<SchemaModel>();
-            
+
             foreach (var jsonFile in fileList)
             {
                 var model = new SchemaModel
@@ -126,12 +151,11 @@ namespace NitroNet.ModelBuilder
                 if (jsonFile.Name.Equals("schema.json", StringComparison.InvariantCultureIgnoreCase))
                 {
                     schema = JsonSchema4.FromJsonAsync(jsonData, jsonFile.Directory?.FullName).Result;
-                    model.ClassName = $"Base{FirstLetterToUpper(jsonFile.Directory?.Name)}";
+                    model.ClassName = $"Base{FileSystemUtility.FirstLetterToUpper(jsonFile.Directory?.Name)}";
                     generateDataAnnotations = true;
                 }
                 else
                 {
-                    // TODO: Add definitions and References to the Schema
                     schema = JsonSchema4.FromData(jsonData);
                 }
 
@@ -147,7 +171,7 @@ namespace NitroNet.ModelBuilder
 
         private string GenerateNamespace(FileSystemInfo jsonFile)
         {
-            if(jsonFile == null)
+            if (jsonFile == null)
             {
                 return _modelNamespace;
             }
@@ -156,9 +180,9 @@ namespace NitroNet.ModelBuilder
             return PrettifyNamespace($"{_modelNamespace.TrimEnd('.')}.{classNamespace.TrimStart('.')}".TrimEnd('.').Replace("-", "_"));
         }
 
-        private string PrettifyNamespace(string baseNamespace)
+        private static string PrettifyNamespace(string baseNamespace)
         {
-            if(string.IsNullOrEmpty(baseNamespace))
+            if (string.IsNullOrEmpty(baseNamespace))
             {
                 return baseNamespace;
             }
@@ -167,13 +191,13 @@ namespace NitroNet.ModelBuilder
             var prettyNamespace = new StringBuilder();
             foreach (var segment in prettyNamespaceSplitted)
             {
-                prettyNamespace.Append(char.IsDigit(segment[0]) ? $"_{segment}" : $"{FirstLetterToUpper(segment)}.");
+                prettyNamespace.Append(char.IsDigit(segment[0]) ? $"_{segment}" : $"{FileSystemUtility.FirstLetterToUpper(segment)}.");
             }
 
             return prettyNamespace.ToString().TrimEnd('.');
         }
 
-        private List<FileInfo> GetAllFiles()
+        private IEnumerable<FileInfo> GetAllComponents()
         {
             var fileList = new List<FileInfo>();
 
@@ -183,7 +207,7 @@ namespace NitroNet.ModelBuilder
                 {
                     var fullpath = $"{_basePath.TrimEnd('/')}/{componentPath}";
 
-                    fileList.AddRange(DirSearch(fullpath));
+                    fileList.AddRange(FileSystemUtility.DirSearch(fullpath));
                 }
             }
             catch (Exception ex)
@@ -193,40 +217,6 @@ namespace NitroNet.ModelBuilder
             }
 
             return fileList;
-        }
-
-        private string FirstLetterToUpper(string str)
-        {
-            if (str == null)
-                return null;
-
-            if (str.Length > 1)
-                return char.ToUpper(str[0]) + str.Substring(1);
-
-            return str.ToUpper();
-        }
-
-        private IEnumerable<FileInfo> DirSearch(string sDir)
-        {
-            try
-            {
-                var fileList = new List<FileInfo>();
-                foreach (string d in Directory.GetDirectories(sDir))
-                {
-                    foreach (string f in Directory.GetFiles(d, "*.json"))
-                    {
-                        fileList.Add(new FileInfo(f));
-                    }
-                    fileList.AddRange(DirSearch(d));
-                }
-
-                return fileList;
-            }
-            catch (Exception excpt)
-            {
-                Console.WriteLine(excpt.Message);
-                return new List<FileInfo>();
-            }
         }
     }
 }

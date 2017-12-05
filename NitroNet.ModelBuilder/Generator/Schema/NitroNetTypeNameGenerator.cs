@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using NJsonSchema;
 
-namespace NitroNet.ModelBuilder
+namespace NitroNet.ModelBuilder.Generator.Schema
 {
     public class NitroNetTypeNameGenerator : DefaultTypeNameGenerator
     {

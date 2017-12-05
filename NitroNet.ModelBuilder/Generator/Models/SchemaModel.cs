@@ -1,6 +1,6 @@
 ﻿using NJsonSchema;
 
-namespace NitroNet.ModelBuilder
+namespace NitroNet.ModelBuilder.Generator.Models
 {
     internal class SchemaModel
     {

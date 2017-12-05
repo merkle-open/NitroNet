@@ -82,14 +82,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BuilderModelResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ModelBuilderItem.cs" />
-    <Compile Include="ModelBuilderResult.cs" />
-    <Compile Include="IModelBuilder.cs" />
-    <Compile Include="ModelBuilder.cs" />
-    <Compile Include="ModelBuilderController.cs" />
-    <Compile Include="NitroNetTypeNameGenerator.cs" />
+    <Compile Include="Generator\Models\ModelBuilderItem.cs" />
+    <Compile Include="Generator\Models\ModelBuilderResult.cs" />
+    <Compile Include="Generator\IModelBuilder.cs" />
+    <Compile Include="Generator\ModelBuilder.cs" />
+    <Compile Include="Controllers\ModelBuilderController.cs" />
+    <Compile Include="Generator\Schema\NitroNetTypeNameGenerator.cs" />
+    <Compile Include="Generator\Utilities\FileSystemUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SchemaModel.cs" />
+    <Compile Include="Generator\Models\SchemaModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NitroNet.ViewEngine\NitroNet.ViewEngine.csproj">

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NitroNet.ModelBuilder
+namespace NitroNet.ModelBuilder.Generator.Models
 {
     public class ModelBuilderResult
     {

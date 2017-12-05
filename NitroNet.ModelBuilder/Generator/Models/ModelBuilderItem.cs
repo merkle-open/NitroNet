@@ -1,4 +1,4 @@
-﻿namespace NitroNet.ModelBuilder
+﻿namespace NitroNet.ModelBuilder.Generator.Models
 {
     public class ModelBuilderItem
     {
