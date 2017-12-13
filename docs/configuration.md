@@ -136,6 +136,8 @@ NitroNet.Generation.Path | Models | Physical path, started at your hosting envir
 NitroNet.GenerationSingleFile | false | False = Generates a folder and class structure based on your frontend solution / True = Generates only one NitroNetModels.cs file for all C# models)
 
 #### Execution
-NitroNet injects by default a custom controller called `ModelBuilderController`. To generate the C# models, you need to execute the `ModelBuilderController` by default route of your solution (e.g. http(s)://yoursolution.dev/ModelBuilder/Index)
+NitroNet injects by default a custom controller called `ModelBuilderController`. To generate the C# models, you need to execute the `ModelBuilderController` by default route of your solution (e.g. http(s)://<yourSolutionUrl>/ModelBuilder/Index)
+
+![NitroNet ModelBuilder](modelbuilder.png)
 
 *Note:* Only local requests are allowed to execute the `ModelBuilderController`.
