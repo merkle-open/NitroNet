@@ -31,7 +31,7 @@ Execute the following line in your NuGet Package Manager to install NitroNet for
 
 `PM >` `Install-Package NitroNet.UnityModules`
 
-Optionally, it is recommended to install the [Unity.Mvc](https://www.nuget.org/packages/Unity.Mvc/) which is a lightweight Unity bootstrapper for MVC applications:
+In addition, it is recommended to install the [Unity.Mvc](https://www.nuget.org/packages/Unity.Mvc/) which is a lightweight Unity bootstrapper for MVC applications:
 
 `PM >` `Install-Package Unity.Mvc`
 
