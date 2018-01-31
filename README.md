@@ -22,6 +22,7 @@ As a sub project, NitroNet was extended to be used in the WCMS [Sitecore](http:/
 - [Configuration](docs/configuration.md)
 - [Getting started](docs/getting-started.md)
 - [Samples](docs/samples.md)
+- [Demo Integration](https://github.com/namics/NitroNet.Demo)
 - [Release Notes](https://github.com/namics/NitroNet/releases)
 - [Known Issues](docs/known-issues.md)
 
