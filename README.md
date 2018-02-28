@@ -27,14 +27,14 @@ As a sub project, NitroNet was extended to be used in the WCMS [Sitecore](http:/
 - [Known Issues](docs/known-issues.md)
 
 ## Future roadmap
-- General features:
-	- [ ] Make the underlying handlebars parser updatable.
-	- [ ] Make registering other handlebars helpers easier.
+[Please look at the milestones regarding the features and time frames of future releases.](https://github.com/namics/NitroNet/milestones)
 
-- Nitro support:
-	- [ ] Flexible attributes on component helper. [Link to the Nitro documentation](https://github.com/namics/generator-nitro/blob/master/generators/app/templates/project/docs/nitro.md#render-patterns).
-	- [ ] Generate and validate model classes from the schema.json
-	- [ ] Render patterns with children. [Link to the Nitro documentation](https://github.com/namics/generator-nitro/blob/master/generators/app/templates/project/docs/nitro.md#render-patterns-with-children).
+**Important features planned for 2018:**
+- Auto generation of model classes [(done, needs review)](https://github.com/namics/NitroNet/tree/feature/%2320-generate-jsonschema-model-classes)
+- Youtube tutorial videos
+- Demo solution/integration -> [here](https://github.com/namics/NitroNet.Demo) (almost done)
+- Extending the documentation
+- File system can be more flexible
 
 ## Contact / Contributing
 If you want to submit a bug or request a feature please feel free to open an issue.
