@@ -1,0 +1,16 @@
+﻿{
+	"viewPaths": [
+		"."
+	],
+	"partialPaths": [
+		"."
+	],
+	"componentPaths": [
+		"."
+	],
+	"extensions": [
+		"hbs",
+		"html"
+	],
+	"filters": []
+}
