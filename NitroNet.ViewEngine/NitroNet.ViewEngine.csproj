@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Handlebars, Version=1.9.5.0, Culture=neutral, PublicKeyToken=22225d0bf33cd661, processorArchitecture=MSIL">
+      <HintPath>..\packages\Handlebars.Net.1.9.5\lib\net452\Handlebars.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
@@ -88,7 +91,10 @@
     <Compile Include="IViewEngine.cs" />
     <Compile Include="NitroTemplateRepository.cs" />
     <Compile Include="FileTemplateInfo.cs" />
+    <Compile Include="ViewEngines\HandlebarsNet\HandlebarsNetEngine.cs" />
+    <Compile Include="ViewEngines\HandlebarsNet\IHandlebarsNetEngine.cs" />
     <Compile Include="ViewEngines\MemberLocatorFromNamingRule.cs" />
+    <Compile Include="ViewEngines\HandlebarsNet\HandlebarsNetViewEngine.cs" />
     <Compile Include="ViewEngines\VeilViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IO\ZipFileSystem.cs" />
