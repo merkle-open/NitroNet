@@ -1,19 +1,20 @@
 ﻿using HandlebarsDotNet;
 using System;
 using System.IO;
-using NitroNet.ViewEngine.Config;
-using NitroNet.ViewEngine.IO;
+using System.Linq;
 
 namespace NitroNet.ViewEngine.ViewEngines.HandlebarsNet
 {
     public class HandlebarsNetEngine : IHandlebarsNetEngine
     {
-        public HandlebarsNetEngine()
+        private readonly IHandlebarsNetHelperHandlerFactory _helperHandlerFactory;
+
+        public HandlebarsNetEngine(IHandlebarsNetHelperHandlerFactory helperHandlerFactory)
         {
-            Handlebars.RegisterHelper("pattern", (output, context, arguments) =>
-            {
-                output.Write(context);
-            });
+            _helperHandlerFactory = helperHandlerFactory;
+
+            var helpers = _helperHandlerFactory.Create();
+            Handlebars.RegisterHelper("pattern", helpers.First().Evaluate);
 
             Handlebars.RegisterHelper("partial", (output, context, arguments) =>
             {

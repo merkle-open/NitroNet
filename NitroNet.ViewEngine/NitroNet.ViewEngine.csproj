@@ -93,6 +93,8 @@
     <Compile Include="FileTemplateInfo.cs" />
     <Compile Include="ViewEngines\HandlebarsNet\HandlebarsNetEngine.cs" />
     <Compile Include="ViewEngines\HandlebarsNet\IHandlebarsNetEngine.cs" />
+    <Compile Include="ViewEngines\HandlebarsNet\IHandlebarsNetHelperHandler.cs" />
+    <Compile Include="ViewEngines\HandlebarsNet\IHandlebarsNetHelperHandlerFactory.cs" />
     <Compile Include="ViewEngines\MemberLocatorFromNamingRule.cs" />
     <Compile Include="ViewEngines\HandlebarsNet\HandlebarsNetViewEngine.cs" />
     <Compile Include="ViewEngines\VeilViewEngine.cs" />

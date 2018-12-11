@@ -2,23 +2,21 @@
 using NitroNet.ViewEngine.Cache;
 using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using HandlebarsDotNet;
-using NitroNet.ViewEngine.Config;
 using Veil;
-using Veil.Compiler;
-using Veil.Helper;
 
 namespace NitroNet.ViewEngine.ViewEngines.HandlebarsNet
 {
     public class HandlebarsNetViewEngine : IViewEngine
 	{
 		private readonly ICacheProvider _cacheProvider;
+	    private readonly IHandlebarsNetEngine _engine;
 
-		public HandlebarsNetViewEngine(ICacheProvider cacheProvider)
+
+        public HandlebarsNetViewEngine(IHandlebarsNetEngine engine, ICacheProvider cacheProvider)
 		{
 			_cacheProvider = cacheProvider;
+		    _engine = engine;
 		}
 
 		public async Task<IView> CreateViewAsync(TemplateInfo templateInfo, Type modelType)
@@ -37,9 +35,8 @@ namespace NitroNet.ViewEngine.ViewEngines.HandlebarsNet
 					content = await reader.ReadToEndAsync().ConfigureAwait(false);
 				}
 
-				var viewEngine = new HandlebarsNetEngine();
 				if (modelType == typeof(object))
-					view = CreateNonGenericView(templateInfo.Id, content, viewEngine);
+					view = CreateNonGenericView(templateInfo.Id, content, _engine);
 
 				_cacheProvider.Set(hash, view, DateTimeOffset.Now.AddHours(24));
 			}

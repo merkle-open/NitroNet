@@ -6,7 +6,9 @@ using NitroNet.ViewEngine.Cache;
 using NitroNet.ViewEngine.Config;
 using NitroNet.ViewEngine.IO;
 using NitroNet.ViewEngine.TemplateHandler;
+using NitroNet.ViewEngine.TemplateHandler.HandlebarsNet;
 using NitroNet.ViewEngine.ViewEngines;
+using NitroNet.ViewEngine.ViewEngines.HandlebarsNet;
 using Veil.Compiler;
 using Veil.Helper;
 
@@ -37,12 +39,13 @@ namespace NitroNet.UnityModules
 
         protected virtual void RegisterApplication(IUnityContainer container)
         {
-            container.RegisterType<IHelperHandlerFactory, DefaultRenderingHelperHandlerFactory>(
+            container.RegisterType<IHandlebarsNetHelperHandlerFactory, HandlebarsNetHelperHandlerFactory>(
                 new ContainerControlledLifetimeManager());
             container.RegisterType<IMemberLocator, MemberLocatorFromNamingRule>();
             container.RegisterType<INamingRule, NamingRule>();
             container.RegisterType<IModelTypeProvider, DefaultModelTypeProvider>();
-            container.RegisterType<IViewEngine, VeilViewEngine>();
+            container.RegisterType<IViewEngine, HandlebarsNetViewEngine>();
+            container.RegisterType<IHandlebarsNetEngine, HandlebarsNetEngine>();
             container.RegisterType<ICacheProvider, MemoryCacheProvider>();
             container.RegisterType<IComponentRepository, DefaultComponentRepository>(new ContainerControlledLifetimeManager());
             container.RegisterType<ITemplateRepository, NitroTemplateRepository>(new ContainerControlledLifetimeManager());
