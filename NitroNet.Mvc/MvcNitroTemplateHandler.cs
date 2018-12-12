@@ -1,16 +1,16 @@
+using NitroNet.ViewEngine.TemplateHandler;
 using System;
 using System.Globalization;
+using System.IO;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
-using NitroNet.ViewEngine.TemplateHandler;
-using Veil;
 
 namespace NitroNet.Mvc
 {
-    using System.Linq;
-
     using NitroNet.ViewEngine;
+    using Sitecore.Mvc.Presentation;
+    using System.Linq;
 
     public class MvcNitroTemplateHandler : INitroTemplateHandler
 	{
@@ -21,18 +21,23 @@ namespace NitroNet.Mvc
             _componentRepository = componentRepository;
         }
 
-        public Task RenderPlaceholderAsync(object model, string key, string index, RenderingContext context)
+        public Task RenderPlaceholderAsync(object model, string key, string index, Veil.RenderingContext context)
 		{
 			return context.Writer.WriteAsync("Placeholder for:" + key);
 		}
 
-		public void RenderPlaceholder(object model, string key, string index, RenderingContext context)
+		public void RenderPlaceholder(object model, string key, string index, Veil.RenderingContext context)
 		{
 			context.Writer.Write("Placeholder for:" + key);
 		}
 
+	    public void RenderPlaceholder(object model, string key, string index, TextWriter writer, ViewContext viewContext)
+	    {
+	        writer.Write("Placeholder for:" + key);
+        }
+
 	    public void RenderComponent(RenderingParameter component, RenderingParameter skin, RenderingParameter dataVariation, object model,
-	        RenderingContext context)
+	        Veil.RenderingContext context)
 	    {
             const string thisIdentifier = "this";
 
@@ -70,7 +75,41 @@ namespace NitroNet.Mvc
 	        //new HtmlHelper(mvcContext.ViewContext, mvcContext.ViewDataContainer).RenderAction("Index", component.Value);
 	    }
 
-        //TODO: duplicate function -> remove
+	    public void RenderComponent(RenderingParameter component, RenderingParameter skin, RenderingParameter dataVariation,
+	        object model, TextWriter writer, ViewContext viewContext)
+	    {
+	        const string thisIdentifier = "this";
+
+	        //todo: get sub model -> and then call renderpartial
+	        if (string.IsNullOrEmpty(dataVariation.Value))
+	        {
+	            dataVariation.Value = component.Value;
+	        }
+
+	        var propertyName = CleanName(dataVariation.Value);
+
+	        object subModel = null;
+
+	        if (dataVariation.Value.Equals(thisIdentifier))
+	        {
+	            subModel = model;
+	        }
+
+	        if (subModel == null)
+	        {
+	            GetValueFromObjectHierarchically(model, propertyName, out subModel);
+	        }
+
+	        if (subModel != null && !(subModel is string))
+	        {
+	            var componentIdBySkin = GetComponentId(component.Value, skin.Value);
+	            RenderPartial(componentIdBySkin, model, viewContext);
+
+                return;
+	        }
+        }
+
+	    //TODO: duplicate function -> remove
         private string GetComponentId(string componentId, string skin)
         {
             //TODO: componentDefinition.DefaultTemplate must not be NULL!!!! -> fix it
@@ -143,7 +182,7 @@ namespace NitroNet.Mvc
         }
 
         public Task RenderComponentAsync(RenderingParameter component, RenderingParameter skin, RenderingParameter dataVariation, object model,
-            RenderingContext context)
+            Veil.RenderingContext context)
         {            
             var mvcContext = context as MvcRenderingContext;
             if (mvcContext == null)
@@ -153,22 +192,27 @@ namespace NitroNet.Mvc
             return Task.FromResult(false);
         }
 
-		public Task RenderLabelAsync(string key, RenderingContext context)
+		public Task RenderLabelAsync(string key, Veil.RenderingContext context)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void RenderLabel(string key, RenderingContext context)
+		public void RenderLabel(string key, Veil.RenderingContext context)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task RenderPartialAsync(string template, object model, RenderingContext context)
+	    public void RenderLabel(string key, ViewContext context)
+	    {
+	        throw new NotImplementedException();
+	    }
+
+	    public Task RenderPartialAsync(string template, object model, RenderingContext context)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void RenderPartial(string template, object model, RenderingContext context)
+		public void RenderPartial(string template, object model, Veil.RenderingContext context)
 		{
             //todo: implemnt! htmlhelper.partial
             var mvcContext = context as MvcRenderingContext;
@@ -178,6 +222,12 @@ namespace NitroNet.Mvc
             HtmlHelper a = new HtmlHelper(mvcContext.ViewContext, mvcContext.ViewDataContainer);
             a.RenderPartial(template, model);
 		}
+
+	    public void RenderPartial(string template, object model, ViewContext context)
+	    {
+	        HtmlHelper a = new HtmlHelper(context, new ViewDataContainer(context.ViewData));
+	        a.RenderPartial(template, model);
+	    }
 
     }
 }

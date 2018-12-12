@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using HandlebarsDotNet;
 using NitroNet.ViewEngine.ViewEngines.HandlebarsNet;
+using System.Collections.Generic;
 
 namespace NitroNet.ViewEngine.TemplateHandler.HandlebarsNet
 {
@@ -12,9 +13,18 @@ namespace NitroNet.ViewEngine.TemplateHandler.HandlebarsNet
             _nitroTemplateHandlerFactory = nitroTemplateHandlerFactory;
         }
 
-        public IEnumerable<IHandlebarsNetHelperHandler> Create()
+        public List<KeyValuePair<string, HandlebarsHelper>> Create()
         {
-            yield return new HandlebarsNetComponentHandler(_nitroTemplateHandlerFactory.Create());
+            var helperDictionary = new List<KeyValuePair<string, HandlebarsHelper>>();
+
+            helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("pattern", new HandlebarsNetComponentHandler(_nitroTemplateHandlerFactory.Create()).Evaluate));
+            helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("component", new HandlebarsNetComponentHandler(_nitroTemplateHandlerFactory.Create()).Evaluate));
+            helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("partial", new HandlebarsNetPartialHandler(_nitroTemplateHandlerFactory.Create()).Evaluate));
+            helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("placeholder", new HandlebarsNetPlaceholderHandler(_nitroTemplateHandlerFactory.Create()).Evaluate));
+            helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("label", new HandlebarsNetLabelHandler(_nitroTemplateHandlerFactory.Create()).Evaluate));
+            helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("t", new HandlebarsNetTemplateIdHandler().Evaluate));
+
+            return helperDictionary;
         }
     }
 }

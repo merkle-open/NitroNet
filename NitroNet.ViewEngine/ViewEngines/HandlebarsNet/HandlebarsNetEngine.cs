@@ -1,7 +1,6 @@
 ﻿using HandlebarsDotNet;
 using System;
 using System.IO;
-using System.Linq;
 
 namespace NitroNet.ViewEngine.ViewEngines.HandlebarsNet
 {
@@ -11,40 +10,18 @@ namespace NitroNet.ViewEngine.ViewEngines.HandlebarsNet
 
         public HandlebarsNetEngine(IHandlebarsNetHelperHandlerFactory helperHandlerFactory)
         {
+            Handlebars.Configuration.TextEncoder = null;
             _helperHandlerFactory = helperHandlerFactory;
-
+            
             var helpers = _helperHandlerFactory.Create();
-            Handlebars.RegisterHelper("pattern", helpers.First().Evaluate);
-
-            Handlebars.RegisterHelper("partial", (output, context, arguments) =>
-            {
-                var partialName = arguments[0].ToString().Trim('"', '\'');
-                var renderer = Handlebars.Compile(partialName);
-
-                output.Write(renderer(context));
-            });
-
-            Handlebars.RegisterHelper("placeholder", (output, context, arguments) =>
-            {
-                output.Write(context);
-            });
-
-            Handlebars.RegisterHelper("template-id", (output, context, arguments) =>
-            {
-                output.Write(context);
-            });
-
+            helpers.ForEach(h => Handlebars.Configuration.Helpers.Add(h));
+            
             Handlebars.RegisterHelper("grid-cell", (output, context, arguments) =>
             {
                 output.Write(context);
             });
 
             Handlebars.RegisterHelper("grid-width", (output, context, arguments) =>
-            {
-                output.Write(context);
-            });
-
-            Handlebars.RegisterHelper("l", (output, context, arguments) =>
             {
                 output.Write(context);
             });
