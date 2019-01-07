@@ -71,6 +71,8 @@
     <Compile Include="Grid\GridHelperHandler.cs" />
     <Compile Include="Grid\GridStack.cs" />
     <Compile Include="Grid\GridWidthHelperHandler.cs" />
+    <Compile Include="HandlebarsNet\Grid\HandlebarsNetGridStack.cs" />
+    <Compile Include="HandlebarsNet\Grid\HandlebarsNetGridContext.cs" />
     <Compile Include="HandlebarsNet\HandlebarsNetGridCellHandler.cs" />
     <Compile Include="HandlebarsNet\HandlebarsNetGridWidthHandler.cs" />
     <Compile Include="HandlebarsNet\HandlebarsNetHelperHandlerFactory.cs" />

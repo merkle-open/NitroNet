@@ -15,16 +15,9 @@ namespace NitroNet.ViewEngine.ViewEngines.HandlebarsNet
             
             var helpers = _helperHandlerFactory.Create();
             helpers.ForEach(h => Handlebars.Configuration.Helpers.Add(h));
-            
-            Handlebars.RegisterHelper("grid-cell", (output, context, arguments) =>
-            {
-                output.Write(context);
-            });
 
-            Handlebars.RegisterHelper("grid-width", (output, context, arguments) =>
-            {
-                output.Write(context);
-            });
+            var blockHelpers = _helperHandlerFactory.CreateForBlocks();
+            blockHelpers.ForEach(b => Handlebars.Configuration.BlockHelpers.Add(b));
         }
 
         public Func<object, string> Compile(string content)

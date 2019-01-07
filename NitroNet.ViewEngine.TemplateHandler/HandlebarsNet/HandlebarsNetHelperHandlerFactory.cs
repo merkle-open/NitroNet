@@ -23,6 +23,17 @@ namespace NitroNet.ViewEngine.TemplateHandler.HandlebarsNet
             helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("placeholder", new HandlebarsNetPlaceholderHandler(_nitroTemplateHandlerFactory.Create()).Evaluate));
             helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("label", new HandlebarsNetLabelHandler(_nitroTemplateHandlerFactory.Create()).Evaluate));
             helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("t", new HandlebarsNetTemplateIdHandler().Evaluate));
+            helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("grid-width", new HandlebarsNetGridWidthHandler().Evaluate));
+            helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("grid-component-width", new HandlebarsNetGridComponentWidthHandler().Evaluate));
+
+            return helperDictionary;
+        }
+
+        public List<KeyValuePair<string, HandlebarsBlockHelper>> CreateForBlocks()
+        {
+            var helperDictionary = new List<KeyValuePair<string, HandlebarsBlockHelper>>();
+
+            helperDictionary.Add(new KeyValuePair<string, HandlebarsBlockHelper>("grid-cell", new HandlebarsNetGridCellHandler().Evaluate));
 
             return helperDictionary;
         }

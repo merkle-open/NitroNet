@@ -3,6 +3,7 @@ using NitroNet.ViewEngine.ViewEngines.HandlebarsNet;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web.Mvc;
 
 namespace NitroNet.ViewEngine.TemplateHandler.HandlebarsNet
@@ -37,9 +38,29 @@ namespace NitroNet.ViewEngine.TemplateHandler.HandlebarsNet
 
                 var viewContext = Sitecore.Mvc.Common.ContextService.Get().GetInstances<ViewContext>();
                 var skin = CreateRenderingParameter("template", parametersAsDictionary);
+
+                FindRealDataPropertyName(context, ref parametersAsDictionary);
                 var dataVariation = CreateRenderingParameter("data", parametersAsDictionary);
 
                 _handler.RenderComponent(template, skin, dataVariation, context, output, viewContext.First());
+            }
+        }
+
+        private void FindRealDataPropertyName(dynamic context, ref HashParameterDictionary parameters)
+        {
+            if (parameters.ContainsKey("data"))
+            {
+                var dataType = parameters["data"] != null ? parameters["data"].ToString() : string.Empty;
+                if (!string.IsNullOrEmpty(dataType))
+                {
+                    var propertyInfo = (PropertyInfo[])context.GetType().GetProperties();
+                    var property = propertyInfo.FirstOrDefault(p => p.PropertyType.FullName.Equals(dataType));
+
+                    if (property != null)
+                    {
+                        parameters["data"] = property.Name;
+                    }
+                }
             }
         }
 
@@ -58,6 +79,13 @@ namespace NitroNet.ViewEngine.TemplateHandler.HandlebarsNet
                         renderingParameter.IsDynamic = true;
                     }
 
+                    if (value != null && value.ToString().Contains("."))
+                    {
+                        var splittedValue = value.ToString().Split('.');
+                        if (splittedValue.Length > 0)
+                            value = splittedValue.Last();
+                    }
+                        
                     renderingParameter.Value = value == null ? string.Empty : value.ToString().Trim('"', '\'');
                 }
             }

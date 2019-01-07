@@ -17,11 +17,15 @@ namespace NitroNet.ViewEngine.TemplateHandler.HandlebarsNet
 
         public void Evaluate(TextWriter output, dynamic context, params object[] parameters)
         {
-            var parametersAsDictionary = (HashParameterDictionary)parameters.First();
-            var key = parametersAsDictionary.Keys.First().Trim('"', '\'');
+            var parametersAsDictionary = (HashParameterDictionary)parameters.FirstOrDefault();
 
-            var viewContext = Sitecore.Mvc.Common.ContextService.Get().GetInstances<ViewContext>();
-            _handler.RenderLabel(key, viewContext.First());
+            if (parametersAsDictionary != null)
+            {
+                var key = parametersAsDictionary.Keys.First().Trim('"', '\'');
+
+                var viewContext = Sitecore.Mvc.Common.ContextService.Get().GetInstances<ViewContext>();
+                _handler.RenderLabel(key, viewContext.First());
+            }
         }
     }
 }
