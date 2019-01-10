@@ -20,9 +20,10 @@ namespace NitroNet.ViewEngine.TemplateHandler.HandlebarsNet
             helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("pattern", new HandlebarsNetComponentHandler(_nitroTemplateHandlerFactory.Create()).Evaluate));
             helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("component", new HandlebarsNetComponentHandler(_nitroTemplateHandlerFactory.Create()).Evaluate));
             helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("partial", new HandlebarsNetPartialHandler(_nitroTemplateHandlerFactory.Create()).Evaluate));
+            helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>(">", new HandlebarsNetPartialHandler(_nitroTemplateHandlerFactory.Create()).Evaluate));
             helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("placeholder", new HandlebarsNetPlaceholderHandler(_nitroTemplateHandlerFactory.Create()).Evaluate));
             helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("label", new HandlebarsNetLabelHandler(_nitroTemplateHandlerFactory.Create()).Evaluate));
-            helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("t", new HandlebarsNetTemplateIdHandler().Evaluate));
+            helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("template-id", new HandlebarsNetTemplateIdHandler().Evaluate));
             helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("grid-width", new HandlebarsNetGridWidthHandler().Evaluate));
             helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("grid-component-width", new HandlebarsNetGridComponentWidthHandler().Evaluate));
 

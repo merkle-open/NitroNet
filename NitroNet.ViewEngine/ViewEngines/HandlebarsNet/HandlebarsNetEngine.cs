@@ -10,8 +10,8 @@ namespace NitroNet.ViewEngine.ViewEngines.HandlebarsNet
 
         public HandlebarsNetEngine(IHandlebarsNetHelperHandlerFactory helperHandlerFactory)
         {
-            Handlebars.Configuration.TextEncoder = null;
             _helperHandlerFactory = helperHandlerFactory;
+            Handlebars.Configuration.TextEncoder = null;
             
             var helpers = _helperHandlerFactory.Create();
             helpers.ForEach(h => Handlebars.Configuration.Helpers.Add(h));
