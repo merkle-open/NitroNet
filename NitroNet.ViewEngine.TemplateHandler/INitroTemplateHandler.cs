@@ -10,7 +10,7 @@ namespace NitroNet.ViewEngine.TemplateHandler
         void RenderPlaceholder(object model, string key, string index, TextWriter writer, ViewContext viewContext);
 
         void RenderComponent(RenderingParameter component, RenderingParameter skin, RenderingParameter dataVariation, object model, RenderingContext context);
-        void RenderComponent(RenderingParameter component, RenderingParameter skin, RenderingParameter dataVariation, object model, TextWriter writer, ViewContext viewContext);
+        void RenderComponent(RenderingParameter component, RenderingParameter skin, RenderingParameter dataVariation, object model, ViewContext viewContext);
         
 		void RenderLabel(string key, RenderingContext context);
 		void RenderLabel(string key, ViewContext context);

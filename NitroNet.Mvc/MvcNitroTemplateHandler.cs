@@ -76,7 +76,7 @@ namespace NitroNet.Mvc
 	    }
 
 	    public void RenderComponent(RenderingParameter component, RenderingParameter skin, RenderingParameter dataVariation,
-	        object model, TextWriter writer, ViewContext viewContext)
+	        object model, ViewContext viewContext)
 	    {
 	        const string thisIdentifier = "this";
 

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
+using Veil;
 
 namespace NitroNet.ViewEngine.TemplateHandler.HandlebarsNet
 {
@@ -36,13 +37,15 @@ namespace NitroNet.ViewEngine.TemplateHandler.HandlebarsNet
                     template = CreateRenderingParameter("name", parametersAsDictionary);
                 }
 
-                var viewContext = Sitecore.Mvc.Common.ContextService.Get().GetInstances<ViewContext>();
                 var skin = CreateRenderingParameter("template", parametersAsDictionary);
 
                 FindRealDataPropertyName(context, ref parametersAsDictionary);
                 var dataVariation = CreateRenderingParameter("data", parametersAsDictionary);
 
-                _handler.RenderComponent(template, skin, dataVariation, context, output, viewContext.First());
+                var viewContext = Sitecore.Mvc.Common.ContextService.Get().GetCurrent<ViewContext>();
+                viewContext.Writer = output;
+
+                _handler.RenderComponent(template, skin, dataVariation, context, viewContext);
             }
         }
 

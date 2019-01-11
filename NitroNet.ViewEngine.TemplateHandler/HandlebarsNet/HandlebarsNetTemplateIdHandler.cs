@@ -2,6 +2,7 @@
 using NitroNet.ViewEngine.ViewEngines.HandlebarsNet;
 using System.IO;
 using System.Linq;
+using System.Web.Mvc;
 
 namespace NitroNet.ViewEngine.TemplateHandler.HandlebarsNet
 {
@@ -12,6 +13,9 @@ namespace NitroNet.ViewEngine.TemplateHandler.HandlebarsNet
             var parametersAsDictionary = (HashParameterDictionary)parameters.First();
             var templateId = parametersAsDictionary["templateId"];
             output.Write(templateId as string);
+
+            var viewContext = Sitecore.Mvc.Common.ContextService.Get().GetCurrent<ViewContext>();
+            viewContext.Writer = output;
         }
     }
 }

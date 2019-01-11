@@ -14,7 +14,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.HandlebarsNet
         {
             _handler = handler;
         }
-
+        
         public void Evaluate(TextWriter output, dynamic context, params object[] parameters)
         {
             var parametersAsDictionary = (HashParameterDictionary)parameters.First();
@@ -23,8 +23,10 @@ namespace NitroNet.ViewEngine.TemplateHandler.HandlebarsNet
             value = parametersAsDictionary.TryGetValue("name", out value) ? value.ToString().Trim('"', '\'') : parametersAsDictionary.First().Key.Trim('"', '\'');
 
             var template = value.ToString();
-            var viewContext = Sitecore.Mvc.Common.ContextService.Get().GetInstances<ViewContext>();
-            _handler.RenderPartial(template, context, viewContext.First());
+            var viewContext = Sitecore.Mvc.Common.ContextService.Get().GetCurrent<ViewContext>();
+            viewContext.Writer = output;
+
+            _handler.RenderPartial(template, context, viewContext);
         }
     }
 }

@@ -26,8 +26,9 @@ namespace NitroNet.ViewEngine.TemplateHandler.HandlebarsNet
             var key = parametersAsDictionary["name"].ToString().Trim('"', '\'');
             var index = TryGetIndex(parametersAsDictionary, context);
 
-            var viewContext = Sitecore.Mvc.Common.ContextService.Get().GetInstances<ViewContext>();
-            _handler.RenderPlaceholder(context, key, index, output, viewContext.First());
+            var viewContext = Sitecore.Mvc.Common.ContextService.Get().GetCurrent<ViewContext>();
+            viewContext.Writer = output;
+            _handler.RenderPlaceholder(context, key, index, output, viewContext);
         }
 
         private static string TryGetIndex(HashParameterDictionary parameters, object model)

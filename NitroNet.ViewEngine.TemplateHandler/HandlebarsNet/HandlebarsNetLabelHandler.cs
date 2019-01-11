@@ -1,4 +1,5 @@
-﻿using HandlebarsDotNet.Compiler;
+﻿using System;
+using HandlebarsDotNet.Compiler;
 using NitroNet.ViewEngine.ViewEngines.HandlebarsNet;
 using System.IO;
 using System.Linq;
@@ -23,8 +24,10 @@ namespace NitroNet.ViewEngine.TemplateHandler.HandlebarsNet
             {
                 var key = parametersAsDictionary.Keys.First().Trim('"', '\'');
 
-                var viewContext = Sitecore.Mvc.Common.ContextService.Get().GetInstances<ViewContext>();
-                _handler.RenderLabel(key, viewContext.First());
+                var viewContext = Sitecore.Mvc.Common.ContextService.Get().GetCurrent<ViewContext>();
+                viewContext.Writer = output;
+
+                _handler.RenderLabel(key, viewContext);
             }
         }
     }

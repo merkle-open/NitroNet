@@ -1,4 +1,5 @@
-﻿using HandlebarsDotNet;
+﻿using System;
+using HandlebarsDotNet;
 using NitroNet.ViewEngine.ViewEngines.HandlebarsNet;
 using System.Collections.Generic;
 
@@ -19,8 +20,8 @@ namespace NitroNet.ViewEngine.TemplateHandler.HandlebarsNet
 
             helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("pattern", new HandlebarsNetComponentHandler(_nitroTemplateHandlerFactory.Create()).Evaluate));
             helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("component", new HandlebarsNetComponentHandler(_nitroTemplateHandlerFactory.Create()).Evaluate));
+            //TODO: Verhalten wie ">"
             helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("partial", new HandlebarsNetPartialHandler(_nitroTemplateHandlerFactory.Create()).Evaluate));
-            helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>(">", new HandlebarsNetPartialHandler(_nitroTemplateHandlerFactory.Create()).Evaluate));
             helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("placeholder", new HandlebarsNetPlaceholderHandler(_nitroTemplateHandlerFactory.Create()).Evaluate));
             helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("t", new HandlebarsNetLabelHandler(_nitroTemplateHandlerFactory.Create()).Evaluate));
             helperDictionary.Add(new KeyValuePair<string, HandlebarsHelper>("template-id", new HandlebarsNetTemplateIdHandler().Evaluate));

@@ -26,10 +26,11 @@ namespace NitroNet.ViewEngine.TemplateHandler.HandlebarsNet
 
         public void Evaluate(TextWriter output, dynamic context, params object[] parameters)
         {
-            var viewContext = Sitecore.Mvc.Common.ContextService.Get().GetInstances<ViewContext>();
-
-            var value = CalculateWidth(context, viewContext.First().ViewData as IDictionary<string, object>);
+            var viewContext = Sitecore.Mvc.Common.ContextService.Get().GetCurrent<ViewContext>();
+            var value = CalculateWidth(context, viewContext.ViewData as IDictionary<string, object>);
             context.Writer.Write(value.ToString());
+
+            viewContext.Writer = output;
         }
     }
 
