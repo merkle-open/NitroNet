@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using HandlebarsDotNet;
 
 namespace NitroNet.ViewEngine.ViewEngines.HandlebarsNet
 {
