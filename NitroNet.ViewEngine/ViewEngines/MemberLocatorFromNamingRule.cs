@@ -4,7 +4,8 @@ using Veil.Compiler;
 
 namespace NitroNet.ViewEngine.ViewEngines
 {
-	public class MemberLocatorFromNamingRule : MemberLocator
+    [Obsolete("will be removed as soon final switch to handlebarsnet is completed")]
+    public class MemberLocatorFromNamingRule : MemberLocator
 	{
 		private readonly INamingRule _namingRule;
 

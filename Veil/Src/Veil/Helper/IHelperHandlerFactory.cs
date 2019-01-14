@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Veil.Helper
 {
-	public interface IHelperHandlerFactory
+    [Obsolete("Use IHandlebarsNetHelperHandlerFactory instead")]
+    public interface IHelperHandlerFactory
 	{
 		IEnumerable<IHelperHandler> Create();
 	}
