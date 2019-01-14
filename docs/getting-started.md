@@ -7,7 +7,7 @@
 - [Known Issues](known-issues.md)
 
 ## Getting started with NitroNet
-Before you start take a look at the [documentation of Veil.Handlebars](https://github.com/csainty/Veil/tree/master/src/Veil.Handlebars).  
+Before you start take a look at the [documentation of Handlebars.Net](https://github.com/rexm/Handlebars.Net).  
 There you also can see which handlebars features are supported and which not.
 
 ### Create a Controller

@@ -1,5 +1,4 @@
-﻿using System.Web;
-using Microsoft.Practices.Unity;
+﻿using Microsoft.Practices.Unity;
 using NitroNet.Mvc;
 using NitroNet.ViewEngine;
 using NitroNet.ViewEngine.Cache;
@@ -10,7 +9,6 @@ using NitroNet.ViewEngine.TemplateHandler.HandlebarsNet;
 using NitroNet.ViewEngine.ViewEngines;
 using NitroNet.ViewEngine.ViewEngines.HandlebarsNet;
 using Veil.Compiler;
-using Veil.Helper;
 
 namespace NitroNet.UnityModules
 {
