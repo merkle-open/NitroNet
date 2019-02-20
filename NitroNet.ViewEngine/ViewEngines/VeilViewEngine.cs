@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -15,11 +16,11 @@ namespace NitroNet.ViewEngine.ViewEngines
 	public class VeilViewEngine : IViewEngine
 	{
 		private readonly ICacheProvider _cacheProvider;
-		private readonly IHelperHandlerFactory _helperHandlerFactory;
+		private readonly IEnumerable<IHelperHandlerFactory> _helperHandlerFactory;
 		private readonly IMemberLocator _memberLocator;
 
 		public VeilViewEngine(ICacheProvider cacheProvider,
-			IHelperHandlerFactory helperHandlerFactory,
+            IEnumerable<IHelperHandlerFactory> helperHandlerFactory,
 			INamingRule namingRule)
 		{
 			_cacheProvider = cacheProvider;
@@ -42,9 +43,14 @@ namespace NitroNet.ViewEngine.ViewEngines
 				{
 					content = await reader.ReadToEndAsync().ConfigureAwait(false);
 				}
-
-				var helperHandlers = _helperHandlerFactory.Create().ToArray();
-				var viewEngine = new VeilEngine(helperHandlers, _memberLocator);
+              
+				List<IHelperHandler> helperHandlers = new List<IHelperHandler>();
+                foreach (var helper in _helperHandlerFactory)
+                {
+                    helperHandlers.AddRange(helper.Create());
+                }
+                
+				var viewEngine = new VeilEngine(helperHandlers.ToArray(), _memberLocator);
 				if (modelType == typeof(object))
 					view = CreateNonGenericView(templateInfo.Id, content, viewEngine);
 				else
