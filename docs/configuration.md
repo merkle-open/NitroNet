@@ -84,33 +84,35 @@ Explanation to the individual settings/properties:
 * **filters**: File paths which match with the `filters` regex are being ignored
 
 ### *Optional:* Add and register your own custom helpers
-As mentioned before NitroNet comes with support for the [Nitro](https://github.com/namics/generator-nitro/) custom handlebars helpers by default.
+As mentioned before, NitroNet comes with support for the [Nitro](https://github.com/namics/generator-nitro/) custom handlebars helpers by default.
 
 But you can add your own helpers as well. You can achieve this by doing the following steps (the instructions are shown using the Unity IoC framework):
 
 1.) Create your own helpers by implementing the `Veil.Helper.IHelperHandler`. See the classes in `NitroNet.ViewEngine.TemplateHandler` for reference.
 
-2.) Create your own implementation of the `Veil.Helper.IHelperHandlerFactory`. You can take the `NitroNet.ViewEngine.TemplateHandler.DefaultRenderingHelperHandlerFactory` as a basis for your code.
+2) Inherit from the existing `NitroNet.ViewEngine.TemplateHandler.DefaultRenderingHelperHandlerFactory`. Then you can add your own helpers like this:
 
 ```csharp
-public class YourOwnHelperHandlerFactory : IHelperHandlerFactory
+public class YourOwnHelperHandlerFactory : DefaultRenderingHelperHandlerFactory
 {
     public IEnumerable<IHelperHandler> Create()
-    {
-        //your own helpers
+        {
+            var helpers = base.Create().ToList();
+
+            helpers.Add(new CacheBusterHandler());
+            helpers.Add(new ContextLanguageHandler());
+            return helpers;
+        }
     }
-}
 ```
 
 3.) Register your implementation of `IHelperHandlerFactory` to your IoC container. The following example is for Unity and is added to the `RegisterTypes()` method in the `UnityConfig` class:
 
 ```csharp
 container.RegisterType<IHelperHandlerFactory, YourOwnHelperHandlerFactory>(new ContainerControlledLifetimeManager());
-
 ```
 
 after the following line:
-
 
 ```csharp
 new DefaultUnityModule(basePath).Configure(container);
