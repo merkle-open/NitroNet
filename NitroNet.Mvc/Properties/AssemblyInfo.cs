@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("NitroNet.Mvc")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Namics AG")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("NitroNet.Mvc")]
-[assembly: AssemblyCopyright("Copyright © Namics AG 2016")]
+[assembly: AssemblyCopyright("Copyright © Namics AG 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

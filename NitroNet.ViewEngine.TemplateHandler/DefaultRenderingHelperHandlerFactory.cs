@@ -15,6 +15,7 @@ namespace NitroNet.ViewEngine.TemplateHandler
 
         public IEnumerable<IHelperHandler> Create()
         {
+            //Nitro helpers
             yield return new ComponentHelperHandler(_nitroTemplateHandlerFactory.Create());
             yield return new PartialHelperHandler(_nitroTemplateHandlerFactory.Create());
             yield return new PlaceholderHelperHandler(_nitroTemplateHandlerFactory.Create());

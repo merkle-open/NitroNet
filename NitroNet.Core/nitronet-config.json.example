@@ -1,0 +1,21 @@
+{
+  "viewPaths": [
+    "frontend/views"
+  ],
+  "partialPaths": [
+    "frontend/views/_partials"
+  ],
+  "componentPaths": [
+    "frontend/patterns/atoms",
+    "frontend/patterns/molecules",
+    "frontend/patterns/organisms"
+  ],
+  "extensions": [
+    "hbs",
+    "html"
+  ],
+  "filters": [
+    ".*?\\/template\\/([\\w][^\\/]+)$",
+    ".*?\\/spec\\/([\\w][^\\/]+)$"
+  ]
+}
