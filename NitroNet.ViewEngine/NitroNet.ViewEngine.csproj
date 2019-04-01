@@ -63,7 +63,6 @@
     <Compile Include="Config\NitroNetJsonConfig.cs" />
     <Compile Include="DefaultComponentRepository.cs" />
     <Compile Include="DefaultModelTypeProvider.cs" />
-    <Compile Include="IO\EmbeddedResourceFileSystem.cs" />
     <Compile Include="IO\FileSystem.cs" />
     <Compile Include="IO\IFileSystem.cs" />
     <Compile Include="IModelTypeProvider.cs" />
