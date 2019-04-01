@@ -93,7 +93,7 @@ namespace NitroNet.Mvc
 
             foreach (var parameter in filteredParameters)
             {
-                var parameterValue = CleanName(parameter.Value);
+                var parameterValue = parameter.Value;
                 var subModelProperties = subModel.GetType().GetProperties();
                 var subModelProperty = subModelProperties.FirstOrDefault(p => p.Name.ToLower().Equals(parameter.Key, StringComparison.InvariantCultureIgnoreCase));
 
