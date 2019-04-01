@@ -9,8 +9,7 @@
 ## Installation
 
 ### Preconditions
-You need your own Nitro project as a precondition of this installation manual.
-Please follow the beautiful guide of Nitro: [Link](https://github.com/namics/generator-nitro/)
+You need a handlebars frontend with a specific file structure (learn more about that [here](configuration.md)) or a [Nitro](https://github.com/namics/generator-nitro/) project as a precondition of this installation manual.
 
 ### Step 1 - Create a ASP.NET MVC application
 Create a ASP.NET MVC solution on your local machine with Visual Studio and compile the solution.
@@ -26,17 +25,17 @@ Please choose between variant
 
 ##### NuGet Package installation
 
-Execute following the line in your NuGet Package Manager to install NitroNet for Sitecore with your preferred IoC framework:
+Execute the following line in your NuGet Package Manager to install NitroNet for Sitecore with your preferred IoC framework:
 
-**Unity**
+###### Unity
 
 `PM >` `Install-Package NitroNet.UnityModules`
 
-Optionally, we recommend to install the [Unity.Mvc](https://www.nuget.org/packages/Unity.Mvc/) which is a lightweight Unity bootstrapper for MVC applications:
+In addition, it is recommended to install the [Unity.Mvc](https://www.nuget.org/packages/Unity.Mvc/) which is a lightweight Unity bootstrapper for MVC applications:
 
 `PM >` `Install-Package Unity.Mvc`
 
-**CastleWindsor**:
+###### CastleWindsor
 
 `PM >` `Install-Package NitroNet.CastleWindsorModules`
 
@@ -47,10 +46,7 @@ To activate NitroNet it's important to add/register the new view engine in your 
 ```csharp
 protected void Application_Start()
 {
-	AreaRegistration.RegisterAllAreas();
-	FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-	RouteConfig.RegisterRoutes(RouteTable.Routes);
-	BundleConfig.RegisterBundles(BundleTable.Bundles);
+	// ...
 
 	ViewEngines.Engines.Add(DependencyResolver.Current.GetService<NitroNetViewEngine>());
 }
@@ -85,7 +81,7 @@ public static void RegisterTypes(IWindsorContainer container)
 
 #### (B) With another IoC Framework
 You don't like Unity and you design your application with an other IoC framework? No Problem.
-In this case, you can install NitroNet only with our base package:
+In this case, you can install NitroNet only with the base package:
 
 `PM >` `Install-Package NitroNet.Core`
 

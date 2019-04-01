@@ -298,7 +298,7 @@ namespace Veil
 			}));
 
 			if (binder == null)
-				throw new VeilCompilerException("Unable to late-bind '{0}' against model {1}".FormatInvariant(itemName, model.GetType().Name), node);
+				throw new VeilCompilerException("Unable to late-bind property '{0}' against model '{1}'".FormatInvariant(itemName, model.GetType().Name), node);
 
 			var result = binder(model);
 			return result;

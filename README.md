@@ -1,45 +1,49 @@
-# NitroNet
+![NitroNet Logo](docs/imgs/logo.png)
 
-### What's Nitro?
+NitroNet is an ASP.NET MVC view engine for [handlebars](http://handlebarsjs.com) with an intelligent built-in file system and the possibility to add custom helpers. It works with ASP.NET MVC web applications and uses [Veil](https://github.com/csainty/Veil/tree/master/Src/Veil.Handlebars) from [Chris Sainty](https://github.com/csainty) as the underlying handlebars parser. It is originally based on the project [TerrificNet](https://github.com/namics/TerrificNet).
+The support for the custom helpers used in [Nitro](https://github.com/namics/generator-nitro/) are already implemented by default.
 
-[Nitro](https://github.com/namics/generator-nitro/) is a Node.js application for simple and complex frontend development with a tiny footprint.
-It provides a proven but flexible structure to develop your frontend code, even in a large team.
-Keep track of your code with a modularized frontend. This app and the suggested [atomic design](http://bradfrost.com/blog/post/atomic-web-design/) and [BEM](https://en.bem.info/method/definitions/) concepts could help.
-
-Nitro is simple, fast and flexible. It works on OSX, Windows and Linux. Use this app for all your frontend work.
-
-### What's NitroNet ?
-
-NitroNet is a full integration of Nitro frontends into ASP.NET. It is based on the project [TerrificNet](https://github.com/namics/TerrificNet) which uses [Veil](https://github.com/csainty/Veil/tree/master/Src/Veil.Handlebars) of [Chris Sainty](https://github.com/csainty) in order to parse handlebars templates. Handlebars.js is the primary template engine of Nitro. In summary, NitroNet is a completely new and simple view engine for ASP.NET MVC web applications.
-
-You can get more informations about NitroNet on our seperate [Git-Hub Project Page of NitroNet](https://github.com/namics/NitroNet).
-NitroNet is created by [Fabian Geiger](https://github.com/NaibafCH).
+### NitroNet features
+- NitroNet possesses a smart built-in file system which caches all your frontend files and listens to changes. If files are updated on disk they are also updated in the cache. This happens instantly and without an IIS restart.
+	- You specify your frontend paths and file extension
+	- It's also possible to filter specific paths with regex patterns
+- The used handlebars parser Veil is customized and thus allows you to implement and register your own handlebars helpers.
+- Out of the box integration as view engine
+- Different NuGets for your preferred IoC framework
 
 ### Sub projects
-As a popular sub project, we have extended NitroNet to use this .NET view engine in the WCMS [Sitecore](http://www.sitecore.net). You can find more informations about this project under [NitroNetSitecore](https://github.com/namics/NitroNetSitecore).
+As a sub project, NitroNet was extended to be used in the WCMS [Sitecore](http://www.sitecore.net). You can find more informations about this project under [NitroNetSitecore](https://github.com/namics/NitroNetSitecore).
 
+### What's Nitro?
+[Nitro](https://github.com/namics/generator-nitro/) is a Node.js application for simple and complex frontend development with a tiny footprint. It provides a proven but flexible structure to develop your frontend code, even in a large team.
 
 ## Table of contents
 - [Installation](docs/installation.md)
 - [Configuration](docs/configuration.md)
 - [Getting started](docs/getting-started.md)
 - [Samples](docs/samples.md)
+- [Demo Integration](https://github.com/namics/NitroNet.Demo)
 - [Release Notes](https://github.com/namics/NitroNet/releases)
 - [Known Issues](docs/known-issues.md)
 
 ## Future roadmap
-- [ ] Flexible attributes on component helper. [Link to the Nitro documentation](https://github.com/namics/generator-nitro/blob/master/generators/app/templates/project/docs/nitro.md#render-patterns).
-- [ ] Render patterns with children. [Link to the Nitro documentation](https://github.com/namics/generator-nitro/blob/master/generators/app/templates/project/docs/nitro.md#render-patterns-with-children).
-- [ ] Partials with handlebars expressions.
-- [ ] Clean up of unused IO classes
-- [ ] Move the logic for template/data controller parameters from NitroNet.Sitecore to NitroNet
-- [ ] Make the underlying handlebars parser updatable. Implement a abstraction layer. Update to the newest Handlerbars.Net or Veil.
-- [ ] Generate and validate model classes from the schema.json
+[Please look at the milestones regarding the features and time frames of future releases.](https://github.com/namics/NitroNet/milestones)
+
+**Important features planned in the near future:**
+- [Auto generation of model classes](https://github.com/namics/NitroNet/issues/20)
+- Alternative to the underlying Veil parser?
+- Youtube tutorial videos
+
+## Contact / Contributing
+If you want to submit a bug or request a feature please feel free to open an issue.
+
+If you want to get in contact with us, just write an email to [Manuel Fischer](https://github.com/hombreDelPez) or [Fabian Geiger](https://github.com/naibafch).
+
+Pull requests are welcome!
 
 ## Credits and special thanks
-
 Thanks to all the people who made and released these awesome resources for free!
 
-Special thanks to [Marco Schälle](https://github.com/marcoschaelle) and [Stefan Schälle](https://github.com/schaelle) who fight for a smart way to integrate Frontends into ASP.NET and create the predecessor [TerrificNet](https://github.com/namics/TerrificNet) of NitroNet itself. Marco and Stefan were our opinion leaders of this product.
+Special thanks to [Marco Schälle](https://github.com/marcoschaelle) and [Stefan Schälle](https://github.com/schaelle) who fight for a smart way to integrate Frontends into ASP.NET and created the predecessor [TerrificNet](https://github.com/namics/TerrificNet) of NitroNet itself. Marco and Stefan were our opinion leaders of this product.
 
 Also special thanks to [Mark Cassidy](https://github.com/cassidydotdk) for all product commits and propagation of our idea to the whole world.

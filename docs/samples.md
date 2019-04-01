@@ -7,7 +7,8 @@
 - [Known Issues](known-issues.md)
 
 ## Templating
-Please visit the [Nitro Documentation](https://github.com/namics/generator-nitro/blob/master/generators/app/templates/project/docs/nitro.md) about informations and samples for working with Nitro.
+Please visit the [handlebars documentation](http://handlebarsjs.com) about informations and samples.  
+Or you can check out the [Nitro documentation](https://github.com/namics/generator-nitro/blob/master/generators/app/templates/project/docs/nitro.md) if you want to build your frontend with this application.
 
 
 ## Standard Handlebars helpers
@@ -99,6 +100,10 @@ public class LinkModel
 }
 ```
 
+## Nitro helpers
+
+### Components
+
 #### A component with subcomponents
 Nested components are handled by one Controller action and don't invoke a new Controller action for each subcomponent. But it is necessary that you provide a model of the subcomponent.
 
@@ -140,7 +145,7 @@ public class LocationModel
 
 public class BubbleModel
 {
-	public string Description { get; set; }
+    public string Description { get; set; }
     public string Key { get; set; }
     public string Target { get; set; }
     public string Name { get; set; }
