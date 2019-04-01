@@ -44,7 +44,6 @@ namespace NitroNet.ViewEngine.IO
 		private void Initialize()
 		{
             _fileInfo = new HashSet<PathInfo>();
-            _fileInfoCache = new Dictionary<PathInfo, FileInfo>();
             _directoryInfo = new HashSet<PathInfo>();
 
             foreach (var viewPath in _configuration.ViewPaths)
