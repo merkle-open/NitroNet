@@ -136,7 +136,7 @@ namespace NitroNet.Test
 
         private async Task<string> ExecuteServerSide(string testName, string templateFile, string dataFile)
         {
-            var cacheProvider = new NullCacheProvider();
+            var cacheProvider = new MemoryCacheProvider();
             var namingRule = new NamingRule();
             var handlerFactory = new NullRenderingHelperHandlerFactory();
             var config = ConfigurationLoader.LoadNitroConfiguration(Path.Combine(TestContext.DeploymentDirectory, "Basic"));

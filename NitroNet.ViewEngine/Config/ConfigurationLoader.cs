@@ -24,7 +24,9 @@ namespace NitroNet.ViewEngine.Config
             var configFile = PathInfo.Combine(basePathInfo, PathInfo.Create(fileName));
 
             if (!File.Exists(configFile.ToString()))
-                throw new ConfigurationException(string.Format("Could not find configuration in path '{0}' in {1}.", configFile, basePathInfo));
+            {
+                throw new ConfigurationException($"Could not find configuration in path '{configFile}' in {basePathInfo}.");
+            }
 
             NitroNetJsonConfig jsonConfig;
             using (var reader = new JsonTextReader(new StreamReader(new FileStream(configFile.ToString(), FileMode.Open, FileAccess.Read))))
