@@ -8,7 +8,7 @@
 
 ## Templating
 Please visit the [handlebars documentation](http://handlebarsjs.com) about informations and samples.  
-Or you can check out the [Nitro documentation](https://github.com/namics/generator-nitro/blob/master/generators/app/templates/project/docs/nitro.md) if you want to build your frontend with this application.
+Or you can check out the [Nitro documentation](https://github.com/namics/generator-nitro/blob/master/packages/project-nitro/project/docs/nitro.md) if you want to build your frontend with this application.
 
 
 ## Standard Handlebars helpers

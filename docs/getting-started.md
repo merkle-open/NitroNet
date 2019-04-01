@@ -10,6 +10,8 @@
 Before you start take a look at the [documentation of Veil.Handlebars](https://github.com/csainty/Veil/tree/master/src/Veil.Handlebars).  
 There you also can see which handlebars features are supported and which not.
 
+You can also have a look at our [NitroNet Demo solution](https://github.com/namics/NitroNet.Demo) if you have trouble setting up NitroNet and implementing your first controller/component.
+
 ### Create a Controller
 
 To use a Nitro based component in Sitecore, you have to create a Controller which inherits the normal `System.Web.Mvc.Controller` of ASP.NET MVC:

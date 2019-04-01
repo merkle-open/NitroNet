@@ -90,7 +90,7 @@ But you can add your own helpers as well. You can achieve this by doing the foll
 
 1.) Create your own helpers by implementing the `Veil.Helper.IHelperHandler`. See the classes in `NitroNet.ViewEngine.TemplateHandler` for reference.
 
-2) Inherit from the existing `NitroNet.ViewEngine.TemplateHandler.DefaultRenderingHelperHandlerFactory`. Then you can add your own helpers like this:
+2.) Inherit from the existing `NitroNet.ViewEngine.TemplateHandler.DefaultRenderingHelperHandlerFactory`. Then you can add your own helpers like this:
 
 ```csharp
 public class YourOwnHelperHandlerFactory : DefaultRenderingHelperHandlerFactory

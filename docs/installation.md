@@ -41,7 +41,7 @@ In addition, it is recommended to install the [Unity.Mvc](https://www.nuget.org/
 
 
 ##### Extend your Global.asax(.cs)
-To activate NitroNet it's important to add/register the new view engine in your application. You can do this, with these lines of code ([Gist](https://gist.github.com/hombreDelPez/40320c444a6ac4ba39d0040eaf25fdcb)):
+To activate NitroNet it's important to add/register the new view engine in your application. You can do this, with this line of code ([Gist](https://gist.github.com/hombreDelPez/40320c444a6ac4ba39d0040eaf25fdcb)):
 
 ```csharp
 protected void Application_Start()
@@ -52,9 +52,12 @@ protected void Application_Start()
 }
 ```
 
+And add this using statements to *Global.asax(.cs)*: `using NitroNet.Mvc;`
+
+
 ##### Register the IoC containers
 ###### Unity
-To activate NitroNet with Unity, please add these lines to */App_Start/UnityConfig.cs* in your application ([Gist](https://gist.github.com/hombreDelPez/81ad0980c560f8c0e5acca9bef1280b1)):
+To activate NitroNet with Unity, please add these lines to */App_Start/UnityConfig.cs* in the *RegisterTypes()* method ([Gist](https://gist.github.com/hombreDelPez/81ad0980c560f8c0e5acca9bef1280b1)):
 
 ```csharp
 public static void RegisterTypes(IUnityContainer container)
@@ -78,6 +81,17 @@ public static void RegisterTypes(IWindsorContainer container)
 	new DefaultCastleWindsorModule(basePath).Configure(container);
 }
 ```
+
+###### Using statements
+You will need the following using statements for the previously mentioned lines of code:
+
+```csharp
+using System.Configuration;
+using System.Web.Hosting;
+using NitroNet.UnityModules;
+using NitroNet.ViewEngine.IO;
+```
+
 
 #### (B) With another IoC Framework
 You don't like Unity and you design your application with an other IoC framework? No Problem.
