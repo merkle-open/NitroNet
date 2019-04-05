@@ -1,6 +1,6 @@
 using Veil;
 
-namespace NitroNet.ViewEngine.TemplateHandler
+namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
 {
     public interface INitroTemplateHandler
     {

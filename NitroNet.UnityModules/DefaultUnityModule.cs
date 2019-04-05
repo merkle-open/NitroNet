@@ -6,6 +6,7 @@ using NitroNet.ViewEngine.Cache;
 using NitroNet.ViewEngine.Config;
 using NitroNet.ViewEngine.IO;
 using NitroNet.ViewEngine.TemplateHandler;
+using NitroNet.ViewEngine.TemplateHandler.RenderHandler;
 using NitroNet.ViewEngine.ViewEngines;
 using Veil.Compiler;
 using Veil.Helper;
@@ -47,6 +48,8 @@ namespace NitroNet.UnityModules
             container.RegisterType<IComponentRepository, DefaultComponentRepository>(new ContainerControlledLifetimeManager());
             container.RegisterType<ITemplateRepository, NitroTemplateRepository>(new ContainerControlledLifetimeManager());
             container.RegisterType<INitroTemplateHandlerFactory, MvcNitroTemplateHandlerFactory>(
+                new ContainerControlledLifetimeManager());
+            container.RegisterType<INitroTemplateHandlerUtils, NitroTemplateHandlerUtils>(
                 new ContainerControlledLifetimeManager());
         }
     }

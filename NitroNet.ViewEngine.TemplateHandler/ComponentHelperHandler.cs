@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NitroNet.ViewEngine.TemplateHandler.RenderHandler;
 using Veil;
 using Veil.Helper;
 
@@ -36,8 +37,8 @@ namespace NitroNet.ViewEngine.TemplateHandler
                 template = CreateRenderingParameter("name", parameters);
             }
 
-            var skin = CreateRenderingParameter("template", parameters);
-		    var dataVariation = CreateRenderingParameter("data", parameters);
+            var skin = CreateRenderingParameter(ComponentConstants.SkinParameter, parameters);
+		    var dataVariation = CreateRenderingParameter(ComponentConstants.DataParameter, parameters);
 
             _handler.RenderComponent(template, skin, dataVariation, model, context);
 		}
@@ -59,5 +60,12 @@ namespace NitroNet.ViewEngine.TemplateHandler
 
             return renderingParameter;
         }
+    }
+
+    public static class ComponentConstants
+    {
+        public const string ThisIdentifier = "this";
+        public const string SkinParameter = "template";
+        public const string DataParameter = "data";
     }
 }
