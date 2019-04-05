@@ -46,6 +46,30 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
             };
         }
 
+        public bool TryRenderPartial(object subModel, string componentValue, string skinValue,
+            RenderingContext renderingContext, Action<string, object, RenderingContext> renderPartial)
+        {
+            if (subModel != null && !(subModel is string))
+            {
+                var componentIdBySkin = GetComponentId(componentValue, skinValue);
+                renderPartial(componentIdBySkin, subModel, renderingContext);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public void LogErrorIfPropertyNull(bool modelFound, object subModel, string propertyName, object model)
+        {
+            if (modelFound && subModel == null)
+            {
+                // TODO: Use logging instead of exceptions
+                // _log.Error($"Property {propertyName} of model {model.GetType().Name} is null.", this)
+                throw new Exception($"Property {propertyName} of model {model.GetType().Name} is null.");
+            }
+        }
+
         public string CleanName(string text)
         {
             if (string.IsNullOrEmpty(text))
@@ -86,9 +110,9 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
         private bool GetValueFromObject(object model, string propertyName, out object modelValue)
         {
             modelValue = null;
-            var dataProperty =
-                model.GetType().GetProperties()
-                    .FirstOrDefault(prop => prop.Name.ToLower(CultureInfo.InvariantCulture).Equals(propertyName));
+
+            var dataProperty = model.GetType().GetProperties()
+                .FirstOrDefault(prop => prop.Name.ToLower(CultureInfo.InvariantCulture).Equals(propertyName));
             if (dataProperty == null)
             {
                 return false;
@@ -98,29 +122,25 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
             return true;
         }
 
-        public string GetComponentId(string componentId, string skin)
+        private string GetComponentId(string componentId, string skin)
         {
-            //TODO: componentDefinition.DefaultTemplate must not be NULL!!!! -> fix it
+            // TODO: componentDefinition.DefaultTemplate must not be NULL! -> Fix it
             var componentDefinition = _componentRepository.GetComponentDefinitionByIdAsync(componentId).Result;
             if (componentDefinition != null)
             {
                 FileTemplateInfo templateInfo;
-                if (string.IsNullOrEmpty(skin) || componentDefinition.Skins == null ||
+
+                if (string.IsNullOrEmpty(skin)|| 
+                    componentDefinition.Skins == null ||
                     !componentDefinition.Skins.TryGetValue(skin, out templateInfo))
+                {
                     templateInfo = componentDefinition.DefaultTemplate;
+                }
 
                 return templateInfo.Id;
             }
 
             return null;
-        }
-
-        public void ThrowExceptionIfPropertyNull(bool modelFound, object subModel, string propertyName, object model)
-        {
-            if (modelFound && subModel == null)
-            {
-                throw new Exception(string.Format("Property {0} of model {1} is null.", propertyName, model.GetType()));
-            }
         }
     }
 
