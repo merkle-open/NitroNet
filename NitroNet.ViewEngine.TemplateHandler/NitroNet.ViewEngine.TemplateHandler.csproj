@@ -58,10 +58,12 @@
     <Compile Include="Grid\GridHelperHandler.cs" />
     <Compile Include="Grid\GridStack.cs" />
     <Compile Include="Grid\GridWidthHelperHandler.cs" />
-    <Compile Include="INitroTemplateHandler.cs" />
-    <Compile Include="INitroTemplateHandlerFactory.cs" />
+    <Compile Include="RenderHandler\INitroTemplateHandler.cs" />
+    <Compile Include="RenderHandler\INitroTemplateHandlerFactory.cs" />
     <Compile Include="LabelHelperHandler.cs" />
     <Compile Include="ComponentHelperHandler.cs" />
+    <Compile Include="RenderHandler\INitroTemplateHandlerUtils.cs" />
+    <Compile Include="RenderHandler\NitroTemplateHandlerUtils.cs" />
     <Compile Include="RenderingParameter.cs" />
     <Compile Include="PlaceholderHelperHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

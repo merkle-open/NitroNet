@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
+using NitroNet.ViewEngine.TemplateHandler.RenderHandler;
 using Veil;
 using Veil.Helper;
 
