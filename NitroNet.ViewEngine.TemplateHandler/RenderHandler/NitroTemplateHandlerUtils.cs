@@ -16,7 +16,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
             _componentRepository = componentRepository;
         }
 
-        public PropertyAssignments DoPropertyAssignments(RenderingParameter component, RenderingParameter skin,
+        public SubModel FindSubModel(RenderingParameter component, RenderingParameter skin,
             RenderingParameter dataVariation, object model, RenderingContext context)
         {
             if (string.IsNullOrEmpty(dataVariation.Value))
@@ -33,18 +33,18 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
                 subModel = model;
             }
 
-            var modelFound = false;
+            var subModelFound = false;
 
             if (subModel == null)
             {
-                modelFound = GetValueFromObjectHierarchically(model, propertyName, out subModel);
+                subModelFound = GetPropertyValueFromObjectHierarchically(model, propertyName, out subModel);
             }
 
-            return new PropertyAssignments
+            return new SubModel
             {
-                ModelFound = modelFound,
+                SubModelFound = subModelFound,
                 PropertyName = propertyName,
-                SubModel = subModel
+                Value = subModel
             };
         }
 
@@ -124,7 +124,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
             }
         }
 
-        public void LogErrorIfPropertyNull(bool modelFound, object subModel, string propertyName, object model)
+        public void LogErrorIfSubModelFoundAndNull(bool modelFound, object subModel, string propertyName, object model)
         {
             if (modelFound && subModel == null)
             {
@@ -144,18 +144,18 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
             return text.Replace(" ", string.Empty).Replace("-", string.Empty).ToLower(CultureInfo.InvariantCulture);
         }
 
-        public bool GetValueFromObjectHierarchically(object model, string propertyName, out object modelValue)
+        public bool GetPropertyValueFromObjectHierarchically(object model, string propertyName, out object modelValue)
         {
             modelValue = null;
             if (propertyName.IndexOf(".", StringComparison.Ordinal) <= 0)
             {
-                return GetValueFromObject(model, propertyName, out modelValue);
+                return GetPropertyValueFromObject(model, propertyName, out modelValue);
             }
 
             var subModel = model;
             foreach (var s in propertyName.Split('.'))
             {
-                var modelFound = GetValueFromObject(subModel, s, out subModel);
+                var modelFound = GetPropertyValueFromObject(subModel, s, out subModel);
                 if (!modelFound)
                 {
                     return false;
@@ -171,7 +171,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
             return true;
         }
 
-        private bool GetValueFromObject(object model, string propertyName, out object modelValue)
+        private bool GetPropertyValueFromObject(object model, string propertyName, out object modelValue)
         {
             modelValue = null;
 
@@ -208,10 +208,10 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
         }
     }
 
-    public class PropertyAssignments
+    public class SubModel
     {
-        public bool ModelFound { get; set; }
+        public bool SubModelFound { get; set; }
         public string PropertyName { get; set; }
-        public object SubModel { get; set; }
+        public object Value { get; set; }
     }
 }

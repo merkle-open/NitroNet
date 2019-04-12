@@ -35,15 +35,15 @@ namespace NitroNet.Mvc
 
             //TODO: Get subModel -> And then call RenderPartial()
 
-	        var propAssignments = _templateHandlerUtils.DoPropertyAssignments(component, skin, dataVariation, model, context);
+	        var subModel = _templateHandlerUtils.FindSubModel(component, skin, dataVariation, model, context);
 
-            if (_templateHandlerUtils.TryRenderPartial(model, propAssignments.SubModel, component.Value, skin.Value,
+            if (_templateHandlerUtils.TryRenderPartial(model, subModel.Value, component.Value, skin.Value,
                 context, parameters, RenderPartial))
             {
                 return;
             }
 
-            _templateHandlerUtils.LogErrorIfPropertyNull(propAssignments.ModelFound, propAssignments.SubModel, propAssignments.PropertyName, model);
+            _templateHandlerUtils.LogErrorIfSubModelFoundAndNull(subModel.SubModelFound, subModel.Value, subModel.PropertyName, model);
         }
 
         //TODO: Rework -> Currently this method doesn't have all features from the normal RenderComponent() method.
