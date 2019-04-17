@@ -37,7 +37,7 @@ As a sub project, NitroNet was extended to be used in the WCMS [Sitecore](http:/
 ## Contact / Contributing
 If you want to submit a bug or request a feature please feel free to open an issue.
 
-If you want to get in contact with us, just write an email to [Manuel Fischer](https://github.com/hombreDelPez) or [Fabian Geiger](https://github.com/naibafch).
+If you want to get in contact with us, just write an email to [Fabian Geiger](https://github.com/naibafch),  [Amir Begic](https://github.com/amir-begic) or [Marcel Wagner](https://github.com/m-wagn)
 
 Pull requests are welcome!
 
