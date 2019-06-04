@@ -22,12 +22,12 @@ namespace NitroNet.ViewEngine.TemplateHandler
 		    return isSupported;
 		}
 
-		public void Evaluate(object model, RenderingContext context, IDictionary<string, string> parameters)
-		{
-		    string value;
-		    value = parameters.TryGetValue("name", out value) ? value.Trim('"', '\'') : parameters.First().Key.Trim('"', '\'');
-			var template = value;
-			_handler.RenderPartial(template, model, context);
-		}
-	}
+        public void Evaluate(object model, RenderingContext context, IDictionary<string, string> parameters)
+        { 
+            var template = parameters.TryGetValue("name", out var value)
+                ? value.Trim('"', '\'')
+                : parameters.First().Key.Trim('"', '\'');
+            _handler.RenderPartial(template, model, context);
+        }
+    }
 }

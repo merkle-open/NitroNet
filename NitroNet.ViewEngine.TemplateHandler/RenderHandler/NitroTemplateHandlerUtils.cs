@@ -2,18 +2,26 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Reflection;
+using NitroNet.Common.Exceptions;
+using NitroNet.ViewEngine.Config;
 using Veil;
 
 namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
 {
     public class NitroTemplateHandlerUtils : INitroTemplateHandlerUtils
     {
-        private readonly IComponentRepository _componentRepository;
+        /// <summary>
+        /// Default keys which should not be parsed as additional parameters.
+        /// </summary>
+        private static readonly HashSet<string> defaultKeys = new HashSet<string> {"name", "template", "data"};
 
-        public NitroTemplateHandlerUtils(IComponentRepository componentRepository)
+        private readonly IComponentRepository _componentRepository;
+        private readonly INitroNetConfig _config;
+
+        public NitroTemplateHandlerUtils(IComponentRepository componentRepository, INitroNetConfig config)
         {
             _componentRepository = componentRepository;
+            _config = config;
         }
 
         public SubModel FindSubModel(RenderingParameter component, RenderingParameter skin,
@@ -33,7 +41,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
                 subModel = model;
             }
 
-            var subModelFound = false;
+            var subModelFound = true;
 
             if (subModel == null)
             {
@@ -48,87 +56,159 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
             };
         }
 
-        public bool TryRenderPartial(object model, object subModel, string componentValue,
-            string skinValue, RenderingContext renderingContext, IDictionary<string, string> parameters, 
-            Action<string, object, RenderingContext> renderPartial)
+        public void ApplyResolvedParameters(object target, IDictionary<string, ResolvedParameter> parameters)
         {
-            if (subModel != null && !(subModel is string))
+            if (!_config.EnableLiteralResolving)
             {
-                TrySettingPassedArguments(model, subModel, parameters);
-                var componentIdBySkin = GetComponentId(componentValue, skinValue);
-                renderPartial(componentIdBySkin, subModel, renderingContext);
-
-                return true;
+                return;
             }
 
-            return false;
+            foreach (var resolvedParameterPair in parameters)
+            {
+                var cleanedKey = CleanName(resolvedParameterPair.Key);
+                var subModelProperty = target.GetType().GetProperties().FirstOrDefault(p =>
+                    p.Name.Equals(cleanedKey, StringComparison.InvariantCultureIgnoreCase));
+                if (subModelProperty == null)
+                {
+                    throw new NitroNetComponentException(
+                        $"Missing property on sub model. Cannot find property with name {resolvedParameterPair.Key} on model {target.GetType()}.");
+                }
+
+                if (resolvedParameterPair.Value.Value != null)
+                {
+                    
+                    if (subModelProperty.PropertyType.IsAssignableFrom(resolvedParameterPair.Value.ValueType))
+                    {
+                        subModelProperty.SetValue(target, resolvedParameterPair.Value.Value);
+                        continue;
+                    }
+
+                    throw new NitroNetComponentException(
+                        $"Type mismatch in model {target.GetType()}. Cannot assign {resolvedParameterPair.Value.ValueType} to property {subModelProperty.Name}.");
+                }
+
+                switch (subModelProperty.PropertyType)
+                {
+                    case Type type when type == typeof(string):
+                        subModelProperty.SetValue(target, string.Empty);
+                        break;
+                    case Type type when type == typeof(int):
+                        subModelProperty.SetValue(target, 0);
+                        break;
+                    case Type type when type == typeof(bool):
+                        subModelProperty.SetValue(target, false);
+                        break;
+                    default:
+                        subModelProperty.SetValue(target, null);
+                        break;
+                }
+            }
         }
 
-        private void TrySettingPassedArguments(object model, object subModel, IDictionary<string, string> parameters)
-	    {
-	        /*
-             1.) Search for a property in the subModel with the key of a parameter (key maybe has to be cleaned beforehand)
-             2.) If found, try to assign this parameter value to the property of the subModel
-               2.1) Now you have to distinguish between strings and properties of parent objects
-                 2.1.1) If it is a string, you can just assign it
-                 2.1.2) If it is a property of a parent object, you have to search for it and pass it on
-             3.) Also implement ExceptionHandling and make it as robust as possible
-             4.) Do refactorings
-            */
+        public void RenderPartial(object subModel, string componentValue, string skinValue,
+            RenderingContext renderingContext, Action<string, object, RenderingContext> renderPartial)
+        {
+            var componentIdBySkin = GetComponentId(componentValue, skinValue);
+            renderPartial(componentIdBySkin, subModel, renderingContext);
+        }
 
-            var defaultKeys = new HashSet<string> {"name", "template", "data"};
-	        var filteredParameters = parameters.Where(p => !defaultKeys.Contains(p.Key))
-	            .ToDictionary(p => p.Key, p => p.Value);
+        public IDictionary<string, ResolvedParameter> ResolveAdditionalParameters(object model,
+            IDictionary<string, string> parameters)
+        {
+            if (!_config.EnableLiteralResolving)
+            {
+                return new Dictionary<string, ResolvedParameter>();
+            }
+
+            var dictionary = new Dictionary<string, ResolvedParameter>();
+            var filteredParameters = parameters.Where(p => !defaultKeys.Contains(p.Key))
+                .ToDictionary(p => p.Key, p => p.Value);
 
             foreach (var parameter in filteredParameters)
             {
-                var parameterValue = parameter.Value;
-                var subModelProperties = subModel.GetType().GetProperties();
-                var subModelProperty = subModelProperties.FirstOrDefault(p => p.Name.ToLower().Equals(parameter.Key, StringComparison.InvariantCultureIgnoreCase));
-
-                if (parameterValue.StartsWith("\"") || parameterValue.StartsWith("'"))
-                {                   
-                    parameterValue = parameterValue.Trim('"', '\'');
-
-                    subModelProperty?.SetValue(subModel, parameterValue);
-                }
-                else
+                // handle string
+                if (parameter.Value.IndexOfAny(new[] {'"', '\''}) == 0)
                 {
-                    var propertyHierarchy = parameterValue.Split('.');
-
-                    PropertyInfo modelProperty = null;
-                    object subPropertyValue = model;
-
-                    for (int i = 0; i < propertyHierarchy.Length; i++)
+                    dictionary.Add(parameter.Key, new ResolvedParameter
                     {
-                        PropertyInfo[] modelProperties;
-                        var propName = propertyHierarchy.ElementAt(i);
-
-                        if (i == 0)
-                        {
-                            modelProperties = model.GetType().GetProperties();
-                        }
-                        else
-                        {
-                            subPropertyValue = modelProperty?.GetValue(model);
-                            modelProperties = subPropertyValue?.GetType().GetProperties();
-                        }
-                        modelProperty = modelProperties?.FirstOrDefault(p => p.Name.ToLower(CultureInfo.InvariantCulture).Equals(propName));
-
-                        if (i == propertyHierarchy.Length - 1)
-                        {
-                            subModelProperty?.SetValue(subModel, modelProperty?.GetValue(subPropertyValue));
-                        }
-                    }
+                        Value = parameter.Value.Trim('"', '\''),
+                        ValueType = typeof(string)
+                    });
+                    continue;
                 }
+
+                // handle int
+                if (int.TryParse(parameter.Value, out var parameterValueAsInt))
+                {
+                    dictionary.Add(parameter.Key, new ResolvedParameter
+                    {
+                        Value = parameterValueAsInt,
+                        ValueType = typeof(int)
+                    });
+                    continue;
+                }
+
+                //handle bool
+                if (bool.TryParse(parameter.Value, out var parameterValueAsBool))
+                {
+                    dictionary.Add(parameter.Key, new ResolvedParameter
+                    {
+                        Value = parameterValueAsBool,
+                        ValueType = typeof(bool)
+                    });
+                    continue;
+                }
+
+                HandleObjectOrNull(model, parameter.Key, parameter.Value, dictionary);
+
             }
+
+            return dictionary;
         }
 
-        public void LogErrorIfSubModelFoundAndNull(bool modelFound, object subModel, string propertyName, object model)
+        private void HandleObjectOrNull(object model, string parameterKey, string parameterValue,
+            IDictionary<string, ResolvedParameter> parameterDictionary)
+        {
+            if (parameterValue.Equals("null") || parameterValue.Equals("undefined"))
+            {
+                parameterDictionary.Add(parameterKey, new ResolvedParameter
+                {
+                    Value = null,
+                    ValueType = typeof(object)
+                });
+
+                return;
+            }
+
+            if (!GetPropertyValueFromObjectHierarchically(model, CleanName(parameterValue), out var value))
+            {
+                throw new NitroNetComponentException(
+                    $"Missing property on model. Cannot find property with name {parameterValue} on model {model.GetType()}.");
+            }
+
+            if (value == null)
+            {
+                parameterDictionary.Add(parameterKey, new ResolvedParameter
+                {
+                    Value = null,
+                    ValueType = typeof(object)
+                });
+
+                return;
+            }
+
+            parameterDictionary.Add(parameterKey, new ResolvedParameter
+            {
+                Value = value,
+                ValueType = value.GetType()
+            });
+        }
+
+        public void ThrowErrorIfSubModelFoundAndNull(bool modelFound, object subModel, string propertyName, object model)
         {
             if (modelFound && subModel == null)
             {
-                // TODO: Use logging instead of exceptions
+                // TODO: Rename and use logging instead of exceptions
                 // _log.Error($"Property {propertyName} of model {model.GetType().Name} is null.", this)
                 throw new Exception($"Property {propertyName} of model {model.GetType().Name} is null.");
             }
@@ -176,7 +256,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
             modelValue = null;
 
             var dataProperty = model.GetType().GetProperties()
-                .FirstOrDefault(prop => prop.Name.ToLower(CultureInfo.InvariantCulture).Equals(propertyName));
+                .FirstOrDefault(prop => prop.Name.Equals(propertyName, StringComparison.InvariantCultureIgnoreCase));
             if (dataProperty == null)
             {
                 return false;
@@ -194,7 +274,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
             {
                 FileTemplateInfo templateInfo;
 
-                if (string.IsNullOrEmpty(skin)|| 
+                if (string.IsNullOrEmpty(skin) ||
                     componentDefinition.Skins == null ||
                     !componentDefinition.Skins.TryGetValue(skin, out templateInfo))
                 {
@@ -212,6 +292,12 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
     {
         public bool SubModelFound { get; set; }
         public string PropertyName { get; set; }
+        public object Value { get; set; }
+    }
+
+    public class ResolvedParameter
+    {
+        public Type ValueType { get; set; }
         public object Value { get; set; }
     }
 }

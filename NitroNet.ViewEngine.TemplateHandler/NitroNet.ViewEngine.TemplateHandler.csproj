@@ -71,6 +71,10 @@
     <Compile Include="PartialHelperHandler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NitroNet.Common\NitroNet.Common.csproj">
+      <Project>{5E84D392-7825-4449-89A2-9C1B8E376CAE}</Project>
+      <Name>NitroNet.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NitroNet.ViewEngine\NitroNet.ViewEngine.csproj">
       <Project>{A2395B2D-F69E-420F-9534-E640DFE86138}</Project>
       <Name>NitroNet.ViewEngine</Name>

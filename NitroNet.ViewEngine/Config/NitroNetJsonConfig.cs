@@ -9,5 +9,7 @@ namespace NitroNet.ViewEngine.Config
         public IEnumerable<string> ComponentPaths { get; set; }
         public IEnumerable<string> Extensions { get; set; }
         public IEnumerable<string> Filters { get; set; }
+        public bool EnableLiteralResolving { get; set; }
+        public bool PassLiteralsToController { get; set; }
     }
 }

@@ -28,22 +28,25 @@ namespace NitroNet.Mvc
 			context.Writer.Write($"Placeholder for: {key}");
 		}
 
-	    public void RenderComponent(RenderingParameter component, RenderingParameter skin, RenderingParameter dataVariation, object model,
-	        RenderingContext context, IDictionary<string, string> parameters)
+        public void RenderComponent(RenderingParameter component, RenderingParameter skin,
+            RenderingParameter dataVariation, object model,
+            RenderingContext context, IDictionary<string, string> parameters)
         {
             CastRenderingContext(context);
 
-            //TODO: Get subModel -> And then call RenderPartial()
+            var subModel = _templateHandlerUtils.FindSubModel(component, skin, dataVariation, model, context);
+            var additionalParameters = _templateHandlerUtils.ResolveAdditionalParameters(model, parameters);
 
-	        var subModel = _templateHandlerUtils.FindSubModel(component, skin, dataVariation, model, context);
-
-            if (_templateHandlerUtils.TryRenderPartial(model, subModel.Value, component.Value, skin.Value,
-                context, parameters, RenderPartial))
+            if (subModel.SubModelFound && subModel.Value != null && !(subModel.Value is string))
             {
+                _templateHandlerUtils.ApplyResolvedParameters(subModel.Value, additionalParameters);
+                _templateHandlerUtils.RenderPartial(subModel.Value, component.Value, skin.Value, context,
+                    RenderPartial);
                 return;
             }
 
-            _templateHandlerUtils.LogErrorIfSubModelFoundAndNull(subModel.SubModelFound, subModel.Value, subModel.PropertyName, model);
+            _templateHandlerUtils.ThrowErrorIfSubModelFoundAndNull(subModel.SubModelFound, subModel.Value,
+                subModel.PropertyName, model);
         }
 
         //TODO: Rework -> Currently this method doesn't have all features from the normal RenderComponent() method.
@@ -63,11 +66,9 @@ namespace NitroNet.Mvc
 
 		public void RenderPartial(string template, object model, RenderingContext context)
 		{
-            //TODO: Implement HtmlHelper.Partial !
-
             var mvcContext = CastRenderingContext(context);
             var htmlHelper = new HtmlHelper(mvcContext.ViewContext, mvcContext.ViewDataContainer);
-
+            
             htmlHelper.RenderPartial(template, model);
 		}
 
