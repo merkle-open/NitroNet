@@ -3,6 +3,7 @@
 - [Configuration](configuration.md)
 - [Getting started](getting-started.md)
 - [Samples](samples.md)
+- [Demo Integration](https://github.com/namics/NitroNet.Demo)
 - [Release Notes](https://github.com/namics/NitroNet/releases)
 - [Known Issues](known-issues.md)
 
@@ -178,3 +179,84 @@ Model snippet (maps the `data` attribute)
 ```csharp
 public BubbleModel BubbleLocation { get; set; }
 ```
+
+## Render Handlebars via Service
+
+Sometimes it's useful to directly render a handlebars template to a string which than can be used to be displayed in a Razor file or some other context.
+
+### Example
+Demo Implementation:
+```csharp
+public class HandlebarsService
+{
+    private readonly MemberLocatorFromNamingRule _memberLocatorFromNamingRule;
+    private readonly ITemplateRepository _templateRepository;
+    private readonly ICacheProvider _provider;
+
+    public HandlebarsService(INamingRule namingRule, ITemplateRepository templateRepository, ICacheProvider provider)
+    {
+        _templateRepository = templateRepository;
+        _memberLocatorFromNamingRule = new MemberLocatorFromNamingRule(namingRule);
+        _provider = provider;
+    }
+
+    public string Render(string templateId, object model)
+    {
+        var templateInfo = _templateRepository.GetTemplateAsync(templateId.ToLowerInvariant()).Result;
+
+        var hash = string.Concat("template_", templateInfo.Id, templateInfo.ETag);
+
+        if (!_provider.TryGet(hash, out Action<RenderingContext, object> compiledTemplate))
+        {
+            string content;
+            using (var reader = new StreamReader(templateInfo.Open()))
+            {
+                content = reader.ReadToEnd();
+            }
+
+            compiledTemplate = new VeilEngine(new IHelperHandler[]{}, _memberLocatorFromNamingRule)
+                .CompileNonGeneric(templateInfo.Id, new HandlebarsParser()), new StringReader(content), typeof(object));
+
+            _provider.Set(hash, compiledTemplate, DateTimeOffset.Now.AddHours(24));
+        }
+
+        using (var writer = new StringWriter())
+        {
+            compiledTemplate(new RenderingContext(writer, null), model);
+            return writer.ToString();
+        }
+    }
+}
+```
+Consider the following Handlebars template:
+```handlebars 
+<p>Hello World</p>
+{{#if additionalText}}
+    <p>{{additionalText}}</p>
+{{/if}}
+<p>{{subModel.content}}</p>
+```
+Register your `HandlebarService` in DI and let it resolve where you need it (the other types are already registered via DI if you install a DI package for NitroNet, e.g. NitroNet.UnityModules).
+
+```csharp
+HandlebarsService handlebarsService = ResolveViaDI();
+var renderedHandlebars = handlebarsService.Render("myHelloWorld", new {additionalText = "More", subModel = new {content="SubModel"}});
+```
+
+The rendered string will look the following:
+
+```html
+<p>Hello World</p>
+<p>More</p>
+<p>SubModel</p>
+```
+
+### Restrictions
+
+This implementation only covers simple Handlebars templates. As you can see in this call:
+```csharp
+compiledTemplate = new VeilEngine(new IHelperHandler[]{}, _memberLocatorFromNamingRule)
+                .CompileNonGeneric(templateInfo.Id, new HandlebarsParser()), new StringReader(content), typeof(object));
+```
+
+no additional helpers are passed to the VeilEngine, so only basic features which are supported by Veil.Handlebars are supported.
