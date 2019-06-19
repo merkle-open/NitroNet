@@ -45,8 +45,8 @@ namespace NitroNet.ViewEngine.Config
                 ComponentPaths = jsonConfig.ComponentPaths.Select(path => GetDefaultValueIfNotSet(path,
                     PathInfo.Create("components"),
                     PathInfo.Create("modules"))),
-                EnableLiteralResolving = jsonConfig.EnableLiteralResolving,
-                PassLiteralsToController = jsonConfig.PassLiteralsToController
+                LiteralParsingMode = jsonConfig.LiteralParsingMode,
+                AdditionalArgumentsOnlyComponents = jsonConfig.AdditionalArgumentsOnlyComponents
             };
         }
 

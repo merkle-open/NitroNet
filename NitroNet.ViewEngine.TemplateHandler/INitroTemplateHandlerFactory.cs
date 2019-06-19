@@ -1,4 +1,4 @@
-﻿namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
+﻿namespace NitroNet.ViewEngine.TemplateHandler
 {
     public interface INitroTemplateHandlerFactory
     {

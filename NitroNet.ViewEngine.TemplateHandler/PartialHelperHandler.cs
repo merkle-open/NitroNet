@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NitroNet.ViewEngine.TemplateHandler.RenderHandler;
 using Veil;
 using Veil.Helper;
 
 namespace NitroNet.ViewEngine.TemplateHandler
 {
-	internal class PartialHelperHandler : IHelperHandler
+	public class PartialHelperHandler : IHelperHandler
 	{
 		private readonly INitroTemplateHandler _handler;
 

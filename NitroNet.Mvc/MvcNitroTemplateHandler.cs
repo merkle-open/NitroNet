@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using NitroNet.ViewEngine.TemplateHandler;
-using NitroNet.ViewEngine.TemplateHandler.RenderHandler;
+using NitroNet.ViewEngine.TemplateHandler.Utils;
 using Veil;
 
 namespace NitroNet.Mvc
@@ -28,20 +28,33 @@ namespace NitroNet.Mvc
 			context.Writer.Write($"Placeholder for: {key}");
 		}
 
-        public void RenderComponent(RenderingParameter component, RenderingParameter skin,
-            RenderingParameter dataVariation, object model,
+        [Obsolete(
+            "Deprecated. Use method RenderComponent(IDictionary<string, RenderingParameter> renderingParameters, object model,RenderingContext context, IDictionary<string, string> parameters) instead.")]
+        public void RenderComponent(RenderingParameter component, RenderingParameter skin, RenderingParameter dataVariation,
+            object model, RenderingContext context)
+        {
+            RenderComponent(new Dictionary<string, RenderingParameter>
+            {
+                { ComponentConstants.Name, component },
+                { ComponentConstants.DataParameter, dataVariation},
+                { ComponentConstants.SkinParameter, skin}
+            }, model, context, new Dictionary<string, string>());
+        }
+
+        public void RenderComponent(IDictionary<string, RenderingParameter> renderingParameters, object model,
             RenderingContext context, IDictionary<string, string> parameters)
         {
             CastRenderingContext(context);
 
-            var subModel = _templateHandlerUtils.FindSubModel(component, skin, dataVariation, model, context);
-            var additionalParameters = _templateHandlerUtils.ResolveAdditionalParameters(model, parameters);
+            var component = renderingParameters[ComponentConstants.Name];
+            var skin = renderingParameters[ComponentConstants.SkinParameter];
 
-            if (subModel.SubModelFound && subModel.Value != null && !(subModel.Value is string))
+            var subModel = _templateHandlerUtils.FindSubModel(renderingParameters, model, context);
+            var additionalParameters = _templateHandlerUtils.ResolveAdditionalArguments(model, parameters, new HashSet<string>(renderingParameters.Keys));
+
+            if (_templateHandlerUtils.TryCreateModel(subModel, additionalParameters, out var finalModel))
             {
-                _templateHandlerUtils.ApplyResolvedParameters(subModel.Value, additionalParameters);
-                _templateHandlerUtils.RenderPartial(subModel.Value, component.Value, skin.Value, context,
-                    RenderPartial);
+                _templateHandlerUtils.RenderPartial(finalModel, component.Value, skin.Value, context, RenderPartial);
                 return;
             }
 

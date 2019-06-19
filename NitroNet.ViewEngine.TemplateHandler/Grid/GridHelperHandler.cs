@@ -5,7 +5,7 @@ using Veil.Helper;
 
 namespace NitroNet.ViewEngine.TemplateHandler.Grid
 {
-	internal class GridHelperHandler : IBlockHelperHandler
+	public class GridHelperHandler : IBlockHelperHandler
 	{
 		private static readonly Dictionary<string, double> DefaultRatioTable = new Dictionary<string, double>
 		{

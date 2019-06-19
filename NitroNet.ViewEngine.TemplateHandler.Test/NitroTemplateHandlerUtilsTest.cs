@@ -5,7 +5,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using NitroNet.Common.Exceptions;
 using NitroNet.ViewEngine.Config;
-using NitroNet.ViewEngine.TemplateHandler.RenderHandler;
+using NitroNet.ViewEngine.TemplateHandler.Models;
+using NitroNet.ViewEngine.TemplateHandler.Utils;
 
 namespace NitroNet.ViewEngine.TemplateHandler.Test
 {
@@ -18,6 +19,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.Test
         private EmptyDummyModel _emptyDummyModel;
         private DummyModel _dummyModel;
         private DummySubmodel _dummySubmodel;
+        private static readonly HashSet<string> defaultKeys = new HashSet<string> { "name", "template", "data" };
 
         [TestInitialize]
         public void Setup()
@@ -31,20 +33,31 @@ namespace NitroNet.ViewEngine.TemplateHandler.Test
             {
                 DummySubmodel = _dummySubmodel
             };
+
             var componentRepositoryMock = new Mock<IComponentRepository>();
 
             _nitroNetConfigMock = new Mock<INitroNetConfig>();
 
-            _nitroNetConfigMock.Setup(config => config.EnableLiteralResolving).Returns(true);
+            _nitroNetConfigMock.Setup(config => config.LiteralParsingMode).Returns(LiteralParsingMode.Full);
+            _nitroNetConfigMock.Setup(config => config.AdditionalArgumentsOnlyComponents).Returns(false);
 
             _nitroTemplateHandlerUtils = new NitroTemplateHandlerUtils(componentRepositoryMock.Object, _nitroNetConfigMock.Object);
+        }
+
+        private IDictionary<string, RenderingParameter> CreateRenderingParameters(string component, string skin, string data)
+        {
+            return new Dictionary<string, RenderingParameter>
+            {
+                {ComponentConstants.Name, new RenderingParameter("component") {Value = component}},
+                {ComponentConstants.SkinParameter, new RenderingParameter("skin") {Value = skin}},
+                {ComponentConstants.DataParameter, new RenderingParameter("data") {Value = data}}
+            };
         }
 
         [TestMethod]
         public void FindSubModelIsFalseOnMissingProperty()
         {
-            var found = _nitroTemplateHandlerUtils.FindSubModel(new RenderingParameter("component") {Value = "dummysubmodel"},
-                new RenderingParameter("skin"), new RenderingParameter("data"), new EmptyDummyModel(), null);
+            var found = _nitroTemplateHandlerUtils.FindSubModel(CreateRenderingParameters("dummysubmodel","",""), new EmptyDummyModel(), null);
 
             Assert.IsFalse(found.SubModelFound);
             Assert.IsNull(found.Value);
@@ -55,8 +68,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.Test
         {
             var result = new EmptyDummyModel();
 
-            var found = _nitroTemplateHandlerUtils.FindSubModel(new RenderingParameter("component") { Value = "this" },
-                new RenderingParameter("skin"), new RenderingParameter("data"), result, null);
+            var found = _nitroTemplateHandlerUtils.FindSubModel(CreateRenderingParameters("dummysubmodel", "", "this"), result, null);
 
             Assert.IsTrue(found.SubModelFound);
             Assert.AreEqual(result, found.Value);
@@ -67,8 +79,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.Test
         {
             var result = new DummySubmodel();
 
-            var found = _nitroTemplateHandlerUtils.FindSubModel(new RenderingParameter("component") { Value = "submodel2" },
-                new RenderingParameter("skin"), new RenderingParameter("data"), new DummyModel { DummySubmodel = result }, null);
+            var found = _nitroTemplateHandlerUtils.FindSubModel(CreateRenderingParameters("submodel2", "", ""), new DummyModel { DummySubmodel = result }, null);
 
             Assert.IsFalse(found.SubModelFound);
             Assert.IsNull(found.Value);
@@ -80,8 +91,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.Test
             var utils = new NitroTemplateHandlerUtils(null, null);
             var result = new DummySubmodel();
 
-            var found = utils.FindSubModel(new RenderingParameter("component") { Value = "dummysubmodel" },
-                new RenderingParameter("skin"), new RenderingParameter("data"), new DummyModel {DummySubmodel = result}, null);
+            var found = utils.FindSubModel(CreateRenderingParameters("dummysubmodel", "", ""), new DummyModel {DummySubmodel = result}, null);
             Assert.IsTrue(found.SubModelFound);
             Assert.AreEqual(result, found.Value);
         }
@@ -90,9 +100,8 @@ namespace NitroNet.ViewEngine.TemplateHandler.Test
         public void FindSubModelSuccessOnSubpropertyAvailable()
         {
             var utils = new NitroTemplateHandlerUtils(null, null);
-
-            var found = utils.FindSubModel(new RenderingParameter("component") {Value = "dummysubmodel.subproperty" },
-                new RenderingParameter("skin"), new RenderingParameter("data"),
+            
+            var found = utils.FindSubModel(CreateRenderingParameters("dummysubmodel.subproperty", "", ""),
                 new DummyModel {DummySubmodel = new DummySubmodel {Subproperty = SubpropertyValue}}, null);
 
             Assert.IsTrue(found.SubModelFound);
@@ -129,18 +138,18 @@ namespace NitroNet.ViewEngine.TemplateHandler.Test
         [TestMethod]
         public void ResolveAdditionalParametersEnsureFlagCheck()
         {
-            _nitroTemplateHandlerUtils.ResolveAdditionalParameters(_emptyDummyModel, new Dictionary<string, string>());
-            _nitroNetConfigMock.Verify(config => config.EnableLiteralResolving, Times.Once);
+            _nitroTemplateHandlerUtils.ResolveAdditionalArguments(_emptyDummyModel, new Dictionary<string, string>(), defaultKeys);
+            _nitroNetConfigMock.Verify(config => config.LiteralParsingMode, Times.Once);
         }
 
         [TestMethod]
         public void ResolveAdditionalParametersEnsureSkipDefaultKeys()
         {
-            var additionalParameters = _nitroTemplateHandlerUtils.ResolveAdditionalParameters(_emptyDummyModel,
+            var additionalParameters = _nitroTemplateHandlerUtils.ResolveAdditionalArguments(_emptyDummyModel,
                 new Dictionary<string, string>
                 {
                     {"data", "test"}, {"name", "test"}, {"template", "test"}
-                });
+                }, defaultKeys);
             Assert.IsNotNull(additionalParameters);
             Assert.IsTrue(!additionalParameters.Any());
         }
@@ -148,11 +157,11 @@ namespace NitroNet.ViewEngine.TemplateHandler.Test
         [TestMethod]
         public void ResolveAdditionalParametersHandleSimpleTypes()
         {
-            var additionalParameters = _nitroTemplateHandlerUtils.ResolveAdditionalParameters(_emptyDummyModel,
+            var additionalParameters = _nitroTemplateHandlerUtils.ResolveAdditionalArguments(_emptyDummyModel,
                 new Dictionary<string, string>
                 {
                     {"integer", "3"}, {"bool", "true"}, {"string", "\"doublequotes\""}, {"string2", "'singlequotes'"}
-                });
+                }, defaultKeys);
 
             Assert.IsNotNull(additionalParameters);
             Assert.That.ContainsKey(additionalParameters, "integer");
@@ -179,11 +188,11 @@ namespace NitroNet.ViewEngine.TemplateHandler.Test
         [TestMethod]
         public void ResolveAdditionalParametersHandleNullAndUndefined()
         {
-            var additionalParameters = _nitroTemplateHandlerUtils.ResolveAdditionalParameters(_emptyDummyModel,
+            var additionalParameters = _nitroTemplateHandlerUtils.ResolveAdditionalArguments(_emptyDummyModel,
                 new Dictionary<string, string>
                 {
                     {"null", "null"}, {"undefined", "undefined"}
-                });
+                }, defaultKeys);
 
             Assert.IsNotNull(additionalParameters);
             Assert.That.ContainsKey(additionalParameters, "null");
@@ -199,11 +208,11 @@ namespace NitroNet.ViewEngine.TemplateHandler.Test
         [TestMethod]
         public void ResolveAdditionalParametersHandleObject()
         {
-            var additionalParameters = _nitroTemplateHandlerUtils.ResolveAdditionalParameters(_dummyModel,
+            var additionalParameters = _nitroTemplateHandlerUtils.ResolveAdditionalArguments(_dummyModel,
                 new Dictionary<string, string>
                 {
                     {"object", "dummysubmodel"}, {"string", "dummysubmodel.subproperty"}, {"uninitialized", "dummysubmodel.uninitialized"}
-                });
+                }, defaultKeys);
 
             Assert.IsNotNull(additionalParameters);
             Assert.That.ContainsKey(additionalParameters, "object");
@@ -226,40 +235,40 @@ namespace NitroNet.ViewEngine.TemplateHandler.Test
         public void ResolveAdditionalParametersThrowsExceptionOnMissingProperty()
         {
             Assert.ThrowsException<NitroNetComponentException>(() =>
-                _nitroTemplateHandlerUtils.ResolveAdditionalParameters(_dummyModel,
-                    new Dictionary<string, string> {{"object", "missing"}}));
+                _nitroTemplateHandlerUtils.ResolveAdditionalArguments(_dummyModel,
+                    new Dictionary<string, string> {{"object", "missing"}}, defaultKeys));
         }
 
         [TestMethod]
         public void ApplyResolvedParametersEnsureFlagCheck()
         {
-            _nitroTemplateHandlerUtils.ApplyResolvedParameters(_emptyDummyModel, new Dictionary<string, ResolvedParameter>());
-            _nitroNetConfigMock.Verify(config => config.EnableLiteralResolving, Times.Once);
+            _nitroTemplateHandlerUtils.ApplyResolvedArgumentsToObject(_emptyDummyModel, new Dictionary<string, ResolvedAdditionalArgument>());
+            _nitroNetConfigMock.Verify(config => config.LiteralParsingMode, Times.Once);
         }
 
         [TestMethod]
         public void ApplyResolvedParametersThrowsExceptionOnMissingProperty()
         {
             Assert.ThrowsException<NitroNetComponentException>(() =>
-                _nitroTemplateHandlerUtils.ApplyResolvedParameters(_dummySubmodel,
-                    new Dictionary<string, ResolvedParameter> {{"missing", new ResolvedParameter()}}));
+                _nitroTemplateHandlerUtils.ApplyResolvedArgumentsToObject(_dummySubmodel,
+                    new Dictionary<string, ResolvedAdditionalArgument> {{"missing", new ResolvedAdditionalArgument()}}));
         }
 
         [TestMethod]
         public void ApplyResolvedParametersThrowsExceptionOnTypeMismatch()
         {
             Assert.ThrowsException<NitroNetComponentException>(() =>
-                _nitroTemplateHandlerUtils.ApplyResolvedParameters(_dummySubmodel,
-                    new Dictionary<string, ResolvedParameter>
-                        {{"subproperty", new ResolvedParameter {Value = 3, ValueType = typeof(int)}}}));
+                _nitroTemplateHandlerUtils.ApplyResolvedArgumentsToObject(_dummySubmodel,
+                    new Dictionary<string, ResolvedAdditionalArgument>
+                        {{"subproperty", new ResolvedAdditionalArgument {Value = 3, ValueType = typeof(int)}}}));
         }
 
         [TestMethod]
         public void ApplyResolvedParametersSimpleType()
         {
-            _nitroTemplateHandlerUtils.ApplyResolvedParameters(_dummySubmodel,
-                new Dictionary<string, ResolvedParameter>
-                    {{"uninitialized", new ResolvedParameter {Value = SubpropertyValue, ValueType = typeof(string)}}});
+            _nitroTemplateHandlerUtils.ApplyResolvedArgumentsToObject(_dummySubmodel,
+                new Dictionary<string, ResolvedAdditionalArgument>
+                    {{"uninitialized", new ResolvedAdditionalArgument {Value = SubpropertyValue, ValueType = typeof(string)}}});
 
             Assert.AreEqual(SubpropertyValue, _dummySubmodel.Uninitialized);
         }
@@ -268,9 +277,9 @@ namespace NitroNet.ViewEngine.TemplateHandler.Test
         public void ApplyResolvedParametersObject()
         {
             var overwrite = new DummySubmodel();
-            _nitroTemplateHandlerUtils.ApplyResolvedParameters(_dummyModel,
-                new Dictionary<string, ResolvedParameter>
-                    {{"dummysubmodel", new ResolvedParameter {Value = overwrite, ValueType = typeof(DummySubmodel)}}});
+            _nitroTemplateHandlerUtils.ApplyResolvedArgumentsToObject(_dummyModel,
+                new Dictionary<string, ResolvedAdditionalArgument>
+                    {{"dummysubmodel", new ResolvedAdditionalArgument {Value = overwrite, ValueType = typeof(DummySubmodel)}}});
 
             Assert.AreEqual(overwrite, _dummyModel.DummySubmodel);
         }
@@ -278,13 +287,13 @@ namespace NitroNet.ViewEngine.TemplateHandler.Test
         [TestMethod]
         public void ApplyResolvedParametersDefault()
         {
-            _nitroTemplateHandlerUtils.ApplyResolvedParameters(_dummySubmodel,
-                new Dictionary<string, ResolvedParameter>
+            _nitroTemplateHandlerUtils.ApplyResolvedArgumentsToObject(_dummySubmodel,
+                new Dictionary<string, ResolvedAdditionalArgument>
                 {
-                    {"someinteger", new ResolvedParameter {Value = null, ValueType = typeof(object)}},
-                    {"somebool", new ResolvedParameter {Value = null, ValueType = typeof(object)}},
-                    {"uninitialized", new ResolvedParameter {Value = null, ValueType = typeof(object)}},
-                    {"SomeObject", new ResolvedParameter {Value = null, ValueType = typeof(object)}},
+                    {"someinteger", new ResolvedAdditionalArgument {Value = null, ValueType = typeof(object)}},
+                    {"somebool", new ResolvedAdditionalArgument {Value = null, ValueType = typeof(object)}},
+                    {"uninitialized", new ResolvedAdditionalArgument {Value = null, ValueType = typeof(object)}},
+                    {"SomeObject", new ResolvedAdditionalArgument {Value = null, ValueType = typeof(object)}},
                 });
 
             Assert.AreEqual(string.Empty, _dummySubmodel.Uninitialized);
@@ -315,6 +324,51 @@ namespace NitroNet.ViewEngine.TemplateHandler.Test
             var result = _nitroTemplateHandlerUtils.CleanName("string with space and - and capital A");
             
             Assert.AreEqual("stringwithspaceandandcapitala", result);
+        }
+
+        [TestMethod]
+        public void IsValidSuccess()
+        {
+            var result = _nitroTemplateHandlerUtils.IsValid(new SubModel
+            {
+                PropertyName = "some",
+                SubModelFound = true,
+                Value = new { }
+            });
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void IsValidFailOnNotFoundOrValueNull()
+        {
+            var subModelNull = _nitroTemplateHandlerUtils.IsValid(new SubModel
+            {
+                PropertyName = "some",
+                SubModelFound = true,
+                Value = null
+            });
+            var noSubModelFound = _nitroTemplateHandlerUtils.IsValid(new SubModel
+            {
+                PropertyName = "some",
+                SubModelFound = false,
+                Value = null
+            });
+
+            Assert.IsFalse(subModelNull);
+            Assert.IsFalse(noSubModelFound);
+        }
+
+        [TestMethod]
+        public void IsValidFailOnString()
+        {
+            var submodelIsString = _nitroTemplateHandlerUtils.IsValid(new SubModel
+            {
+                PropertyName = "some",
+                SubModelFound = true,
+                Value = "astring"
+            });
+            Assert.IsFalse(submodelIsString);
         }
 
         private class EmptyDummyModel

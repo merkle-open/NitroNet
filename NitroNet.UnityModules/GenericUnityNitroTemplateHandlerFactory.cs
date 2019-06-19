@@ -1,6 +1,5 @@
 ﻿using Microsoft.Practices.Unity;
 using NitroNet.ViewEngine.TemplateHandler;
-using NitroNet.ViewEngine.TemplateHandler.RenderHandler;
 
 namespace NitroNet.UnityModules
 {

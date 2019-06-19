@@ -7,7 +7,7 @@ using NitroNet.ViewEngine.Cache;
 using NitroNet.ViewEngine.Config;
 using NitroNet.ViewEngine.IO;
 using NitroNet.ViewEngine.TemplateHandler;
-using NitroNet.ViewEngine.TemplateHandler.RenderHandler;
+using NitroNet.ViewEngine.TemplateHandler.Utils;
 using NitroNet.ViewEngine.ViewEngines;
 using Veil.Compiler;
 using Veil.Helper;
@@ -48,6 +48,7 @@ namespace NitroNet.CastleWindsorModules
             container.Register(Component.For<ITemplateRepository>().ImplementedBy<NitroTemplateRepository>().LifestyleSingleton());
             container.Register(Component.For<INitroTemplateHandlerFactory>().ImplementedBy<MvcNitroTemplateHandlerFactory>().LifestyleSingleton());
             container.Register(Component.For<INitroTemplateHandlerUtils>().ImplementedBy<NitroTemplateHandlerUtils>().LifestyleSingleton());
+            container.Register(Component.For<IMemberFilterFactory>().ImplementedBy<MemberFilterFactory>().LifestyleSingleton());
         }
     }
 }

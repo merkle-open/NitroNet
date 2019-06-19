@@ -142,7 +142,7 @@ namespace Veil.Parser
 			};
 		}
 
-        private static readonly Regex expressionRegex = new Regex(@"([A-z][\w-]*=([\""\']\w*[\""\']|\d+|[A-z][\w-]*(?:\.[A-z][\w-]*)*))");
+        private static readonly Regex expressionRegex = new Regex(@"([A-z][\w-]*=([\""\'].*?[\""\']|\d+|[A-z][\w-]*(?:\.[A-z][\w-]*)*))");
 
         public static HelperExpressionNode Helper(string expression, IHelperHandler helperHandler, SourceLocation location)
         {

@@ -104,6 +104,8 @@ public class LinkModel
 
 ### Components
 
+<span style="color:red">**New:**</span> Checkout the newest extension to the Compoments Helper -> [Additional Arguments](additional-arguments.md)
+
 #### A component with subcomponents
 Nested components are handled by one Controller action and don't invoke a new Controller action for each subcomponent. But it is necessary that you provide a model of the subcomponent.
 

@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using NitroNet.Common.Exceptions;
 using NitroNet.ViewEngine.Config;
+using NitroNet.ViewEngine.TemplateHandler.Models;
 using Veil;
 
-namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
+namespace NitroNet.ViewEngine.TemplateHandler.Utils
 {
     public class NitroTemplateHandlerUtils : INitroTemplateHandlerUtils
     {
-        /// <summary>
-        /// Default keys which should not be parsed as additional parameters.
-        /// </summary>
-        private static readonly HashSet<string> defaultKeys = new HashSet<string> {"name", "template", "data"};
-
         private readonly IComponentRepository _componentRepository;
         private readonly INitroNetConfig _config;
 
@@ -24,12 +19,12 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
             _config = config;
         }
 
-        public SubModel FindSubModel(RenderingParameter component, RenderingParameter skin,
-            RenderingParameter dataVariation, object model, RenderingContext context)
+        public SubModel FindSubModel(IDictionary<string, RenderingParameter> renderingParameters, object model, RenderingContext context)
         {
+            var dataVariation = renderingParameters[ComponentConstants.DataParameter];
             if (string.IsNullOrEmpty(dataVariation.Value))
             {
-                dataVariation.Value = component.Value;
+                dataVariation.Value = renderingParameters[ComponentConstants.Name].Value;
             }
 
             var propertyName = CleanName(dataVariation.Value);
@@ -56,35 +51,105 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
             };
         }
 
-        public void ApplyResolvedParameters(object target, IDictionary<string, ResolvedParameter> parameters)
+        public bool TryCreateModel(SubModel submodel, IDictionary<string, ResolvedAdditionalArgument> additionalArguments, out object model)
         {
-            if (!_config.EnableLiteralResolving)
+            //classic way without using any values from additionalArguments
+            if (_config.LiteralParsingMode == LiteralParsingMode.None)
+            {
+                model = submodel.Value;
+                return IsValid(submodel);
+            }
+
+            //this means on the parent context was a matching submodel, either by naming convention or passed via data attribute
+            if (IsValid(submodel))
+            {
+                //the values of this submodel are used to build a new model together with the resolved additionalArguments
+                if (additionalArguments.Any())
+                {
+                    model = BuildSubmodelDictionary(submodel.Value, additionalArguments);
+                }
+                else
+                {
+                    //if no additional arguments are present just return the submodel
+                    model = submodel.Value;
+                }
+
+                return true;
+
+            }
+
+            //if no submodel was found use additional parameters, if enabled
+            if (_config.AdditionalArgumentsOnlyComponents && additionalArguments.Any())
+            {
+                model = CleanAdditionalArguments(additionalArguments);
+                return true;
+            }
+
+            model = null;
+            return false;
+        }
+
+        private IDictionary<string, object> CleanAdditionalArguments(IDictionary<string, ResolvedAdditionalArgument> additionalArguments)
+        {
+            return additionalArguments.ToDictionary(pair => CleanName(pair.Key), pair => pair.Value.Value);
+        }
+
+        /// <summary>
+        /// Adds properties from submodel to additional arguments if not already contained in additionalArguments.
+        /// </summary>
+        /// <param name="submodel"></param>
+        /// <param name="additionalArguments"></param>
+        /// <returns></returns>
+        private IDictionary<string, object> BuildSubmodelDictionary(object submodel, IDictionary<string, ResolvedAdditionalArgument> additionalArguments)
+        {
+            var cleanedParameters = CleanAdditionalArguments(additionalArguments);
+            foreach (var propertyInfo in submodel.GetType().GetProperties())
+            {
+                if (cleanedParameters.ContainsKey(propertyInfo.Name.ToLowerInvariant()))
+                {
+                    continue;
+                }
+
+                cleanedParameters.Add(propertyInfo.Name.ToLowerInvariant(), propertyInfo.GetValue(submodel));
+            }
+
+            return cleanedParameters;
+        }
+
+        /// <summary>
+        /// Applies additional arguments from dictionary to target.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="additionalArguments"></param>
+        public void ApplyResolvedArgumentsToObject(object target, IDictionary<string, ResolvedAdditionalArgument> additionalArguments)
+        {
+            if (_config.LiteralParsingMode == LiteralParsingMode.None)
             {
                 return;
             }
 
-            foreach (var resolvedParameterPair in parameters)
+            foreach (var resolvedadditionalArgumentsPair in additionalArguments)
             {
-                var cleanedKey = CleanName(resolvedParameterPair.Key);
+                var cleanedKey = CleanName(resolvedadditionalArgumentsPair.Key);
                 var subModelProperty = target.GetType().GetProperties().FirstOrDefault(p =>
                     p.Name.Equals(cleanedKey, StringComparison.InvariantCultureIgnoreCase));
                 if (subModelProperty == null)
                 {
                     throw new NitroNetComponentException(
-                        $"Missing property on sub model. Cannot find property with name {resolvedParameterPair.Key} on model {target.GetType()}.");
+                        $"Missing property on sub model. Cannot find property with name {resolvedadditionalArgumentsPair.Key} on model {target.GetType()}.");
                 }
 
-                if (resolvedParameterPair.Value.Value != null)
+                if (resolvedadditionalArgumentsPair.Value.Value != null)
                 {
                     
-                    if (subModelProperty.PropertyType.IsAssignableFrom(resolvedParameterPair.Value.ValueType))
+                    if (subModelProperty.PropertyType.IsAssignableFrom(resolvedadditionalArgumentsPair.Value.ValueType))
                     {
-                        subModelProperty.SetValue(target, resolvedParameterPair.Value.Value);
+                        subModelProperty.SetValue(target, resolvedadditionalArgumentsPair.Value.Value);
                         continue;
                     }
 
                     throw new NitroNetComponentException(
-                        $"Type mismatch in model {target.GetType()}. Cannot assign {resolvedParameterPair.Value.ValueType} to property {subModelProperty.Name}.");
+                        $"Type mismatch in model {target.GetType()}. Cannot assign {resolvedadditionalArgumentsPair.Value.ValueType} to property {subModelProperty.Name}.");
                 }
 
                 switch (subModelProperty.PropertyType)
@@ -112,16 +177,20 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
             renderPartial(componentIdBySkin, subModel, renderingContext);
         }
 
-        public IDictionary<string, ResolvedParameter> ResolveAdditionalParameters(object model,
-            IDictionary<string, string> parameters)
+        public bool IsValid(SubModel subModel)
         {
-            if (!_config.EnableLiteralResolving)
+            return subModel.SubModelFound && subModel.Value != null && !(subModel.Value is string);
+        }
+
+        public IDictionary<string, ResolvedAdditionalArgument> ResolveAdditionalArguments(object model, IDictionary<string, string> parameters, ISet<string> reservedKeys)
+        {
+            if (_config.LiteralParsingMode == LiteralParsingMode.None)
             {
-                return new Dictionary<string, ResolvedParameter>();
+                return new Dictionary<string, ResolvedAdditionalArgument>();
             }
 
-            var dictionary = new Dictionary<string, ResolvedParameter>();
-            var filteredParameters = parameters.Where(p => !defaultKeys.Contains(p.Key))
+            var dictionary = new Dictionary<string, ResolvedAdditionalArgument>();
+            var filteredParameters = parameters.Where(p => !reservedKeys.Contains(p.Key))
                 .ToDictionary(p => p.Key, p => p.Value);
 
             foreach (var parameter in filteredParameters)
@@ -129,7 +198,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
                 // handle string
                 if (parameter.Value.IndexOfAny(new[] {'"', '\''}) == 0)
                 {
-                    dictionary.Add(parameter.Key, new ResolvedParameter
+                    dictionary.Add(parameter.Key, new ResolvedAdditionalArgument
                     {
                         Value = parameter.Value.Trim('"', '\''),
                         ValueType = typeof(string)
@@ -140,7 +209,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
                 // handle int
                 if (int.TryParse(parameter.Value, out var parameterValueAsInt))
                 {
-                    dictionary.Add(parameter.Key, new ResolvedParameter
+                    dictionary.Add(parameter.Key, new ResolvedAdditionalArgument
                     {
                         Value = parameterValueAsInt,
                         ValueType = typeof(int)
@@ -151,7 +220,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
                 //handle bool
                 if (bool.TryParse(parameter.Value, out var parameterValueAsBool))
                 {
-                    dictionary.Add(parameter.Key, new ResolvedParameter
+                    dictionary.Add(parameter.Key, new ResolvedAdditionalArgument
                     {
                         Value = parameterValueAsBool,
                         ValueType = typeof(bool)
@@ -159,27 +228,36 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
                     continue;
                 }
 
-                HandleObjectOrNull(model, parameter.Key, parameter.Value, dictionary);
+                //handle null or undefined
+                if (parameter.Value.Equals("null") || parameter.Value.Equals("undefined"))
+                {
+                    dictionary.Add(parameter.Key, new ResolvedAdditionalArgument
+                    {
+                        Value = null,
+                        ValueType = typeof(object)
+                    });
+
+                    continue;
+                }
+
+                //only try to resolve objects if enabled
+                //if resolving hasn't been successful so far it must be an object literal so skip it
+                if (_config.LiteralParsingMode == LiteralParsingMode.StaticLiteralsOnly)
+                {
+                    continue;
+                }
+
+                //resolve objects from model
+                HandleObject(model, parameter.Key, parameter.Value, dictionary);
 
             }
 
             return dictionary;
         }
 
-        private void HandleObjectOrNull(object model, string parameterKey, string parameterValue,
-            IDictionary<string, ResolvedParameter> parameterDictionary)
+        private void HandleObject(object model, string parameterKey, string parameterValue,
+            IDictionary<string, ResolvedAdditionalArgument> parameterDictionary)
         {
-            if (parameterValue.Equals("null") || parameterValue.Equals("undefined"))
-            {
-                parameterDictionary.Add(parameterKey, new ResolvedParameter
-                {
-                    Value = null,
-                    ValueType = typeof(object)
-                });
-
-                return;
-            }
-
             if (!GetPropertyValueFromObjectHierarchically(model, CleanName(parameterValue), out var value))
             {
                 throw new NitroNetComponentException(
@@ -188,7 +266,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
 
             if (value == null)
             {
-                parameterDictionary.Add(parameterKey, new ResolvedParameter
+                parameterDictionary.Add(parameterKey, new ResolvedAdditionalArgument
                 {
                     Value = null,
                     ValueType = typeof(object)
@@ -197,7 +275,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
                 return;
             }
 
-            parameterDictionary.Add(parameterKey, new ResolvedParameter
+            parameterDictionary.Add(parameterKey, new ResolvedAdditionalArgument
             {
                 Value = value,
                 ValueType = value.GetType()
@@ -221,7 +299,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
                 return string.Empty;
             }
 
-            return text.Replace(" ", string.Empty).Replace("-", string.Empty).ToLower(CultureInfo.InvariantCulture);
+            return text.Replace(" ", string.Empty).Replace("-", string.Empty).ToLowerInvariant();
         }
 
         public bool GetPropertyValueFromObjectHierarchically(object model, string propertyName, out object modelValue)
@@ -251,9 +329,15 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
             return true;
         }
 
-        private bool GetPropertyValueFromObject(object model, string propertyName, out object modelValue)
+        private static bool GetPropertyValueFromObject(object model, string propertyName, out object modelValue)
         {
             modelValue = null;
+
+            if (model is Dictionary<string, object> asDictionary)
+            {
+                modelValue = asDictionary[propertyName];
+                return modelValue != null;
+            }
 
             var dataProperty = model.GetType().GetProperties()
                 .FirstOrDefault(prop => prop.Name.Equals(propertyName, StringComparison.InvariantCultureIgnoreCase));
@@ -286,18 +370,5 @@ namespace NitroNet.ViewEngine.TemplateHandler.RenderHandler
 
             return null;
         }
-    }
-
-    public class SubModel
-    {
-        public bool SubModelFound { get; set; }
-        public string PropertyName { get; set; }
-        public object Value { get; set; }
-    }
-
-    public class ResolvedParameter
-    {
-        public Type ValueType { get; set; }
-        public object Value { get; set; }
     }
 }
