@@ -39,22 +39,22 @@ By default or if not present, the feature is disabled. This is equal as setting 
 ```json
 {
     "viewPaths": [
-        ...
+        "..."
     ],
     "partialPaths": [
-        ...
+        "..."
     ],
     "componentPaths": [
-        ...
+        "..."
     ],
     "extensions": [
-        ...
+        "..."
     ],
     "filters": [
-        ...
+        "..."
     ],
-    "literalParsingMode":"none"|"full"|"staticliteralsonly",
-    "additionalArgumentsOnlyComponents": false|true
+    "literalParsingMode":"none|full|staticliteralsonly",
+    "additionalArgumentsOnlyComponents": true
 }
 ```
 
