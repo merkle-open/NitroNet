@@ -152,10 +152,11 @@ The mode **Full** resolves properties from the current context. Also nested prop
 <span style="color:red">**Attention:**</span> If the mode is set to full and the provided property is not resolvable an **Exception** is thrown, e.g. director.someUnknownProperty is not possible!
 
 ### Render patterns without a model a.k.a. *additionalArgumentsOnlyComponents*
-So far if you want to use the pattern/components helper you had to provide a model matching the *name* parameter on pattern or pass it explicitely via the *data* parameter.
+So far if you want to use the pattern/components helper you had to provide a model matching the *name* parameter on pattern or pass it explicitely via the *data* parameter (see [here](samples.md#a-component-with-subcomponents)).
+
 If you enable **additionalArgumentsOnlyComponents** you don't need this anymore. You can provide every parameter you want to pass to the helper inline and the pattern gets rendered with this data.
 
-To show the principle we change our model. We want to add actors to the *movie.hbs*. Actors have the same properties a a director as they are persons too. So we replace the *DirectorModel* with the *PersonModel* and add a list of actors to the *MovieModel*.
+To show the principle we change our model. We want to add actors to the *movie.hbs*. Actors have the same properties a a director as they are persons too. So we replace the `DirectorModel` with the `PersonModel` and add a list of actors to the `MovieModel`.
 
 #### Models
 ```csharp
@@ -210,4 +211,3 @@ The Handlebars templates get a change too:
 As you can see in the Handlebars templates, with **LiteralsParsingMode:Full** in combination with **additionalArgumentsOnlyComponents:true** you have full flexibility how to pass values to your patterns.
 
 <span style="color:red">**Attention:**</span> Without **LiteralsParsingMode** in mode **Full** or **StaticLiteralsOnly** the **additionalArgumentsOnlyComponents** setting has no effect as it only makes sense if additional arguments are parsed in some way.
-
