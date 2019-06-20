@@ -90,10 +90,10 @@ public class DirectorModel {
 ```hbs
 <p>{{firstName}} {{surname}}</p>
 ```
-### LiteralsParsingMode: None
+### LiteralParsingMode: None
 This is the classic way, create your C# models suiting the Handlebars templates and let it render. So far so good, nothing new here.
 
-### LiteralsParsingMode: StaticLiteralsOnly
+### LiteralParsingMode: StaticLiteralsOnly
 Now we want to extend the director.hbs with an additional property
 #### Extend director.hbs
 ```hbs
@@ -110,7 +110,7 @@ As we new it will always be a director, we can add an additional argument to the
     {{ pattern name="director" role="Director" }}
 </div>
 ```
-As you can see, the string "Director" is a static value. To get it correctly passed to the person Handlebars template. We need to enable **LiteralsParsingMode** at least in the **StaticLiteralsOnly**-mode. This passes the *DirectorModel* and additionally the static value "Director" with the property name *profession* to the director.hbs pattern.
+As you can see, the string "Director" is a static value. To get it correctly passed to the person Handlebars template. We need to enable **LiteralParsingMode** at least in the **StaticLiteralsOnly**-mode. This passes the *DirectorModel* and additionally the static value "Director" with the property name *profession* to the director.hbs pattern.
 
 This would result in a html like this:
 ```html
@@ -125,8 +125,8 @@ The mode **StaticLiteralsOnly** supports strings, numbers, booleans, null and un
 
 <span style="color:red">**Attention:**</span> Dynamic properties as described in the following chapter are ignored in this mode.
 
-### LiteralsParsingMode: Full
-If you want to use dynamic values to pass to the pattern, this is possible if you change the **LiteralsParsingMode** to **full**.
+### LiteralParsingMode: Full
+If you want to use dynamic values to pass to the pattern, this is possible if you change the **LiteralParsingMode** to **full**.
 ```csharp
 public class MovieModel
 {
@@ -208,6 +208,6 @@ The Handlebars templates get a change too:
 </div>
 ```
 
-As you can see in the Handlebars templates, with **LiteralsParsingMode:Full** in combination with **additionalArgumentsOnlyComponents:true** you have full flexibility how to pass values to your patterns.
+As you can see in the Handlebars templates, with **LiteralParsingMode:Full** in combination with **additionalArgumentsOnlyComponents:true** you have full flexibility how to pass values to your patterns.
 
-<span style="color:red">**Attention:**</span> Without **LiteralsParsingMode** in mode **Full** or **StaticLiteralsOnly** the **additionalArgumentsOnlyComponents** setting has no effect as it only makes sense if additional arguments are parsed in some way.
+<span style="color:red">**Attention:**</span> Without **LiteralParsingMode** in mode **Full** or **StaticLiteralsOnly** the **additionalArgumentsOnlyComponents** setting has no effect as it only makes sense if additional arguments are parsed in some way.

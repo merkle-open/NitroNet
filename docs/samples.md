@@ -33,28 +33,27 @@ This sample shows a simple Nitro HTML view (handlebars markup) of a *Teaser* com
 
 ##### Handlebars markup
 
-```html
+```hbs
 <div class="m-teaser">
-	<div class="m-teaser__wrapper-left">
+    <div class="m-teaser__wrapper-left">
+        <h2 class="font-page-title m-teaser__headline">
+            {{#if headline}}
+        	<span class="m-teaser__headline-text">{{headline}}</span>
+            {{/if}}
+        </h2>
+    </div>
 
-		<h2 class="font-page-title m-teaser__headline">
-			{{#if headline}}
-			<span class="m-teaser__headline-text">{{headline}}</span>
-			{{/if}}
-		</h2>
-	</div>
-
-	<div class="l-tile__content">
-		{{#if abstract}}
-		<h3 class="font-big-title m-teaser__abstract">{{{abstract}}}</h3>
-		{{/if}}
-		{{#if richtext}}
-		<div class="font-copy-text m-teaser__rte">
-				{{{richtext}}}
-		</div>
-		{{/if}}
-	</div>
-	<a href="#" class="a-button a-button--primary m-teaser__button">{{buttonText}}</a>
+    <div class="l-tile__content">
+        {{#if abstract}}
+        <h3 class="font-big-title m-teaser__abstract">{{{abstract}}}</h3>
+        {{/if}}
+        {{#if richtext}}
+        <div class="font-copy-text m-teaser__rte">
+            {{{richtext}}}
+        </div>
+        {{/if}}
+    </div>
+    <a href="#" class="a-button a-button--primary m-teaser__button">{{buttonText}}</a>
 </div>
 ```
 
@@ -114,7 +113,7 @@ The `LocationController` has the responsibility to create all parts of the `Loca
 
 #### Handlebars markup
 
-```html
+```hbs
 <div class="m-location" data-t-name="Location">
     <a href="#">{{selectedLocation}}</a>
     <div>
@@ -159,7 +158,7 @@ You need to make sure that there is always a property defined in the model for e
 ##### Situation A - Component with name
 View snippet:
 
-```
+```hbs
 {{component name="Bubble"}}
 ```
 
@@ -171,7 +170,7 @@ public BubbleModel Bubble { get; set; }
 
 ##### Situation B - Component with name and data
 View snippet:
-```
+```hbs
 {{component name="Bubble" data="bubbleLocation"}}
 ```
 
@@ -180,3 +179,20 @@ Model snippet (maps the `data` attribute)
 ```csharp
 public BubbleModel BubbleLocation { get; set; }
 ```
+
+##### Situation C - Component with name and additional arguments
+This situation only can occur when the feature [Additional Arguments](additional-arguments.md) is enabled (either **Full** or **StaticLiteralsOnly** mode) and the **additionalArgumentsOnlyComponents** is true.
+
+View snippet:
+
+```hbs
+{{component name="Bubble" description=bubbleLocation.description key=bubbleLocation.key target=bubbleLocation.target name=bubbleLocation.name}}
+```
+
+Model snippet (doesn't map the model but uses it to resolve the values in the hbs)
+
+```csharp
+public BubbleModel BubbleLocation { get; set; }
+```
+
+The values from the `BubbleLocation` model are getting passed to the component.
