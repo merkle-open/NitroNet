@@ -1,6 +1,6 @@
 ﻿namespace NitroNet.ViewEngine.Config
 {
-    public enum LiteralParsingMode
+    public enum AdditionalArgumentsParsingMode
     {
         None, Full, StaticLiteralsOnly
     }

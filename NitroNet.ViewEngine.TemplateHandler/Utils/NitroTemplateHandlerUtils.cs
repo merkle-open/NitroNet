@@ -54,7 +54,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.Utils
         public bool TryCreateModel(SubModel submodel, IDictionary<string, ResolvedAdditionalArgument> additionalArguments, out object model)
         {
             //classic way without using any values from additionalArguments
-            if (_config.LiteralParsingMode == LiteralParsingMode.None)
+            if (_config.AdditionalArgumentsParsingMode == AdditionalArgumentsParsingMode.None)
             {
                 model = submodel.Value;
                 return IsValid(submodel);
@@ -79,7 +79,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.Utils
             }
 
             //if no submodel was found use additional parameters, if enabled
-            if (_config.AdditionalArgumentsOnlyComponents && additionalArguments.Any())
+            if (_config.PassAdditionalArgumentsIfSubcomponentPropertyIsMissing && additionalArguments.Any())
             {
                 model = CleanAdditionalArguments(additionalArguments);
                 return true;
@@ -123,7 +123,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.Utils
         /// <param name="additionalArguments"></param>
         public void ApplyResolvedArgumentsToObject(object target, IDictionary<string, ResolvedAdditionalArgument> additionalArguments)
         {
-            if (_config.LiteralParsingMode == LiteralParsingMode.None)
+            if (_config.AdditionalArgumentsParsingMode == AdditionalArgumentsParsingMode.None)
             {
                 return;
             }
@@ -184,7 +184,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.Utils
 
         public IDictionary<string, ResolvedAdditionalArgument> ResolveAdditionalArguments(object model, IDictionary<string, string> parameters, ISet<string> reservedKeys)
         {
-            if (_config.LiteralParsingMode == LiteralParsingMode.None)
+            if (_config.AdditionalArgumentsParsingMode == AdditionalArgumentsParsingMode.None)
             {
                 return new Dictionary<string, ResolvedAdditionalArgument>();
             }
@@ -242,7 +242,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.Utils
 
                 //only try to resolve objects if enabled
                 //if resolving hasn't been successful so far it must be an object literal so skip it
-                if (_config.LiteralParsingMode == LiteralParsingMode.StaticLiteralsOnly)
+                if (_config.AdditionalArgumentsParsingMode == AdditionalArgumentsParsingMode.StaticLiteralsOnly)
                 {
                     continue;
                 }

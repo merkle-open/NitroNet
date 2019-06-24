@@ -8,7 +8,7 @@ In NitroNet this feature has been extended to not only pass literal values but a
 
 As the introduction of this feature changes the behaviour of previous versions, a multiple flags have been added to enable and steer this feature via the already known nitronet-config.json file explained in [Configuration](configuration.md).
 
-By default or if not present, the feature is disabled. This is equal as setting literalParsingMode to none and additionalArgumentsOnlyComponents to false.
+By default or if not present, the feature is disabled. This is equal as setting additionalArgumentsParsingMode to none and additionalArgumentsOnlyComponents to false.
 
 <table>
     <tr>
@@ -17,7 +17,7 @@ By default or if not present, the feature is disabled. This is equal as setting 
         <th align="left">Description</th>
     </tr>
     <tr>
-        <td>literalParsingMode</td>
+        <td>additionalArgumentsParsingMode</td>
         <td>none</td>
         <td>
             Which literals should be parsed?
@@ -32,7 +32,7 @@ By default or if not present, the feature is disabled. This is equal as setting 
     <tr>
         <td>additionalArgumentsOnlyComponents</td>
         <td>false</td>
-        <td>This feature only has an effect if literalParsingMode is staticvaluesonly or full.<br>If enabled, the component helper is being called with the given additional arguments only even if no suiting sub model is available on the current context. This is especially important in the current NitroNet.Sitecore implementation whereas the component handler tries to call a Sitecore component or a controller if no suiting sub model is available. If you want to use the named feature this setting must stay disabled.</td>
+        <td>This feature only has an effect if additionalArgumentsParsingMode is staticvaluesonly or full.<br>If enabled, the component helper is being called with the given additional arguments only even if no suiting sub model is available on the current context. This is especially important in the current NitroNet.Sitecore implementation whereas the component handler tries to call a Sitecore component or a controller if no suiting sub model is available. If you want to use the named feature this setting must stay disabled.</td>
     </tr>
 </table>
 
@@ -53,7 +53,7 @@ By default or if not present, the feature is disabled. This is equal as setting 
     "filters": [
         "..."
     ],
-    "literalParsingMode":"none|full|staticliteralsonly",
+    "additionalArgumentsParsingMode":"none|full|staticliteralsonly",
     "additionalArgumentsOnlyComponents": true
 }
 ```
@@ -90,10 +90,10 @@ public class DirectorModel {
 ```hbs
 <p>{{firstName}} {{surname}}</p>
 ```
-### LiteralParsingMode: None
+### AdditionalArgumentsParsingMode: None
 This is the classic way, create your C# models suiting the Handlebars templates and let it render. So far so good, nothing new here.
 
-### LiteralParsingMode: StaticLiteralsOnly
+### AdditionalArgumentsParsingMode: StaticLiteralsOnly
 Now we want to extend the director.hbs with an additional property
 #### Extend director.hbs
 ```hbs
@@ -110,7 +110,7 @@ As we new it will always be a director, we can add an additional argument to the
     {{ pattern name="director" role="Director" }}
 </div>
 ```
-As you can see, the string "Director" is a static value. To get it correctly passed to the person Handlebars template. We need to enable **LiteralParsingMode** at least in the **StaticLiteralsOnly**-mode. This passes the *DirectorModel* and additionally the static value "Director" with the property name *profession* to the director.hbs pattern.
+As you can see, the string "Director" is a static value. To get it correctly passed to the person Handlebars template. We need to enable **AdditionalArgumentsParsingMode** at least in the **StaticLiteralsOnly**-mode. This passes the *DirectorModel* and additionally the static value "Director" with the property name *profession* to the director.hbs pattern.
 
 This would result in a html like this:
 ```html
@@ -125,8 +125,8 @@ The mode **StaticLiteralsOnly** supports strings, numbers, booleans, null and un
 
 <span style="color:red">**Attention:**</span> Dynamic properties as described in the following chapter are ignored in this mode.
 
-### LiteralParsingMode: Full
-If you want to use dynamic values to pass to the pattern, this is possible if you change the **LiteralParsingMode** to **full**.
+### AdditionalArgumentsParsingMode: Full
+If you want to use dynamic values to pass to the pattern, this is possible if you change the **AdditionalArgumentsParsingMode** to **full**.
 ```csharp
 public class MovieModel
 {
@@ -208,6 +208,6 @@ The Handlebars templates get a change too:
 </div>
 ```
 
-As you can see in the Handlebars templates, with **LiteralParsingMode:Full** in combination with **additionalArgumentsOnlyComponents:true** you have full flexibility how to pass values to your patterns.
+As you can see in the Handlebars templates, with **AdditionalArgumentsParsingMode:Full** in combination with **additionalArgumentsOnlyComponents:true** you have full flexibility how to pass values to your patterns.
 
-<span style="color:red">**Attention:**</span> Without **LiteralParsingMode** in mode **Full** or **StaticLiteralsOnly** the **additionalArgumentsOnlyComponents** setting has no effect as it only makes sense if additional arguments are parsed in some way.
+<span style="color:red">**Attention:**</span> Without **AdditionalArgumentsParsingMode** in mode **Full** or **StaticLiteralsOnly** the **additionalArgumentsOnlyComponents** setting has no effect as it only makes sense if additional arguments are parsed in some way.

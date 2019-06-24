@@ -153,7 +153,7 @@ public class BubbleModel
 }
 ```
 
-You need to make sure that there is always a property defined in the model for each subcomponent. It holds the data which is then passed to the subcomponent. Make sure that it either matches the `name` or `data` (but only when the `data` attribute is present) attribute of the corresponding component helper. You don't need to worry about case sensitivity and hyphens.
+You need to make sure that there is always a property defined in the model for each subcomponent (exception: [Situation C](#situation-c---component-with-name-and-additional-arguments)). It holds the data which is then passed to the subcomponent. Make sure that it either matches the `name` or `data` (but only when the `data` attribute is present) attribute of the corresponding component helper. You don't need to worry about case sensitivity and hyphens.
 
 ##### Situation A - Component with name
 View snippet:

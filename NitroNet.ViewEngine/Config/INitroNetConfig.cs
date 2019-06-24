@@ -10,7 +10,7 @@ namespace NitroNet.ViewEngine.Config
         IEnumerable<PathInfo> ComponentPaths { get; }
         IEnumerable<string> Extensions { get; }
         IEnumerable<string> Filters { get; }
-        LiteralParsingMode LiteralParsingMode { get; }
         bool AdditionalArgumentsOnlyComponents { get; }
+        AdditionalArgumentsParsingMode AdditionalArgumentsParsingMode { get; }
     }
 }

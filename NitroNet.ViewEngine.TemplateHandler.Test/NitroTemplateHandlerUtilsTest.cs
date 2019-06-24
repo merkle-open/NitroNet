@@ -38,8 +38,8 @@ namespace NitroNet.ViewEngine.TemplateHandler.Test
 
             _nitroNetConfigMock = new Mock<INitroNetConfig>();
 
-            _nitroNetConfigMock.Setup(config => config.LiteralParsingMode).Returns(LiteralParsingMode.Full);
-            _nitroNetConfigMock.Setup(config => config.AdditionalArgumentsOnlyComponents).Returns(false);
+            _nitroNetConfigMock.Setup(config => config.AdditionalArgumentsParsingMode).Returns(AdditionalArgumentsParsingMode.Full);
+            _nitroNetConfigMock.Setup(config => config.PassAdditionalArgumentsIfSubcomponentPropertyIsMissing).Returns(false);
 
             _nitroTemplateHandlerUtils = new NitroTemplateHandlerUtils(componentRepositoryMock.Object, _nitroNetConfigMock.Object);
         }
@@ -139,7 +139,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.Test
         public void ResolveAdditionalParametersEnsureFlagCheck()
         {
             _nitroTemplateHandlerUtils.ResolveAdditionalArguments(_emptyDummyModel, new Dictionary<string, string>(), defaultKeys);
-            _nitroNetConfigMock.Verify(config => config.LiteralParsingMode, Times.Once);
+            _nitroNetConfigMock.Verify(config => config.AdditionalArgumentsParsingMode, Times.Once);
         }
 
         [TestMethod]
@@ -243,7 +243,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.Test
         public void ApplyResolvedParametersEnsureFlagCheck()
         {
             _nitroTemplateHandlerUtils.ApplyResolvedArgumentsToObject(_emptyDummyModel, new Dictionary<string, ResolvedAdditionalArgument>());
-            _nitroNetConfigMock.Verify(config => config.LiteralParsingMode, Times.Once);
+            _nitroNetConfigMock.Verify(config => config.AdditionalArgumentsParsingMode, Times.Once);
         }
 
         [TestMethod]

@@ -59,7 +59,7 @@
     <Compile Include="Config\ConfigurationException.cs" />
     <Compile Include="Config\ConfigurationLoader.cs" />
     <Compile Include="Config\INitroNetConfig.cs" />
-    <Compile Include="Config\LiteralParsingMode.cs" />
+    <Compile Include="Config\AdditionalArgumentsParsingMode.cs" />
     <Compile Include="Config\NitroNetConfig.cs" />
     <Compile Include="Config\NitroNetJsonConfig.cs" />
     <Compile Include="DefaultComponentRepository.cs" />
