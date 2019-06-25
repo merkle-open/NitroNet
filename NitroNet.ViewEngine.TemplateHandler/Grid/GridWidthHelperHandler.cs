@@ -5,7 +5,7 @@ using Veil.Helper;
 
 namespace NitroNet.ViewEngine.TemplateHandler.Grid
 {
-	internal abstract class BaseGridWidthHelperHandler : IHelperHandler
+	public abstract class BaseGridWidthHelperHandler : IHelperHandler
 	{
 	    public abstract bool IsSupported(string name);
 
@@ -37,7 +37,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.Grid
 		}
 	}
 
-	internal class GridWidthHelperHandler : BaseGridWidthHelperHandler
+	public class GridWidthHelperHandler : BaseGridWidthHelperHandler
 	{
 		public override bool IsSupported(string name)
 		{
@@ -50,7 +50,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.Grid
 		}
 	}
 
-	internal class GridComponentWidthHelperHandler : BaseGridWidthHelperHandler
+	public class GridComponentWidthHelperHandler : BaseGridWidthHelperHandler
 	{
 		public override bool IsSupported(string name)
 		{

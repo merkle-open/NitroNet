@@ -142,14 +142,16 @@ namespace Veil.Parser
 			};
 		}
 
-		public static HelperExpressionNode Helper(string expression, IHelperHandler helperHandler, SourceLocation location)
+        private static readonly Regex expressionRegex = new Regex(@"([A-z][\w-]*=([\""\'].*?[\""\']|\d+|[A-z][\w-]*(?:\.[A-z][\w-]*)*))");
+
+        public static HelperExpressionNode Helper(string expression, IHelperHandler helperHandler, SourceLocation location)
         {
             var parts = expression.Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
 
             var helperType = parts[0];
             if (helperType.Equals("pattern") || helperType.Equals("component"))
             {
-                var matches = Regex.Matches(expression, @"([aA-zZ\d-]+=([\'\""].*?[\'\""]|[aA-zZ\d-]+))");
+                var matches = expressionRegex.Matches(expression);
 
                 var matchesList = matches.Cast<Match>().Select(m => m.Value).ToList();
                 matchesList.Insert(0, helperType);

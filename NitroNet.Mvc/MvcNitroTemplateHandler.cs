@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using NitroNet.ViewEngine.TemplateHandler;
-using NitroNet.ViewEngine.TemplateHandler.RenderHandler;
+using NitroNet.ViewEngine.TemplateHandler.Utils;
 using Veil;
 
 namespace NitroNet.Mvc
@@ -28,22 +28,38 @@ namespace NitroNet.Mvc
 			context.Writer.Write($"Placeholder for: {key}");
 		}
 
-	    public void RenderComponent(RenderingParameter component, RenderingParameter skin, RenderingParameter dataVariation, object model,
-	        RenderingContext context, IDictionary<string, string> parameters)
+        [Obsolete(
+            "Deprecated. Use method RenderComponent(IDictionary<string, RenderingParameter> renderingParameters, object model,RenderingContext context, IDictionary<string, string> parameters) instead.")]
+        public void RenderComponent(RenderingParameter component, RenderingParameter skin, RenderingParameter dataVariation,
+            object model, RenderingContext context)
+        {
+            RenderComponent(new Dictionary<string, RenderingParameter>
+            {
+                { ComponentConstants.Name, component },
+                { ComponentConstants.DataParameter, dataVariation},
+                { ComponentConstants.SkinParameter, skin}
+            }, model, context, new Dictionary<string, string>());
+        }
+
+        public void RenderComponent(IDictionary<string, RenderingParameter> renderingParameters, object model,
+            RenderingContext context, IDictionary<string, string> parameters)
         {
             CastRenderingContext(context);
 
-            //TODO: Get subModel -> And then call RenderPartial()
+            var component = renderingParameters[ComponentConstants.Name];
+            var skin = renderingParameters[ComponentConstants.SkinParameter];
 
-	        var subModel = _templateHandlerUtils.FindSubModel(component, skin, dataVariation, model, context);
+            var subModel = _templateHandlerUtils.FindSubModel(renderingParameters, model, context);
+            var additionalParameters = _templateHandlerUtils.ResolveAdditionalArguments(model, parameters, new HashSet<string>(renderingParameters.Keys));
 
-            if (_templateHandlerUtils.TryRenderPartial(model, subModel.Value, component.Value, skin.Value,
-                context, parameters, RenderPartial))
+            if (_templateHandlerUtils.TryCreateModel(subModel, additionalParameters, out var finalModel))
             {
+                _templateHandlerUtils.RenderPartial(finalModel, component.Value, skin.Value, context, RenderPartial);
                 return;
             }
 
-            _templateHandlerUtils.LogErrorIfSubModelFoundAndNull(subModel.SubModelFound, subModel.Value, subModel.PropertyName, model);
+            _templateHandlerUtils.ThrowErrorIfSubModelFoundAndNull(subModel.SubModelFound, subModel.Value,
+                subModel.PropertyName, model);
         }
 
         //TODO: Rework -> Currently this method doesn't have all features from the normal RenderComponent() method.
@@ -63,11 +79,9 @@ namespace NitroNet.Mvc
 
 		public void RenderPartial(string template, object model, RenderingContext context)
 		{
-            //TODO: Implement HtmlHelper.Partial !
-
             var mvcContext = CastRenderingContext(context);
             var htmlHelper = new HtmlHelper(mvcContext.ViewContext, mvcContext.ViewDataContainer);
-
+            
             htmlHelper.RenderPartial(template, model);
 		}
 

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace NitroNet.ViewEngine.Config
 {
@@ -9,5 +11,9 @@ namespace NitroNet.ViewEngine.Config
         public IEnumerable<string> ComponentPaths { get; set; }
         public IEnumerable<string> Extensions { get; set; }
         public IEnumerable<string> Filters { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public AdditionalArgumentsParsingMode AdditionalArgumentsParsingMode { get; set; }
+        public  bool EnableAdditionalArgumentsOnly { get; set; }
+
     }
 }

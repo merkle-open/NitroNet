@@ -1,4 +1,5 @@
-﻿using NitroNet.ViewEngine.TemplateHandler.RenderHandler;
+﻿using NitroNet.ViewEngine.TemplateHandler;
+using NitroNet.ViewEngine.TemplateHandler.Utils;
 
 namespace NitroNet.Mvc
 {

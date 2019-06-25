@@ -36,12 +36,17 @@ namespace NitroNet.ViewEngine.Config
 
             return new NitroNetConfig
             {
-                ViewPaths = jsonConfig.ViewPaths.Select(path => GetDefaultValueIfNotSet(path, PathInfo.Create("views"))),
+                ViewPaths =
+                    jsonConfig.ViewPaths.Select(path => GetDefaultValueIfNotSet(path, PathInfo.Create("views"))),
                 Extensions = jsonConfig.Extensions.Select(extension => GetDefaultValueIfNotSet(extension, "html")),
                 Filters = jsonConfig.Filters.Select(filter => GetDefaultValueIfNotSet(filter, string.Empty)),
-                PartialPaths = jsonConfig.PartialPaths.Select(path => GetDefaultValueIfNotSet(path, PathInfo.Create("partials"))),
-                ComponentPaths = jsonConfig.ComponentPaths.Select(path => GetDefaultValueIfNotSet(path, PathInfo.Create("components"),
-                    PathInfo.Create("modules")))
+                PartialPaths =
+                    jsonConfig.PartialPaths.Select(path => GetDefaultValueIfNotSet(path, PathInfo.Create("partials"))),
+                ComponentPaths = jsonConfig.ComponentPaths.Select(path => GetDefaultValueIfNotSet(path,
+                    PathInfo.Create("components"),
+                    PathInfo.Create("modules"))),
+                EnableAdditionalArgumentsOnly = jsonConfig.EnableAdditionalArgumentsOnly,
+                AdditionalArgumentsParsingMode = jsonConfig.AdditionalArgumentsParsingMode,
             };
         }
 
