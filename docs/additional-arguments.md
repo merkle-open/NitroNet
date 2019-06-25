@@ -130,7 +130,7 @@ If you want to use dynamic values to pass to the pattern, this is possible if yo
 ```csharp
 public class MovieModel
 {
-    public string Director { get; set; } = "Director";
+    public string DirectorRole { get; set; } = "Director";
     public string Title { get; set; }
     public string Abstract { get; set; }
     public int ProductionYear { get; set; }
@@ -144,7 +144,7 @@ Change the movie.hbs and instead of "Director" we write it this way:
     <p>{{title}} - ({{productionYear}})</p>
     <p> IMDb Rating: {{imdbRating}}</p>
     <p>{{abstract}}</p>
-    {{ pattern name="director" role=director }}
+    {{ pattern name="director" role=directorrole }}
 </div>
 ```
 The mode **Full** resolves properties from the current context. Also nested properties are possible, e.g. director.firstName. 
@@ -162,7 +162,7 @@ To show the principle we change our model. We want to add actors to the *movie.h
 ```csharp
 public class MovieModel
 {
-    public const string Director = "Director"
+    public const string DirectorRole = "Director"
     public string Title { get; set; }
     public string Abstract { get; set; }
     public int ProductionYear { get; set; }
@@ -184,7 +184,7 @@ The Handlebars templates get a change too:
     <p>{{title}} - ({{productionYear}})</p>
     <p> IMDb Rating: {{imdbRating}}</p>
     <p>{{abstract}}</p>
-    {{ pattern name="person" firstName=director.firstName surname=director.surname role=director }}
+    {{ pattern name="person" firstName=director.firstName surname=director.surname role=directorrole }}
     {{#each actors}}
         {{ pattern name="person" firstName=firstName surname=surname role="Actor" }}
     {{/each}}
