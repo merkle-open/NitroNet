@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
-using NitroNet.ViewEngine.TemplateHandler.RenderHandler;
 using Veil;
 using Veil.Helper;
 
 namespace NitroNet.ViewEngine.TemplateHandler
 {
-	internal class PlaceholderHelperHandler : IHelperHandler
+	public class PlaceholderHelperHandler : IHelperHandler
 	{
 		private readonly INitroTemplateHandler _handler;
 

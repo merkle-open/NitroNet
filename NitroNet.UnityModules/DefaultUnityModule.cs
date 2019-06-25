@@ -6,7 +6,7 @@ using NitroNet.ViewEngine.Cache;
 using NitroNet.ViewEngine.Config;
 using NitroNet.ViewEngine.IO;
 using NitroNet.ViewEngine.TemplateHandler;
-using NitroNet.ViewEngine.TemplateHandler.RenderHandler;
+using NitroNet.ViewEngine.TemplateHandler.Utils;
 using NitroNet.ViewEngine.ViewEngines;
 using Veil.Compiler;
 using Veil.Helper;
@@ -41,6 +41,7 @@ namespace NitroNet.UnityModules
             container.RegisterType<IHelperHandlerFactory, DefaultRenderingHelperHandlerFactory>(
                 new ContainerControlledLifetimeManager());
             container.RegisterType<IMemberLocator, MemberLocatorFromNamingRule>();
+            container.RegisterType<IMemberFilterFactory, MemberFilterFactory>(new ContainerControlledLifetimeManager());
             container.RegisterType<INamingRule, NamingRule>();
             container.RegisterType<IModelTypeProvider, DefaultModelTypeProvider>();
             container.RegisterType<IViewEngine, VeilViewEngine>();

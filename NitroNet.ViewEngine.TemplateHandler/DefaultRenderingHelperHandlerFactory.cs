@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using NitroNet.ViewEngine.TemplateHandler.Grid;
-using NitroNet.ViewEngine.TemplateHandler.RenderHandler;
 using Veil.Helper;
 
 namespace NitroNet.ViewEngine.TemplateHandler

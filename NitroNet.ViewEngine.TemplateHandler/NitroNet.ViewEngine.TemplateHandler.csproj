@@ -58,12 +58,14 @@
     <Compile Include="Grid\GridHelperHandler.cs" />
     <Compile Include="Grid\GridStack.cs" />
     <Compile Include="Grid\GridWidthHelperHandler.cs" />
-    <Compile Include="RenderHandler\INitroTemplateHandler.cs" />
-    <Compile Include="RenderHandler\INitroTemplateHandlerFactory.cs" />
+    <Compile Include="Models\ResolvedAdditionalArgument.cs" />
+    <Compile Include="Models\SubModel.cs" />
+    <Compile Include="INitroTemplateHandler.cs" />
+    <Compile Include="INitroTemplateHandlerFactory.cs" />
     <Compile Include="LabelHelperHandler.cs" />
     <Compile Include="ComponentHelperHandler.cs" />
-    <Compile Include="RenderHandler\INitroTemplateHandlerUtils.cs" />
-    <Compile Include="RenderHandler\NitroTemplateHandlerUtils.cs" />
+    <Compile Include="Utils\INitroTemplateHandlerUtils.cs" />
+    <Compile Include="Utils\NitroTemplateHandlerUtils.cs" />
     <Compile Include="RenderingParameter.cs" />
     <Compile Include="PlaceholderHelperHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,6 +73,10 @@
     <Compile Include="PartialHelperHandler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NitroNet.Common\NitroNet.Common.csproj">
+      <Project>{5E84D392-7825-4449-89A2-9C1B8E376CAE}</Project>
+      <Name>NitroNet.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NitroNet.ViewEngine\NitroNet.ViewEngine.csproj">
       <Project>{A2395B2D-F69E-420F-9534-E640DFE86138}</Project>
       <Name>NitroNet.ViewEngine</Name>

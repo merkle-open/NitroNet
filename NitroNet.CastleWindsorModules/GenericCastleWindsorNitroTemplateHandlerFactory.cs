@@ -1,6 +1,5 @@
 ﻿using Castle.Windsor;
 using NitroNet.ViewEngine.TemplateHandler;
-using NitroNet.ViewEngine.TemplateHandler.RenderHandler;
 
 namespace NitroNet.CastleWindsorModules
 {

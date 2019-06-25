@@ -59,6 +59,7 @@
     <Compile Include="Config\ConfigurationException.cs" />
     <Compile Include="Config\ConfigurationLoader.cs" />
     <Compile Include="Config\INitroNetConfig.cs" />
+    <Compile Include="Config\AdditionalArgumentsParsingMode.cs" />
     <Compile Include="Config\NitroNetConfig.cs" />
     <Compile Include="Config\NitroNetJsonConfig.cs" />
     <Compile Include="DefaultComponentRepository.cs" />
@@ -79,6 +80,9 @@
     <Compile Include="IViewEngine.cs" />
     <Compile Include="NitroTemplateRepository.cs" />
     <Compile Include="FileTemplateInfo.cs" />
+    <Compile Include="ViewEngines\FilteredMemberLocator.cs" />
+    <Compile Include="ViewEngines\IMemberFilter.cs" />
+    <Compile Include="ViewEngines\IMemberFilterFactory.cs" />
     <Compile Include="ViewEngines\MemberLocatorFromNamingRule.cs" />
     <Compile Include="ViewEngines\VeilViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

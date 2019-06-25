@@ -100,7 +100,7 @@ public class MovieModel
 	public string Abstract { get; set; }
 	public int ProductionYear { get; set; }
 	public string Director { get; set; }
-	public double { get; set; }
+	public double ImdbRating { get; set; }
 }
 ```
 

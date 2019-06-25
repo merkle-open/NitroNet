@@ -5,7 +5,7 @@ using Veil.Helper;
 
 namespace NitroNet.ViewEngine.TemplateHandler
 {
-    internal class TemplateIdHelperHandler : IHelperHandler
+    public class TemplateIdHelperHandler : IHelperHandler
     {
         public bool IsSupported(string name)
         {
