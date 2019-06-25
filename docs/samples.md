@@ -181,7 +181,7 @@ public BubbleModel BubbleLocation { get; set; }
 ```
 
 ##### Situation C - Component with name and additional arguments
-This situation only can occur when the feature [Additional Arguments](additional-arguments.md) is enabled (either **Full** or **StaticLiteralsOnly** mode) and the **additionalArgumentsOnlyComponents** is true.
+This situation only can occur when the feature [Additional Arguments](additional-arguments.md) is enabled (either **Full** or **StaticLiteralsOnly** mode) and the **enableAdditionalArgumentsOnly** is true.
 
 View snippet:
 

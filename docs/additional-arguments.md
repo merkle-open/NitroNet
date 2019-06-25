@@ -8,7 +8,7 @@ In NitroNet this feature has been extended to not only pass literal values but a
 
 As the introduction of this feature changes the behaviour of previous versions, a multiple flags have been added to enable and steer this feature via the already known nitronet-config.json file explained in [Configuration](configuration.md).
 
-By default or if not present, the feature is disabled. This is equal as setting additionalArgumentsParsingMode to none and additionalArgumentsOnlyComponents to false.
+By default or if not present, the feature is disabled. This is equal as setting additionalArgumentsParsingMode to none and enableAdditionalArgumentsOnly to false.
 
 <table>
     <tr>
@@ -30,7 +30,7 @@ By default or if not present, the feature is disabled. This is equal as setting 
         </td>
     </tr>
     <tr>
-        <td>additionalArgumentsOnlyComponents</td>
+        <td>enableAdditionalArgumentsOnly</td>
         <td>false</td>
         <td>This feature only has an effect if additionalArgumentsParsingMode is staticvaluesonly or full.<br>If enabled, the component helper is being called with the given additional arguments only even if no suiting sub model is available on the current context. This is especially important in the current NitroNet.Sitecore implementation whereas the component handler tries to call a Sitecore component or a controller if no suiting sub model is available. If you want to use the named feature this setting must stay disabled.</td>
     </tr>
@@ -54,7 +54,7 @@ By default or if not present, the feature is disabled. This is equal as setting 
         "..."
     ],
     "additionalArgumentsParsingMode":"none|full|staticliteralsonly",
-    "additionalArgumentsOnlyComponents": true
+    "enableAdditionalArgumentsOnly": true
 }
 ```
 
@@ -151,10 +151,10 @@ The mode **Full** resolves properties from the current context. Also nested prop
 
 <span style="color:red">**Attention:**</span> If the mode is set to full and the provided property is not resolvable an **Exception** is thrown, e.g. director.someUnknownProperty is not possible!
 
-### Render patterns without a model a.k.a. *additionalArgumentsOnlyComponents*
+### Render patterns without a model a.k.a. *enableAdditionalArgumentsOnly*
 So far if you want to use the pattern/components helper you had to provide a model matching the *name* parameter on pattern or pass it explicitely via the *data* parameter (see [here](samples.md#a-component-with-subcomponents)).
 
-If you enable **additionalArgumentsOnlyComponents** you don't need this anymore. You can provide every parameter you want to pass to the helper inline and the pattern gets rendered with this data.
+If you enable **enableAdditionalArgumentsOnly** you don't need this anymore. You can provide every parameter you want to pass to the helper inline and the pattern gets rendered with this data.
 
 To show the principle we change our model. We want to add actors to the *movie.hbs*. Actors have the same properties a a director as they are persons too. So we replace the `DirectorModel` with the `PersonModel` and add a list of actors to the `MovieModel`.
 
@@ -208,6 +208,6 @@ The Handlebars templates get a change too:
 </div>
 ```
 
-As you can see in the Handlebars templates, with **AdditionalArgumentsParsingMode:Full** in combination with **additionalArgumentsOnlyComponents:true** you have full flexibility how to pass values to your patterns.
+As you can see in the Handlebars templates, with **AdditionalArgumentsParsingMode:Full** in combination with **enableAdditionalArgumentsOnly:true** you have full flexibility how to pass values to your patterns.
 
-<span style="color:red">**Attention:**</span> Without **AdditionalArgumentsParsingMode** in mode **Full** or **StaticLiteralsOnly** the **additionalArgumentsOnlyComponents** setting has no effect as it only makes sense if additional arguments are parsed in some way.
+<span style="color:red">**Attention:**</span> Without **AdditionalArgumentsParsingMode** in mode **Full** or **StaticLiteralsOnly** the **enableAdditionalArgumentsOnly** setting has no effect as it only makes sense if additional arguments are parsed in some way.

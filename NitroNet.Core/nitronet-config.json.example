@@ -18,5 +18,6 @@
     ".*?\\/template\\/([\\w][^\\/]+)$",
     ".*?\\/spec\\/([\\w][^\\/]+)$"
   ],
-  "AdditionalArgumentsParsingMode": "none"
+  "additionalArgumentsParsingMode": "none",
+  "enableAdditionalArgumentsOnly": false 
 }

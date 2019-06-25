@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -39,7 +38,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.Test
             _nitroNetConfigMock = new Mock<INitroNetConfig>();
 
             _nitroNetConfigMock.Setup(config => config.AdditionalArgumentsParsingMode).Returns(AdditionalArgumentsParsingMode.Full);
-            _nitroNetConfigMock.Setup(config => config.PassAdditionalArgumentsIfSubcomponentPropertyIsMissing).Returns(false);
+            _nitroNetConfigMock.Setup(config => config.EnableAdditionalArgumentsOnly).Returns(false);
 
             _nitroTemplateHandlerUtils = new NitroTemplateHandlerUtils(componentRepositoryMock.Object, _nitroNetConfigMock.Object);
         }

@@ -45,7 +45,7 @@ namespace NitroNet.ViewEngine.Config
                 ComponentPaths = jsonConfig.ComponentPaths.Select(path => GetDefaultValueIfNotSet(path,
                     PathInfo.Create("components"),
                     PathInfo.Create("modules"))),
-                AdditionalArgumentsOnlyComponents = jsonConfig.AdditionalArgumentsOnlyComponents
+                EnableAdditionalArgumentsOnly = jsonConfig.EnableAdditionalArgumentsOnly,
                 AdditionalArgumentsParsingMode = jsonConfig.AdditionalArgumentsParsingMode,
             };
         }

@@ -79,7 +79,7 @@ namespace NitroNet.ViewEngine.TemplateHandler.Utils
             }
 
             //if no submodel was found use additional parameters, if enabled
-            if (_config.PassAdditionalArgumentsIfSubcomponentPropertyIsMissing && additionalArguments.Any())
+            if (_config.EnableAdditionalArgumentsOnly && additionalArguments.Any())
             {
                 model = CleanAdditionalArguments(additionalArguments);
                 return true;

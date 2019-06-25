@@ -13,7 +13,7 @@ namespace NitroNet.ViewEngine.Config
         public IEnumerable<string> Filters { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]
         public AdditionalArgumentsParsingMode AdditionalArgumentsParsingMode { get; set; }
-        public  bool AdditionalArgumentsOnlyComponents { get; set; }
+        public  bool EnableAdditionalArgumentsOnly { get; set; }
 
     }
 }
