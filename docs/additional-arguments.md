@@ -1,6 +1,6 @@
 # Additional Arguments
 
-Additional Arguments are based on the [Literals](https://handlebarsjs.com/#literals) concept of [Handlbars.js](https://handlebarsjs.com). This feature allows you to pass literal values a helper.
+Additional Arguments are based on the [Literals/Hash arguments](https://handlebarsjs.com/guide/expressions.html#helpers-with-hash-arguments) concept of [Handlbars.js](https://handlebarsjs.com). This feature allows you to pass literal values a helper.
 
 In NitroNet this feature has been extended to not only pass literal values but also a values from the current context as well as a sub context which gets passed to the helper together with additional arguments which overwrite or extend the data from the sub context.
 
