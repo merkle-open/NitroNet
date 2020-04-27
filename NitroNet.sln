@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroNet.Mvc", "NitroNet.Mvc\NitroNet.Mvc.csproj", "{B91E9371-631F-4F33-AD32-2B78724C85D3}"
 EndProject
@@ -36,6 +36,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroNet.Common", "NitroNet.Common\NitroNet.Common.csproj", "{5E84D392-7825-4449-89A2-9C1B8E376CAE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroNet.CastleWindsorModules", "NitroNet.CastleWindsorModules\NitroNet.CastleWindsorModules.csproj", "{3200CAEB-BB82-4F30-8714-58433B51AC26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroNet.ViewEngine.TemplateHandler.Test", "NitroNet.ViewEngine.TemplateHandler.Test\NitroNet.ViewEngine.TemplateHandler.Test.csproj", "{46AB209A-FACF-4823-9DEF-8B986063168C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +89,10 @@ Global
 		{3200CAEB-BB82-4F30-8714-58433B51AC26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3200CAEB-BB82-4F30-8714-58433B51AC26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3200CAEB-BB82-4F30-8714-58433B51AC26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46AB209A-FACF-4823-9DEF-8B986063168C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46AB209A-FACF-4823-9DEF-8B986063168C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46AB209A-FACF-4823-9DEF-8B986063168C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46AB209A-FACF-4823-9DEF-8B986063168C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,5 +102,9 @@ Global
 		{3335691A-38B6-4DD1-96CB-A1C262CEF4CC} = {81827048-6FBD-4957-BDFC-247650732662}
 		{53891204-B74C-4FEF-AF1F-7E3081E83582} = {BD778325-2F52-4ED1-9E3D-1164D749367F}
 		{8E0FD9F2-77E0-4D4B-B241-9746B24E86B6} = {BD778325-2F52-4ED1-9E3D-1164D749367F}
+		{46AB209A-FACF-4823-9DEF-8B986063168C} = {BD778325-2F52-4ED1-9E3D-1164D749367F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A34A4387-F2AC-40E6-B773-7EFAFC13E0C1}
 	EndGlobalSection
 EndGlobal

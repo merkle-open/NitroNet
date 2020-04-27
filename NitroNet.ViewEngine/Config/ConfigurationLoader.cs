@@ -24,7 +24,9 @@ namespace NitroNet.ViewEngine.Config
             var configFile = PathInfo.Combine(basePathInfo, PathInfo.Create(fileName));
 
             if (!File.Exists(configFile.ToString()))
-                throw new ConfigurationException(string.Format("Could not find configuration in path '{0}' in {1}.", configFile, basePathInfo));
+            {
+                throw new ConfigurationException($"Could not find configuration in path '{configFile}' in {basePathInfo}.");
+            }
 
             NitroNetJsonConfig jsonConfig;
             using (var reader = new JsonTextReader(new StreamReader(new FileStream(configFile.ToString(), FileMode.Open, FileAccess.Read))))
@@ -34,12 +36,17 @@ namespace NitroNet.ViewEngine.Config
 
             return new NitroNetConfig
             {
-                ViewPaths = jsonConfig.ViewPaths.Select(path => GetDefaultValueIfNotSet(path, PathInfo.Create("views"))),
+                ViewPaths =
+                    jsonConfig.ViewPaths.Select(path => GetDefaultValueIfNotSet(path, PathInfo.Create("views"))),
                 Extensions = jsonConfig.Extensions.Select(extension => GetDefaultValueIfNotSet(extension, "html")),
                 Filters = jsonConfig.Filters.Select(filter => GetDefaultValueIfNotSet(filter, string.Empty)),
-                PartialPaths = jsonConfig.PartialPaths.Select(path => GetDefaultValueIfNotSet(path, PathInfo.Create("partials"))),
-                ComponentPaths = jsonConfig.ComponentPaths.Select(path => GetDefaultValueIfNotSet(path, PathInfo.Create("components"),
-                    PathInfo.Create("modules")))
+                PartialPaths =
+                    jsonConfig.PartialPaths.Select(path => GetDefaultValueIfNotSet(path, PathInfo.Create("partials"))),
+                ComponentPaths = jsonConfig.ComponentPaths.Select(path => GetDefaultValueIfNotSet(path,
+                    PathInfo.Create("components"),
+                    PathInfo.Create("modules"))),
+                EnableAdditionalArgumentsOnly = jsonConfig.EnableAdditionalArgumentsOnly,
+                AdditionalArgumentsParsingMode = jsonConfig.AdditionalArgumentsParsingMode,
             };
         }
 

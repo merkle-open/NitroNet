@@ -7,7 +7,7 @@ using Veil.Helper;
 
 namespace NitroNet.ViewEngine.TemplateHandler
 {
-	internal class PlaceholderHelperHandler : IHelperHandler
+	public class PlaceholderHelperHandler : IHelperHandler
 	{
 		private readonly INitroTemplateHandler _handler;
 

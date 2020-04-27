@@ -1,20 +1,20 @@
-﻿using NitroNet.ViewEngine;
-using NitroNet.ViewEngine.TemplateHandler;
+﻿using NitroNet.ViewEngine.TemplateHandler;
+using NitroNet.ViewEngine.TemplateHandler.Utils;
 
 namespace NitroNet.Mvc
 {
     public class MvcNitroTemplateHandlerFactory : INitroTemplateHandlerFactory
     {
-        private readonly IComponentRepository _componentRepository;
+        private readonly INitroTemplateHandlerUtils _templateHandlerUtils;
 
-        public MvcNitroTemplateHandlerFactory(IComponentRepository componentRepository)
+        public MvcNitroTemplateHandlerFactory(INitroTemplateHandlerUtils templateHandlerUtils)
         {
-            _componentRepository = componentRepository;
+            _templateHandlerUtils = templateHandlerUtils;
         }
 
         public INitroTemplateHandler Create()
         {
-            return new MvcNitroTemplateHandler(_componentRepository);
+            return new MvcNitroTemplateHandler(_templateHandlerUtils);
         }
     }
 }

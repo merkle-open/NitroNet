@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using Veil.Compiler;
 using Veil.Helper;
 using Veil.Parser.Nodes;
@@ -141,9 +142,23 @@ namespace Veil.Parser
 			};
 		}
 
-		public static HelperExpressionNode Helper(string expression, IHelperHandler helperHandler, SourceLocation location)
-		{
-			var parts = expression.Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+        private static readonly Regex expressionRegex = new Regex(@"([A-z][\w-]*=([\""\'].*?[\""\']|\d+|[A-z][\w-]*(?:\.[A-z][\w-]*)*))");
+
+        public static HelperExpressionNode Helper(string expression, IHelperHandler helperHandler, SourceLocation location)
+        {
+            var parts = expression.Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+
+            var helperType = parts[0];
+            if (helperType.Equals("pattern") || helperType.Equals("component"))
+            {
+                var matches = expressionRegex.Matches(expression);
+
+                var matchesList = matches.Cast<Match>().Select(m => m.Value).ToList();
+                matchesList.Insert(0, helperType);
+
+                parts = matchesList.ToArray();
+            }
+
 			return Helper(parts, helperHandler, location);
 		}
 

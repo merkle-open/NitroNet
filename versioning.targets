@@ -5,7 +5,7 @@
       (f.e. "... /p:PackageVersion="1.0.0.156" ...")
     -->
 	<MajorVersion Condition="'$(MajorVersion)' == ''">1</MajorVersion>
-	<MinorVersion Condition="'$(MinorVersion)' == ''">1</MinorVersion>
+	<MinorVersion Condition="'$(MinorVersion)' == ''">2</MinorVersion>
 	<PatchVersion Condition="'$(PatchVersion)' == ''">0</PatchVersion>
 	<BuildNumber Condition="'$(BuildNumber)' == ''">0</BuildNumber>
 	<PackageVersion>$(MajorVersion).$(MinorVersion).$(PatchVersion)</PackageVersion>

@@ -6,6 +6,7 @@ using NitroNet.ViewEngine.Config;
 using NitroNet.ViewEngine.IO;
 using NitroNet.ViewEngine.TemplateHandler;
 using NitroNet.ViewEngine.TemplateHandler.HandlebarsNet;
+using NitroNet.ViewEngine.TemplateHandler.Utils;
 using NitroNet.ViewEngine.ViewEngines;
 using NitroNet.ViewEngine.ViewEngines.HandlebarsNet;
 using Veil.Compiler;
@@ -40,6 +41,7 @@ namespace NitroNet.UnityModules
             container.RegisterType<IHandlebarsNetHelperHandlerFactory, HandlebarsNetHelperHandlerFactory>(
                 new ContainerControlledLifetimeManager());
             container.RegisterType<IMemberLocator, MemberLocatorFromNamingRule>();
+            container.RegisterType<IMemberFilterFactory, MemberFilterFactory>(new ContainerControlledLifetimeManager());
             container.RegisterType<INamingRule, NamingRule>();
             container.RegisterType<IModelTypeProvider, DefaultModelTypeProvider>();
             container.RegisterType<IViewEngine, HandlebarsNetViewEngine>();
@@ -48,6 +50,8 @@ namespace NitroNet.UnityModules
             container.RegisterType<IComponentRepository, DefaultComponentRepository>(new ContainerControlledLifetimeManager());
             container.RegisterType<ITemplateRepository, NitroTemplateRepository>(new ContainerControlledLifetimeManager());
             container.RegisterType<INitroTemplateHandlerFactory, MvcNitroTemplateHandlerFactory>(
+                new ContainerControlledLifetimeManager());
+            container.RegisterType<INitroTemplateHandlerUtils, NitroTemplateHandlerUtils>(
                 new ContainerControlledLifetimeManager());
         }
     }

@@ -29,17 +29,15 @@ As a sub project, NitroNet was extended to be used in the WCMS [Sitecore](http:/
 ## Future roadmap
 [Please look at the milestones regarding the features and time frames of future releases.](https://github.com/namics/NitroNet/milestones)
 
-**Important features planned for 2018:**
-- Auto generation of model classes [(done, needs review)](https://github.com/namics/NitroNet/tree/feature/%2320-generate-jsonschema-model-classes)
+**Important features planned in the near future:**
+- [Auto generation of model classes](https://github.com/namics/NitroNet/issues/20)
+- Alternative to the underlying Veil parser?
 - Youtube tutorial videos
-- Demo solution/integration -> [here](https://github.com/namics/NitroNet.Demo) (almost done)
-- Extending the documentation
-- File system can be more flexible
 
 ## Contact / Contributing
 If you want to submit a bug or request a feature please feel free to open an issue.
 
-If you want to get in contact with us, just write an email to [Manuel Fischer](https://github.com/hombreDelPez) or [Fabian Geiger](https://github.com/naibafch).
+If you want to get in contact with us, just write an email to [Fabian Geiger](https://github.com/naibafch),  [Amir Begic](https://github.com/amir-begic) or [Marcel Wagner](https://github.com/m-wagn)
 
 Pull requests are welcome!
 

@@ -17,5 +17,7 @@
   "filters": [
     ".*?\\/template\\/([\\w][^\\/]+)$",
     ".*?\\/spec\\/([\\w][^\\/]+)$"
-  ]
+  ],
+  "additionalArgumentsParsingMode": "none",
+  "enableAdditionalArgumentsOnly": false 
 }

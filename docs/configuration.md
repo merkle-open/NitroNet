@@ -3,6 +3,7 @@
 - [Configuration](configuration.md)
 - [Getting started](getting-started.md)
 - [Samples](samples.md)
+- [Demo Integration](https://github.com/namics/NitroNet.Demo)
 - [Release Notes](https://github.com/namics/NitroNet/releases)
 - [Known Issues](known-issues.md)
 
@@ -84,7 +85,7 @@ Explanation to the individual settings/properties:
 * **filters**: File paths which match with the `filters` regex are being ignored
 
 ### *Optional:* Add and register your own custom helpers
-As mentioned before NitroNet comes with support for the [Nitro](https://github.com/namics/generator-nitro/) custom handlebars helpers by default.
+As mentioned before, NitroNet comes with support for the [Nitro](https://github.com/namics/generator-nitro/) custom handlebars helpers by default.
 
 But you can add your own helpers as well. You can achieve this by doing the following steps (the instructions are shown using the Unity IoC framework):
 
@@ -109,19 +110,17 @@ public class YourOwnHelperHandlerFactory : IHandlebarsNetHelperHandlerFactory
       // add your block-helpers here
 
       return blockHelpers;
+        }
     }
-}
 ```
 
 3.) Register your implementation of `IHandlebarsNetHelperHandlerFactory` to your IoC container. The following example is for Unity and is added to the `RegisterTypes()` method in the `UnityConfig` class:
 
 ```csharp
 container.RegisterType<IHandlebarsNetHelperHandlerFactory, YourOwnHelperHandlerFactory>(new ContainerControlledLifetimeManager());
-
 ```
 
 after the following line:
-
 
 ```csharp
 new DefaultUnityModule(basePath).Configure(container);

@@ -20,12 +20,16 @@ namespace NitroNet.Mvc
 		internal static MvcRenderingContext Build(ViewContext viewContext, IViewDataContainer viewDataContainer, TextWriter writer)
 		{
 			var context = GetFromViewContext(viewContext);
-			if (context != null)
-				return context;
+            if (context != null)
+            {
+                return context;
+            }
 
-			MvcRenderingContext parentContext = null; 
-			if (viewContext.ParentActionViewContext != null)
-				parentContext = GetFromViewContext(viewContext.ParentActionViewContext);
+			MvcRenderingContext parentContext = null;
+            if (viewContext.ParentActionViewContext != null)
+            {
+                parentContext = GetFromViewContext(viewContext.ParentActionViewContext);
+            }
 
 			context = new MvcRenderingContext(viewContext, viewDataContainer, writer, parentContext);
 			viewContext.ViewData.Add(ContextKey, context);
@@ -37,8 +41,10 @@ namespace NitroNet.Mvc
 	    {
 		    object contextObj;
 		    MvcRenderingContext context = null;
-		    if (viewContext.ViewData.TryGetValue(ContextKey, out contextObj))
-			    context = contextObj as MvcRenderingContext;
+            if (viewContext.ViewData.TryGetValue(ContextKey, out contextObj))
+            {
+                context = contextObj as MvcRenderingContext;
+            }
 
 		    return context;
 	    }

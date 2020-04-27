@@ -6,7 +6,7 @@ using Veil.Helper;
 
 namespace NitroNet.ViewEngine.TemplateHandler
 {
-    internal class LabelHelperHandler : IHelperHandler
+    public class LabelHelperHandler : IHelperHandler
     {
         private readonly INitroTemplateHandler _handler;
 

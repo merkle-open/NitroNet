@@ -3,6 +3,7 @@
 - [Configuration](configuration.md)
 - [Getting started](getting-started.md)
 - [Samples](samples.md)
+- [Demo Integration](https://github.com/namics/NitroNet.Demo)
 - [Release Notes](https://github.com/namics/NitroNet/releases)
 - [Known Issues](known-issues.md)
 
@@ -99,7 +100,7 @@ public class MovieModel
 	public string Abstract { get; set; }
 	public int ProductionYear { get; set; }
 	public string Director { get; set; }
-	public double { get; set; }
+	public double ImdbRating { get; set; }
 }
 ```
 

@@ -65,8 +65,8 @@
     <Compile Include="FileSystemSubscriptionTest.cs" />
     <Compile Include="FileSystemTest.cs" />
     <Compile Include="Grid\GridHelperHandlerTest.cs" />
+    <Compile Include="DictionaryOwnPropertiesFilterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FileSystemProviderTest.cs" />
     <Compile Include="FilePathHelperTest.cs" />
     <Compile Include="DefaultModuleRepositoryTest.cs" />
   </ItemGroup>

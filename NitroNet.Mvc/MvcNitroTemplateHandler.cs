@@ -1,79 +1,39 @@
 using NitroNet.ViewEngine.TemplateHandler;
 using System;
-using System.Globalization;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using NitroNet.ViewEngine.TemplateHandler.Utils;
 
 namespace NitroNet.Mvc
 {
-    using NitroNet.ViewEngine;
     using Sitecore.Mvc.Presentation;
     using System.Linq;
-
     public class MvcNitroTemplateHandler : INitroTemplateHandler
 	{
-        private readonly IComponentRepository _componentRepository;
+	    private readonly INitroTemplateHandlerUtils _templateHandlerUtils;
 
-        public MvcNitroTemplateHandler(IComponentRepository componentRepository)
-        {
-            _componentRepository = componentRepository;
-        }
+	    public MvcNitroTemplateHandler(INitroTemplateHandlerUtils templateHandlerUtils)
+	    {
+	        _templateHandlerUtils = templateHandlerUtils;
+	    }
 
         public Task RenderPlaceholderAsync(object model, string key, string index, Veil.RenderingContext context)
 		{
-			return context.Writer.WriteAsync("Placeholder for:" + key);
+			return context.Writer.WriteAsync($"Placeholder for: {key}");
 		}
 
 		public void RenderPlaceholder(object model, string key, string index, Veil.RenderingContext context)
 		{
-			context.Writer.Write("Placeholder for:" + key);
+			context.Writer.Write($"Placeholder for: {key}");
 		}
 
 	    public void RenderPlaceholder(object model, string key, string index, TextWriter writer, ViewContext viewContext)
 	    {
 	        writer.Write("Placeholder for:" + key);
         }
-
-	    public void RenderComponent(RenderingParameter component, RenderingParameter skin, RenderingParameter dataVariation, object model,
-	        Veil.RenderingContext context)
-	    {
-            const string thisIdentifier = "this";
-
-            var mvcContext = context as MvcRenderingContext;
-            if (mvcContext == null)
-                throw new InvalidOperationException("MvcNitroTemplateHandler can only be used inside a Mvc application.");
-
-            //todo: get sub model -> and then call renderpartial
-            if (string.IsNullOrEmpty(dataVariation.Value))
-            {
-                dataVariation.Value = component.Value;
-            }
-
-            var propertyName = CleanName(dataVariation.Value);
-
-            object subModel = null;
-
-            if (dataVariation.Value.Equals(thisIdentifier))
-            {
-                subModel = model;
-            }
-
-	        if (subModel == null)
-            {
-                GetValueFromObjectHierarchically(model, propertyName, out subModel);
-            }
-
-            if (subModel != null && !(subModel is string))
-            {
-                var componentIdBySkin = GetComponentId(component.Value, skin.Value);
-                RenderPartial(componentIdBySkin, subModel, context);
-                return;
-            }
-
-	        //new HtmlHelper(mvcContext.ViewContext, mvcContext.ViewDataContainer).RenderAction("Index", component.Value);
-	    }
 
 	    public void RenderComponent(RenderingParameter component, RenderingParameter skin, RenderingParameter dataVariation,
 	        object model, ViewContext viewContext)
@@ -110,92 +70,49 @@ namespace NitroNet.Mvc
         }
 
 	    //TODO: duplicate function -> remove
-        private string GetComponentId(string componentId, string skin)
+        [Obsolete(
+            "Deprecated. Use method RenderComponent(IDictionary<string, RenderingParameter> renderingParameters, object model,RenderingContext context, IDictionary<string, string> parameters) instead.")]
+        public void RenderComponent(RenderingParameter component, RenderingParameter skin, RenderingParameter dataVariation,
+            object model, RenderingContext context)
         {
-            //TODO: componentDefinition.DefaultTemplate must not be NULL!!!! -> fix it
-            var componentDefinition = _componentRepository.GetComponentDefinitionByIdAsync(componentId).Result;
-            if (componentDefinition != null)
+            RenderComponent(new Dictionary<string, RenderingParameter>
             {
-                FileTemplateInfo templateInfo;
-                if (string.IsNullOrEmpty(skin) || componentDefinition.Skins == null ||
-                    !componentDefinition.Skins.TryGetValue(skin, out templateInfo))
-                    templateInfo = componentDefinition.DefaultTemplate;
-
-                return templateInfo.Id;
-            }
-
-            return null;
+                { ComponentConstants.Name, component },
+                { ComponentConstants.DataParameter, dataVariation},
+                { ComponentConstants.SkinParameter, skin}
+            }, model, context, new Dictionary<string, string>());
         }
 
-        //TODO: duplicate function -> remove
-        private string CleanName(string text)
+        public void RenderComponent(IDictionary<string, RenderingParameter> renderingParameters, object model,
+            RenderingContext context, IDictionary<string, string> parameters)
         {
-            if (string.IsNullOrEmpty(text))
+            CastRenderingContext(context);
+
+            var component = renderingParameters[ComponentConstants.Name];
+            var skin = renderingParameters[ComponentConstants.SkinParameter];
+
+            var subModel = _templateHandlerUtils.FindSubModel(renderingParameters, model, context);
+            var additionalParameters = _templateHandlerUtils.ResolveAdditionalArguments(model, parameters, new HashSet<string>(renderingParameters.Keys));
+
+            if (_templateHandlerUtils.TryCreateModel(subModel, additionalParameters, out var finalModel))
             {
-                return string.Empty;
+                _templateHandlerUtils.RenderPartial(finalModel, component.Value, skin.Value, context, RenderPartial);
+                return;
             }
 
-            return text.Replace(" ", string.Empty).Replace("-", string.Empty).ToLower(CultureInfo.InvariantCulture);
+            _templateHandlerUtils.ThrowErrorIfSubModelFoundAndNull(subModel.SubModelFound, subModel.Value,
+                subModel.PropertyName, model);
         }
 
-        //TODO: duplicate function -> remove
-        private bool GetValueFromObjectHierarchically(object model, string propertyName, out object modelValue)
-        {
-            modelValue = null;
-            if (propertyName.IndexOf(".", StringComparison.Ordinal) <= 0)
-            {
-                return GetValueFromObject(model, propertyName, out modelValue);
-            }
-
-            var subModel = model;
-            foreach (var s in propertyName.Split('.'))
-            {
-                var modelFound = GetValueFromObject(subModel, s, out subModel);
-                if (!modelFound)
-                {
-                    return false;
-                }
-
-                if (subModel == null)
-                {
-                    break;
-                }
-            }
-
-            modelValue = subModel;
-            return true;
-        }
-
-        //TODO: duplicate function -> remove
-        private bool GetValueFromObject(object model, string propertyName, out object modelValue)
-        {
-            modelValue = null;
-            var dataProperty =
-                model.GetType().GetProperties().FirstOrDefault(prop => prop.Name.ToLower(CultureInfo.InvariantCulture).Equals(propertyName));
-            if (dataProperty == null)
-            {
-                return false;
-            }
-
-            modelValue = dataProperty.GetValue(model);
-            return true;
-        }
-
+        //TODO: Rework -> Currently this method doesn't have all features from the normal RenderComponent() method.
         public Task RenderComponentAsync(RenderingParameter component, RenderingParameter skin, RenderingParameter dataVariation, object model,
             Veil.RenderingContext context)
         {            
-            var mvcContext = context as MvcRenderingContext;
-            if (mvcContext == null)
-                throw new InvalidOperationException("MvcNitroTemplateHandler can only be used inside a Mvc application.");
-
+            var mvcContext = CastRenderingContext(context);
             new HtmlHelper(mvcContext.ViewContext, mvcContext.ViewDataContainer).RenderAction("Index", component.Value);
+
             return Task.FromResult(false);
         }
-
-		public Task RenderLabelAsync(string key, Veil.RenderingContext context)
-		{
-			throw new NotImplementedException();
-		}
 
 		public void RenderLabel(string key, Veil.RenderingContext context)
 		{
@@ -207,21 +124,21 @@ namespace NitroNet.Mvc
 	        throw new NotImplementedException();
 	    }
 
-	    public Task RenderPartialAsync(string template, object model, RenderingContext context)
+		public void RenderPartial(string template, object model, RenderingContext context)
 		{
-			throw new NotImplementedException();
+            var mvcContext = CastRenderingContext(context);
+            var htmlHelper = new HtmlHelper(mvcContext.ViewContext, mvcContext.ViewDataContainer);
+            
+            htmlHelper.RenderPartial(template, model);
 		}
 
-		public void RenderPartial(string template, object model, Veil.RenderingContext context)
-		{
-            //todo: implemnt! htmlhelper.partial
+        private MvcRenderingContext CastRenderingContext(RenderingContext context)
+        {
             var mvcContext = context as MvcRenderingContext;
             if (mvcContext == null)
+            {
                 throw new InvalidOperationException("MvcNitroTemplateHandler can only be used inside a Mvc application.");
-
-            HtmlHelper a = new HtmlHelper(mvcContext.ViewContext, mvcContext.ViewDataContainer);
-            a.RenderPartial(template, model);
-		}
+            }
 
 	    public void RenderPartial(string template, object model, ViewContext context)
 	    {
@@ -229,5 +146,7 @@ namespace NitroNet.Mvc
 	        a.RenderPartial(template, model);
 	    }
 
+            return mvcContext;
+        }
     }
 }
