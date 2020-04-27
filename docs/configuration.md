@@ -88,24 +88,35 @@ As mentioned before NitroNet comes with support for the [Nitro](https://github.c
 
 But you can add your own helpers as well. You can achieve this by doing the following steps (the instructions are shown using the Unity IoC framework):
 
-1.) Create your own helpers by implementing the `Veil.Helper.IHelperHandler`. See the classes in `NitroNet.ViewEngine.TemplateHandler` for reference.
+1.) Create your own helpers by implementing the `NitroNet.ViewEngine.ViewEngines.HandlebarsNet.IHandlebarsNetHelperHandler`. See the classes in `NitroNet.ViewEngine.TemplateHandler.HandlebarsNet` for reference.
 
-2.) Create your own implementation of the `Veil.Helper.IHelperHandlerFactory`. You can take the `NitroNet.ViewEngine.TemplateHandler.DefaultRenderingHelperHandlerFactory` as a basis for your code.
+2.) Create your own implementation of the `NitroNet.ViewEngine.ViewEngines.HandlebarsNet.IHandlebarsNetHelperHandlerFactory`. You can take the `NitroNet.ViewEngine.TemplateHandler.HandlebarsNet.HandlebarsNetHelperHandlerFactory` as a basis for your code.
 
 ```csharp
-public class YourOwnHelperHandlerFactory : IHelperHandlerFactory
+public class YourOwnHelperHandlerFactory : IHandlebarsNetHelperHandlerFactory
 {
-    public IEnumerable<IHelperHandler> Create()
-    {
-        //your own helpers
+    public List<KeyValuePair<string, HandlebarsHelper>> Create(){
+      var helpers = new List<KeyValuePair<string, HandlebarsHelper>>();
+
+      // add your helpers here
+
+      return helpers;
+    }
+
+    public List<KeyValuePair<string, HandlebarsBlockHelper>> CreateForBlocks(){
+      var helpers = new List<KeyValuePair<string, HandlebarsBlockHelper>>();
+
+      // add your block-helpers here
+
+      return blockHelpers;
     }
 }
 ```
 
-3.) Register your implementation of `IHelperHandlerFactory` to your IoC container. The following example is for Unity and is added to the `RegisterTypes()` method in the `UnityConfig` class:
+3.) Register your implementation of `IHandlebarsNetHelperHandlerFactory` to your IoC container. The following example is for Unity and is added to the `RegisterTypes()` method in the `UnityConfig` class:
 
 ```csharp
-container.RegisterType<IHelperHandlerFactory, YourOwnHelperHandlerFactory>(new ContainerControlledLifetimeManager());
+container.RegisterType<IHandlebarsNetHelperHandlerFactory, YourOwnHelperHandlerFactory>(new ContainerControlledLifetimeManager());
 
 ```
 

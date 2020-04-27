@@ -1,10 +1,12 @@
+using Newtonsoft.Json.Schema;
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json.Schema;
 
 namespace NitroNet.ViewEngine
 {
-	public class NamingRule : INamingRule
+    [Obsolete("will be removed as soon final switch to handlebarsnet is completed")]
+    public class NamingRule : INamingRule
 	{
         private static readonly Regex PascalCaseRegex = new Regex(@"\p{Lu}\p{Ll}+|\p{Lu}+(?!\p{Ll})|\p{Ll}+|\d+", RegexOptions.Compiled);
 

@@ -1,9 +1,11 @@
-using System.Collections.Generic;
 using NitroNet.ViewEngine.TemplateHandler.Grid;
+using System;
+using System.Collections.Generic;
 using Veil.Helper;
 
 namespace NitroNet.ViewEngine.TemplateHandler
 {
+    [Obsolete("Use HandlebarsNetHelperHandlerFactory instead")]
     public class DefaultRenderingHelperHandlerFactory : IHelperHandlerFactory
     {
         private readonly INitroTemplateHandlerFactory _nitroTemplateHandlerFactory;

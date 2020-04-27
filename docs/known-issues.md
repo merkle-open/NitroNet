@@ -7,29 +7,10 @@
 - [Known Issues](known-issues.md)
 
 ## Limitations
-Unfortunately not all handlerbars features are supported in NitroNet. This is due to the underlying handlebars parser [Veil](https://github.com/csainty/Veil/tree/master/src/Veil.Handlebars) we are using.
+Unfortunately not all handlerbars features are supported in NitroNet. This is due to the underlying handlebars parser [Handlebars.Net](https://github.com/rexm/Handlebars.Net) we are using.
 
-To have an overview of what works and what not you can consult the [documentation of Veil.Handlebars](https://github.com/csainty/Veil/tree/master/src/Veil.Handlebars).
+To have an overview of what works and what not you can consult the [documentation of Handlebars.Net](https://github.com/rexm/Handlebars.Net).
 
-### General features
-
-#### Partials with passed context
-It is currently not possible (because of the underlying Veil) to have partials with a passed context:
-```
-{{> myPartial myOtherContext }}
-```
-
-But for this case there is a workaround. You can change the context with the `{{#with}}` like this:
-```
-{{#with myOtherContext}}
-    {{> myPartial}}
-{{/with}}
-```
-
-#### Master pages
-With our modified version of the handlebars parser *Veil* it is not possible to use the master page feature. This is because we made some major changes to the class *VeilEngine* and thus we are not passing the *VeilContext* here.
-
-A possible way to mitigate the absence of master templates is to extract all the common parts into partials or components (see the [samples](samples.md)).
 
 ## Currently not implemented
 

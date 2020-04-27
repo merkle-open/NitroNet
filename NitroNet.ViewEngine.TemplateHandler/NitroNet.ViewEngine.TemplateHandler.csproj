@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Handlebars, Version=1.9.5.0, Culture=neutral, PublicKeyToken=22225d0bf33cd661, processorArchitecture=MSIL">
+      <HintPath>..\packages\Handlebars.Net.1.9.5\lib\net452\Handlebars.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -58,6 +61,16 @@
     <Compile Include="Grid\GridHelperHandler.cs" />
     <Compile Include="Grid\GridStack.cs" />
     <Compile Include="Grid\GridWidthHelperHandler.cs" />
+    <Compile Include="HandlebarsNet\Grid\HandlebarsNetGridStack.cs" />
+    <Compile Include="HandlebarsNet\Grid\HandlebarsNetGridContext.cs" />
+    <Compile Include="HandlebarsNet\HandlebarsNetGridCellHandler.cs" />
+    <Compile Include="HandlebarsNet\HandlebarsNetGridWidthHandler.cs" />
+    <Compile Include="HandlebarsNet\HandlebarsNetHelperHandlerFactory.cs" />
+    <Compile Include="HandlebarsNet\HandlebarsNetComponentHandler.cs" />
+    <Compile Include="HandlebarsNet\HandlebarsNetLabelHandler.cs" />
+    <Compile Include="HandlebarsNet\HandlebarsNetPartialHandler.cs" />
+    <Compile Include="HandlebarsNet\HandlebarsNetPlaceholderHandler.cs" />
+    <Compile Include="HandlebarsNet\HandlebarsNetTemplateIdHandler.cs" />
     <Compile Include="INitroTemplateHandler.cs" />
     <Compile Include="INitroTemplateHandlerFactory.cs" />
     <Compile Include="LabelHelperHandler.cs" />
