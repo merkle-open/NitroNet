@@ -35,8 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Handlebars, Version=1.9.5.0, Culture=neutral, PublicKeyToken=22225d0bf33cd661, processorArchitecture=MSIL">
-      <HintPath>..\packages\Handlebars.Net.1.9.5\lib\net452\Handlebars.dll</HintPath>
+    <Reference Include="Handlebars, Version=1.11.5.0, Culture=neutral, PublicKeyToken=22225d0bf33cd661, processorArchitecture=MSIL">
+      <HintPath>..\packages\Handlebars.Net.1.11.5\lib\net452\Handlebars.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -65,6 +65,8 @@
     <Compile Include="Config\AdditionalArgumentsParsingMode.cs" />
     <Compile Include="Config\NitroNetConfig.cs" />
     <Compile Include="Config\NitroNetJsonConfig.cs" />
+    <Compile Include="Context\IRenderingContextFactory.cs" />
+    <Compile Include="Context\RenderingContext.cs" />
     <Compile Include="DefaultComponentRepository.cs" />
     <Compile Include="DefaultModelTypeProvider.cs" />
     <Compile Include="IO\FileSystem.cs" />
@@ -83,17 +85,6 @@
     <Compile Include="IViewEngine.cs" />
     <Compile Include="NitroTemplateRepository.cs" />
     <Compile Include="FileTemplateInfo.cs" />
-    <Compile Include="ViewEngines\HandlebarsNet\HandlebarsNetEngine.cs" />
-    <Compile Include="ViewEngines\HandlebarsNet\IHandlebarsNetBlockHelperHandler.cs" />
-    <Compile Include="ViewEngines\HandlebarsNet\IHandlebarsNetEngine.cs" />
-    <Compile Include="ViewEngines\FilteredMemberLocator.cs" />
-    <Compile Include="ViewEngines\IMemberFilter.cs" />
-    <Compile Include="ViewEngines\IMemberFilterFactory.cs" />
-    <Compile Include="ViewEngines\HandlebarsNet\IHandlebarsNetHelperHandler.cs" />
-    <Compile Include="ViewEngines\HandlebarsNet\IHandlebarsNetHelperHandlerFactory.cs" />
-    <Compile Include="ViewEngines\MemberLocatorFromNamingRule.cs" />
-    <Compile Include="ViewEngines\HandlebarsNet\HandlebarsNetViewEngine.cs" />
-    <Compile Include="ViewEngines\VeilViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -101,18 +92,11 @@
       <Project>{5E84D392-7825-4449-89A2-9C1B8E376CAE}</Project>
       <Name>NitroNet.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Veil\Src\Veil.Handlebars\Veil.Handlebars.csproj">
-      <Project>{3335691A-38B6-4DD1-96CB-A1C262CEF4CC}</Project>
-      <Name>Veil.Handlebars</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Veil\Src\Veil\Veil.csproj">
-      <Project>{97D96B66-EDFE-474B-BC72-D8439830FC76}</Project>
-      <Name>Veil</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MSBuild.Extension.Pack.1.8.0\build\net40\MSBuild.Extension.Pack.targets" Condition="Exists('..\packages\MSBuild.Extension.Pack.1.8.0\build\net40\MSBuild.Extension.Pack.targets')" />
   <Import Project="$(SolutionDir)\versioning.targets" />

@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using NitroNet.Veil.ViewEngine;
 using NitroNet.ViewEngine;
 using NitroNet.ViewEngine.Cache;
 using NitroNet.ViewEngine.Config;
+using NitroNet.ViewEngine.Context;
 using NitroNet.ViewEngine.IO;
-using NitroNet.ViewEngine.ViewEngines;
-using Veil;
 using Veil.Helper;
 
 namespace NitroNet.Test

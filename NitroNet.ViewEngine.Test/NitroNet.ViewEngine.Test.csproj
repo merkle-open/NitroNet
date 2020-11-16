@@ -71,6 +71,10 @@
     <Compile Include="DefaultModuleRepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NitroNet.Veil\NitroNet.Veil.csproj">
+      <Project>{277694e2-03c5-4779-9e5c-2afddd8ac358}</Project>
+      <Name>NitroNet.Veil</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NitroNet.ViewEngine.TemplateHandler\NitroNet.ViewEngine.TemplateHandler.csproj">
       <Project>{F164E253-7164-47B9-B6E9-65965AE5724D}</Project>
       <Name>NitroNet.ViewEngine.TemplateHandler</Name>

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NitroNet.Veil.Handlers.Grid;
+using NitroNet.ViewEngine.Context;
 using NitroNet.ViewEngine.TemplateHandler.Grid;
-using Veil;
 
 namespace NitroNet.ViewEngine.Test.Grid
 {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NitroNet.ViewEngine.ViewEngines;
+using NitroNet.Veil.ViewEngine;
 
 namespace NitroNet.ViewEngine.Test
 {

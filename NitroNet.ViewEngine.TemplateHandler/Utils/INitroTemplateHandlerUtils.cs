@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using NitroNet.ViewEngine.Context;
 using NitroNet.ViewEngine.TemplateHandler.Models;
-using Veil;
 
 namespace NitroNet.ViewEngine.TemplateHandler.Utils
 {
@@ -10,6 +10,8 @@ namespace NitroNet.ViewEngine.TemplateHandler.Utils
         SubModel FindSubModel(IDictionary<string, RenderingParameter> renderingParameters, object model, RenderingContext context);
 
         IDictionary<string, ResolvedAdditionalArgument> ResolveAdditionalArguments(object model, IDictionary<string, string> parameters, ISet<string> reservedKeys);
+
+        IDictionary<string, ResolvedAdditionalArgument> ConvertAdditionalArguments(IDictionary<string, object> parameters, ISet<string> reservedKeys);
 
         bool TryCreateModel(SubModel submodel, IDictionary<string, ResolvedAdditionalArgument> additionalArguments,
             out object model);

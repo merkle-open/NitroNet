@@ -64,6 +64,10 @@
       <Project>{5e84d392-7825-4449-89a2-9c1b8e376cae}</Project>
       <Name>NitroNet.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NitroNet.HandlebarsNet\NitroNet.HandlebarsNet.csproj">
+      <Project>{d3b8b62c-3e6c-43ce-ae1d-5727fbe57a22}</Project>
+      <Name>NitroNet.HandlebarsNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NitroNet.Mvc\NitroNet.Mvc.csproj">
       <Project>{b91e9371-631f-4f33-ad32-2b78724c85d3}</Project>
       <Name>NitroNet.Mvc</Name>

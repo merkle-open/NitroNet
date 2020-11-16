@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D3B8B62C-3E6C-43CE-AE1D-5727FBE57A22}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NitroNet.HandlebarsNet</RootNamespace>
+    <AssemblyName>NitroNet.HandlebarsNet</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ViewEngine\HandlebarsNetEngine.cs" />
+    <Compile Include="ViewEngine\HandlebarsNetViewEngine.cs" />
+    <Compile Include="ViewEngine\IHandlebarsNetBlockHelperHandler.cs" />
+    <Compile Include="ViewEngine\IHandlebarsNetEngine.cs" />
+    <Compile Include="ViewEngine\IHandlebarsNetHelperHandler.cs" />
+    <Compile Include="ViewEngine\IHandlebarsNetHelperHandlerFactory.cs" />
+    <Compile Include="Handlers\HandlebarsNetComponentHandler.cs" />
+    <Compile Include="Handlers\Grid\HandlebarsNetGridCellHandler.cs" />
+    <Compile Include="Handlers\Grid\HandlebarsNetGridWidthHandler.cs" />
+    <Compile Include="Handlers\HandlebarsNetHelperHandlerFactory.cs" />
+    <Compile Include="Handlers\HandlebarsNetLabelHandler.cs" />
+    <Compile Include="Handlers\HandlebarsNetPartialHandler.cs" />
+    <Compile Include="Handlers\HandlebarsNetPlaceholderHandler.cs" />
+    <Compile Include="Handlers\HandlebarsNetTemplateIdHandler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Handlebars.Net">
+      <Version>1.11.5</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>6.0.8</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NitroNet.Mvc\NitroNet.Mvc.csproj">
+      <Project>{b91e9371-631f-4f33-ad32-2b78724c85d3}</Project>
+      <Name>NitroNet.Mvc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NitroNet.ViewEngine.TemplateHandler\NitroNet.ViewEngine.TemplateHandler.csproj">
+      <Project>{f164e253-7164-47b9-b6e9-65965ae5724d}</Project>
+      <Name>NitroNet.ViewEngine.TemplateHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NitroNet.ViewEngine\NitroNet.ViewEngine.csproj">
+      <Project>{a2395b2d-f69e-420f-9534-e640dfe86138}</Project>
+      <Name>NitroNet.ViewEngine</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

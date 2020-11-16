@@ -86,6 +86,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Context\MvcRenderingContextFactory.cs" />
     <Compile Include="MvcRenderingContext.cs" />
     <Compile Include="MvcNitroTemplateHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -111,11 +112,8 @@
       <Project>{a2395b2d-f69e-420f-9534-e640dfe86138}</Project>
       <Name>NitroNet.ViewEngine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Veil\Src\Veil\Veil.csproj">
-      <Project>{97D96B66-EDFE-474B-BC72-D8439830FC76}</Project>
-      <Name>Veil</Name>
-    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MSBuild.Extension.Pack.1.8.0\build\net40\MSBuild.Extension.Pack.targets" Condition="Exists('..\packages\MSBuild.Extension.Pack.1.8.0\build\net40\MSBuild.Extension.Pack.targets')" />
   <Import Project="$(SolutionDir)\versioning.targets" />

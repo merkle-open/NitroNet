@@ -1,13 +1,12 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using NitroNet.Veil.ViewEngine;
 using NitroNet.ViewEngine;
 using NitroNet.ViewEngine.Cache;
-using NitroNet.ViewEngine.ViewEngines;
-using Veil;
+using NitroNet.ViewEngine.Context;
 using Veil.Helper;
 
 namespace NitroNet.Test

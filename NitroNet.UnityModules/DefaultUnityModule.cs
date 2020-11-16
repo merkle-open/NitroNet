@@ -1,15 +1,15 @@
 ﻿using Microsoft.Practices.Unity;
+using NitroNet.HandlebarsNet.Handlers;
+using NitroNet.HandlebarsNet.ViewEngine;
 using NitroNet.Mvc;
+using NitroNet.Mvc.Context;
 using NitroNet.ViewEngine;
 using NitroNet.ViewEngine.Cache;
 using NitroNet.ViewEngine.Config;
+using NitroNet.ViewEngine.Context;
 using NitroNet.ViewEngine.IO;
 using NitroNet.ViewEngine.TemplateHandler;
-using NitroNet.ViewEngine.TemplateHandler.HandlebarsNet;
 using NitroNet.ViewEngine.TemplateHandler.Utils;
-using NitroNet.ViewEngine.ViewEngines;
-using NitroNet.ViewEngine.ViewEngines.HandlebarsNet;
-using Veil.Compiler;
 
 namespace NitroNet.UnityModules
 {
@@ -40,8 +40,8 @@ namespace NitroNet.UnityModules
         {
             container.RegisterType<IHandlebarsNetHelperHandlerFactory, HandlebarsNetHelperHandlerFactory>(
                 new ContainerControlledLifetimeManager());
-            container.RegisterType<IMemberLocator, MemberLocatorFromNamingRule>();
-            container.RegisterType<IMemberFilterFactory, MemberFilterFactory>(new ContainerControlledLifetimeManager());
+            //container.RegisterType<IMemberLocator, MemberLocatorFromNamingRule>();
+            //container.RegisterType<IMemberFilterFactory, MemberFilterFactory>(new ContainerControlledLifetimeManager());
             container.RegisterType<INamingRule, NamingRule>();
             container.RegisterType<IModelTypeProvider, DefaultModelTypeProvider>();
             container.RegisterType<IViewEngine, HandlebarsNetViewEngine>();
@@ -52,6 +52,8 @@ namespace NitroNet.UnityModules
             container.RegisterType<INitroTemplateHandlerFactory, MvcNitroTemplateHandlerFactory>(
                 new ContainerControlledLifetimeManager());
             container.RegisterType<INitroTemplateHandlerUtils, NitroTemplateHandlerUtils>(
+                new ContainerControlledLifetimeManager());
+            container.RegisterType<IRenderingContextFactory, MvcRenderingContextFactory>(
                 new ContainerControlledLifetimeManager());
         }
     }

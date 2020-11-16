@@ -39,6 +39,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroNet.CastleWindsorModul
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroNet.ViewEngine.TemplateHandler.Test", "NitroNet.ViewEngine.TemplateHandler.Test\NitroNet.ViewEngine.TemplateHandler.Test.csproj", "{46AB209A-FACF-4823-9DEF-8B986063168C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HandlebarsNet", "HandlebarsNet", "{4BEEA919-8142-4C5A-8739-5214895EE3A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroNet.HandlebarsNet", "NitroNet.HandlebarsNet\NitroNet.HandlebarsNet.csproj", "{D3B8B62C-3E6C-43CE-AE1D-5727FBE57A22}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Veil", "Veil", "{82A38A23-24B3-4174-98C9-7C4D2294ADC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroNet.Veil", "NitroNet.Veil\NitroNet.Veil.csproj", "{277694E2-03C5-4779-9E5C-2AFDDD8AC358}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +101,14 @@ Global
 		{46AB209A-FACF-4823-9DEF-8B986063168C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46AB209A-FACF-4823-9DEF-8B986063168C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46AB209A-FACF-4823-9DEF-8B986063168C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3B8B62C-3E6C-43CE-AE1D-5727FBE57A22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3B8B62C-3E6C-43CE-AE1D-5727FBE57A22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3B8B62C-3E6C-43CE-AE1D-5727FBE57A22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3B8B62C-3E6C-43CE-AE1D-5727FBE57A22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{277694E2-03C5-4779-9E5C-2AFDDD8AC358}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{277694E2-03C5-4779-9E5C-2AFDDD8AC358}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{277694E2-03C5-4779-9E5C-2AFDDD8AC358}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{277694E2-03C5-4779-9E5C-2AFDDD8AC358}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,6 +119,8 @@ Global
 		{53891204-B74C-4FEF-AF1F-7E3081E83582} = {BD778325-2F52-4ED1-9E3D-1164D749367F}
 		{8E0FD9F2-77E0-4D4B-B241-9746B24E86B6} = {BD778325-2F52-4ED1-9E3D-1164D749367F}
 		{46AB209A-FACF-4823-9DEF-8B986063168C} = {BD778325-2F52-4ED1-9E3D-1164D749367F}
+		{D3B8B62C-3E6C-43CE-AE1D-5727FBE57A22} = {4BEEA919-8142-4C5A-8739-5214895EE3A3}
+		{277694E2-03C5-4779-9E5C-2AFDDD8AC358} = {82A38A23-24B3-4174-98C9-7C4D2294ADC6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A34A4387-F2AC-40E6-B773-7EFAFC13E0C1}

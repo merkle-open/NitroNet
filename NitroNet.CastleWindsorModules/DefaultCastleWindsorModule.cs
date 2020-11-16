@@ -1,16 +1,16 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.Windsor;
+using NitroNet.HandlebarsNet.Handlers;
+using NitroNet.HandlebarsNet.ViewEngine;
 using NitroNet.Mvc;
+using NitroNet.Mvc.Context;
 using NitroNet.ViewEngine;
 using NitroNet.ViewEngine.Cache;
 using NitroNet.ViewEngine.Config;
+using NitroNet.ViewEngine.Context;
 using NitroNet.ViewEngine.IO;
 using NitroNet.ViewEngine.TemplateHandler;
-using NitroNet.ViewEngine.TemplateHandler.HandlebarsNet;
 using NitroNet.ViewEngine.TemplateHandler.Utils;
-using NitroNet.ViewEngine.ViewEngines;
-using NitroNet.ViewEngine.ViewEngines.HandlebarsNet;
-using Veil.Compiler;
 
 namespace NitroNet.CastleWindsorModules
 {
@@ -39,7 +39,8 @@ namespace NitroNet.CastleWindsorModules
         protected virtual void RegisterApplication(IWindsorContainer container)
         {
             container.Register(Component.For<IHandlebarsNetHelperHandlerFactory>().ImplementedBy<HandlebarsNetHelperHandlerFactory>().LifestyleSingleton());
-            container.Register(Component.For<IMemberLocator>().ImplementedBy<MemberLocatorFromNamingRule>().LifestyleSingleton());
+            //container.Register(Component.For<IMemberLocator>().ImplementedBy<MemberLocatorFromNamingRule>().LifestyleSingleton());
+            //container.Register(Component.For<IMemberFilterFactory>().ImplementedBy<MemberFilterFactory>().LifestyleSingleton());
             container.Register(Component.For<INamingRule>().ImplementedBy<NamingRule>().LifestyleSingleton());
             container.Register(Component.For<IModelTypeProvider>().ImplementedBy<DefaultModelTypeProvider>().LifestyleSingleton());
             container.Register(Component.For<IViewEngine>().ImplementedBy<HandlebarsNetViewEngine>().LifestyleSingleton());
@@ -49,7 +50,7 @@ namespace NitroNet.CastleWindsorModules
             container.Register(Component.For<ITemplateRepository>().ImplementedBy<NitroTemplateRepository>().LifestyleSingleton());
             container.Register(Component.For<INitroTemplateHandlerFactory>().ImplementedBy<MvcNitroTemplateHandlerFactory>().LifestyleSingleton());
             container.Register(Component.For<INitroTemplateHandlerUtils>().ImplementedBy<NitroTemplateHandlerUtils>().LifestyleSingleton());
-            container.Register(Component.For<IMemberFilterFactory>().ImplementedBy<MemberFilterFactory>().LifestyleSingleton());
+            container.Register(Component.For<IRenderingContextFactory>().ImplementedBy<MvcRenderingContextFactory>().LifestyleSingleton());
         }
     }
 }

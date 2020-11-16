@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using NitroNet.ViewEngine;
-using Veil;
+using NitroNet.ViewEngine.Context;
 using IView = System.Web.Mvc.IView;
 using IViewEngine = System.Web.Mvc.IViewEngine;
 using IViewEngineNitro = NitroNet.ViewEngine.IViewEngine;
@@ -19,7 +19,7 @@ namespace NitroNet.Mvc
         private readonly IModelTypeProvider _modelTypeProvider;
 	    private readonly IComponentRepository _componentRepository;
 
-	    public NitroNetViewEngine(IViewEngineNitro viewEngine, ITemplateRepository templateRepository, IModelTypeProvider modelTypeProvider, IComponentRepository componentRepository)
+        public NitroNetViewEngine(IViewEngineNitro viewEngine, ITemplateRepository templateRepository, IModelTypeProvider modelTypeProvider, IComponentRepository componentRepository)
         {
             _viewEngine = viewEngine;
             _templateRepository = templateRepository;
@@ -74,8 +74,8 @@ namespace NitroNet.Mvc
 	    }
 
 	    protected virtual MvcRenderingContext ResolveContext(ViewContext viewContext, IViewDataContainer viewDataContainer, TextWriter writer)
-	    {
-		    return MvcRenderingContext.Build(viewContext, viewDataContainer, writer);
+        {
+            return MvcRenderingContext.Build(viewContext, viewDataContainer, writer);
 	    }
 
         private class NitroViewAdapter : IView, IViewDataContainer

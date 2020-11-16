@@ -75,6 +75,10 @@
     <Compile Include="TemplateIntegrationTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NitroNet.Veil\NitroNet.Veil.csproj">
+      <Project>{277694e2-03c5-4779-9e5c-2afddd8ac358}</Project>
+      <Name>NitroNet.Veil</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NitroNet.ViewEngine\NitroNet.ViewEngine.csproj">
       <Project>{A2395B2D-F69E-420F-9534-E640DFE86138}</Project>
       <Name>NitroNet.ViewEngine</Name>

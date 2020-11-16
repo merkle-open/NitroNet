@@ -1,12 +1,12 @@
 ﻿using System.IO;
 using System.Web.Mvc;
-using Veil;
+using NitroNet.ViewEngine.Context;
 
 namespace NitroNet.Mvc
 {
     public class MvcRenderingContext : RenderingContext
     {
-	    private const string ContextKey = "_mvcrenderingcontext";
+	    public const string ContextKey = "_mvcrenderingcontext";
 	    public ViewContext ViewContext { get; private set; }
         public IViewDataContainer ViewDataContainer { get; private set; }
 

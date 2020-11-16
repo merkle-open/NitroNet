@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Veil;
+using NitroNet.ViewEngine.Context;
 
 namespace NitroNet.ViewEngine.TemplateHandler.Grid
 {
-	internal class GridStack
+	public class GridStack
 	{
 		private const string Gridstackkey = "gridstack";
 		private readonly Stack<GridContext> _contexts = new Stack<GridContext>();

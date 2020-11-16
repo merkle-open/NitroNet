@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using NitroNet.Common.Exceptions;
 using NitroNet.ViewEngine.Config;
+using NitroNet.ViewEngine.Context;
 using NitroNet.ViewEngine.TemplateHandler.Models;
-using Veil;
 
 namespace NitroNet.ViewEngine.TemplateHandler.Utils
 {
@@ -22,16 +22,28 @@ namespace NitroNet.ViewEngine.TemplateHandler.Utils
         public SubModel FindSubModel(IDictionary<string, RenderingParameter> renderingParameters, object model, RenderingContext context)
         {
             var dataVariation = renderingParameters[ComponentConstants.DataParameter];
-            if (string.IsNullOrEmpty(dataVariation.Value))
+
+            if (dataVariation.Type == RenderingParameterType.Resolved)
             {
-                dataVariation.Value = renderingParameters[ComponentConstants.Name].Value;
+                return new SubModel
+                {
+                    SubModelFound = true,
+                    PropertyName = "unknown",
+                    Value = dataVariation.ValueObject
+                };
             }
 
-            var propertyName = CleanName(dataVariation.Value);
+            if (dataVariation.ValueObject == null)
+            {
+                dataVariation.ValueObject = renderingParameters[ComponentConstants.Name].ValueObject;
+            }
+
+            var valueAsString = dataVariation.GetValueAsString();
+            var propertyName = CleanName(valueAsString);
 
             object subModel = null;
 
-            if (dataVariation.Value.Equals(ComponentConstants.ThisIdentifier))
+            if (valueAsString.Equals(ComponentConstants.ThisIdentifier))
             {
                 subModel = model;
             }
@@ -180,6 +192,23 @@ namespace NitroNet.ViewEngine.TemplateHandler.Utils
         public bool IsValid(SubModel subModel)
         {
             return subModel.SubModelFound && subModel.Value != null && !(subModel.Value is string);
+        }
+
+        public IDictionary<string, ResolvedAdditionalArgument> ConvertAdditionalArguments(IDictionary<string, object> parameters, ISet<string> reservedKeys)
+        {
+            if (_config.AdditionalArgumentsParsingMode == AdditionalArgumentsParsingMode.None)
+            {
+                return new Dictionary<string, ResolvedAdditionalArgument>();
+            }
+
+            var dictionary = parameters
+                .Where(p => !reservedKeys.Contains(p.Key))
+                .ToDictionary(
+                    parameter => parameter.Key,
+                    parameter => new ResolvedAdditionalArgument
+                        {Value = parameter.Value, ValueType = parameter.Value.GetType()});
+
+            return dictionary;
         }
 
         public IDictionary<string, ResolvedAdditionalArgument> ResolveAdditionalArguments(object model, IDictionary<string, string> parameters, ISet<string> reservedKeys)
@@ -335,7 +364,11 @@ namespace NitroNet.ViewEngine.TemplateHandler.Utils
 
             if (model is Dictionary<string, object> asDictionary)
             {
-                modelValue = asDictionary[propertyName];
+                if (asDictionary.ContainsKey(propertyName))
+                {
+                    modelValue = asDictionary[propertyName];
+                }
+
                 return modelValue != null;
             }
 

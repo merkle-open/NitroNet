@@ -47,9 +47,9 @@ namespace NitroNet.ViewEngine.TemplateHandler.Test
         {
             return new Dictionary<string, RenderingParameter>
             {
-                {ComponentConstants.Name, new RenderingParameter("component") {Value = component}},
-                {ComponentConstants.SkinParameter, new RenderingParameter("skin") {Value = skin}},
-                {ComponentConstants.DataParameter, new RenderingParameter("data") {Value = data}}
+                {ComponentConstants.Name, new RenderingParameter("component") {ValueObject = component}},
+                {ComponentConstants.SkinParameter, new RenderingParameter("skin") {ValueObject = skin}},
+                {ComponentConstants.DataParameter, new RenderingParameter("data") {ValueObject = data}}
             };
         }
 

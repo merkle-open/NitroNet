@@ -98,7 +98,6 @@
     <Compile Include="Parser\Nodes\WriteExpressionNode.cs" />
     <Compile Include="Parser\Nodes\WriteLiteralNode.cs" />
     <Compile Include="Parser\SyntaxTreeNode.cs" />
-    <Compile Include="RenderingContext.cs" />
     <Compile Include="VeilCompilerException.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="IVeilEngine.cs" />
@@ -117,6 +116,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\NitroNet.ViewEngine\NitroNet.ViewEngine.csproj">
+      <Project>{a2395b2d-f69e-420f-9534-e640dfe86138}</Project>
+      <Name>NitroNet.ViewEngine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -35,8 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Handlebars, Version=1.9.5.0, Culture=neutral, PublicKeyToken=22225d0bf33cd661, processorArchitecture=MSIL">
-      <HintPath>..\packages\Handlebars.Net.1.9.5\lib\net452\Handlebars.dll</HintPath>
+    <Reference Include="Handlebars, Version=1.11.5.0, Culture=neutral, PublicKeyToken=22225d0bf33cd661, processorArchitecture=MSIL">
+      <HintPath>..\packages\Handlebars.Net.1.11.5\lib\net452\Handlebars.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -56,34 +56,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultRenderingHelperHandlerFactory.cs" />
     <Compile Include="Grid\GridContext.cs" />
-    <Compile Include="Grid\GridHelperHandler.cs" />
     <Compile Include="Grid\GridStack.cs" />
-    <Compile Include="Grid\GridWidthHelperHandler.cs" />
-    <Compile Include="HandlebarsNet\Grid\HandlebarsNetGridStack.cs" />
-    <Compile Include="HandlebarsNet\Grid\HandlebarsNetGridContext.cs" />
     <Compile Include="Models\ResolvedAdditionalArgument.cs" />
     <Compile Include="Models\SubModel.cs" />
-    <Compile Include="HandlebarsNet\HandlebarsNetGridCellHandler.cs" />
-    <Compile Include="HandlebarsNet\HandlebarsNetGridWidthHandler.cs" />
-    <Compile Include="HandlebarsNet\HandlebarsNetHelperHandlerFactory.cs" />
-    <Compile Include="HandlebarsNet\HandlebarsNetComponentHandler.cs" />
-    <Compile Include="HandlebarsNet\HandlebarsNetLabelHandler.cs" />
-    <Compile Include="HandlebarsNet\HandlebarsNetPartialHandler.cs" />
-    <Compile Include="HandlebarsNet\HandlebarsNetPlaceholderHandler.cs" />
-    <Compile Include="HandlebarsNet\HandlebarsNetTemplateIdHandler.cs" />
     <Compile Include="INitroTemplateHandler.cs" />
     <Compile Include="INitroTemplateHandlerFactory.cs" />
-    <Compile Include="LabelHelperHandler.cs" />
-    <Compile Include="ComponentHelperHandler.cs" />
+    <Compile Include="RenderingParameter.cs" />
     <Compile Include="Utils\INitroTemplateHandlerUtils.cs" />
     <Compile Include="Utils\NitroTemplateHandlerUtils.cs" />
-    <Compile Include="RenderingParameter.cs" />
-    <Compile Include="PlaceholderHelperHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TemplateIdHelperHandler.cs" />
-    <Compile Include="PartialHelperHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NitroNet.Common\NitroNet.Common.csproj">
@@ -94,12 +76,9 @@
       <Project>{A2395B2D-F69E-420F-9534-E640DFE86138}</Project>
       <Name>NitroNet.ViewEngine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Veil\Src\Veil\Veil.csproj">
-      <Project>{97D96B66-EDFE-474B-BC72-D8439830FC76}</Project>
-      <Name>Veil</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
