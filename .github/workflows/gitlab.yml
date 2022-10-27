@@ -11,7 +11,7 @@ jobs:
     - name: trigger Job
       uses: appleboy/gitlab-ci-action@master
       with:
-        host: "https://git.namics.com"
-        token: "5e9ddf072d14280269ffd48ad04243"
+        host: ${{ secrets.GIT_LAB_HOST }}
+        token: ${{ secrets.GIT_LAB_TOKEN }}
         project_id: 4757
         ref: "main"
