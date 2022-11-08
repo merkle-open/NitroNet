@@ -3,13 +3,13 @@
 - [Configuration](configuration.md)
 - [Getting started](getting-started.md)
 - [Samples](samples.md)
-- [Release Notes](https://github.com/namics/NitroNet/releases)
+- [Release Notes](https://github.com/merkle-open/NitroNet/releases)
 - [Known Issues](known-issues.md)
 
 ## Installation
 
 ### Preconditions
-You need a handlebars frontend with a specific file structure (learn more about that [here](configuration.md)) or a [Nitro](https://github.com/namics/generator-nitro/) project as a precondition of this installation manual.
+You need a handlebars frontend with a specific file structure (learn more about that [here](configuration.md)) or a [Nitro](https://github.com/merkle-open/generator-nitro/) project as a precondition of this installation manual.
 
 ### Step 1 - Create a ASP.NET MVC application
 Create a ASP.NET MVC solution on your local machine with Visual Studio and compile the solution.

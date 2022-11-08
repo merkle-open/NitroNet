@@ -3,13 +3,13 @@
 - [Configuration](configuration.md)
 - [Getting started](getting-started.md)
 - [Samples](samples.md)
-- [Release Notes](https://github.com/namics/NitroNet/releases)
+- [Release Notes](https://github.com/merkle-open/NitroNet/releases)
 - [Known Issues](known-issues.md)
 
 ## Configuration
 
 ### Requirements regarding the file structure of your frontend application
-If you are building your frontend with [Nitro](https://github.com/namics/generator-nitro/), you already have a valid file structure and there is nothing to consider.
+If you are building your frontend with [Nitro](https://github.com/merkle-open/generator-nitro/), you already have a valid file structure and there is nothing to consider.
 
 If you build your handlebars frontend yourself or with another generator, there are the following things you have to consider:
 
@@ -20,7 +20,7 @@ If you want to use the Nitro handlebars helpers (mainly regarding the `{{compone
 	- Example: The file for a teaser component has to be named `teaser.[file extension]`
 - The base component has to be in a folder with the same name.
 	- Example: The `teaser` component has to be in `[components folder]/teaser/teaser.[file extension]`
-- The variations respectively skins of your base component have to be in the same folder as the base  component. You can distinguish your variations with a `-` following the name of the variation. [Read more about skins here (keyword: template)](https://github.com/namics/generator-nitro/blob/master/generators/app/templates/project/docs/nitro.md#render-patterns)
+- The variations respectively skins of your base component have to be in the same folder as the base  component. You can distinguish your variations with a `-` following the name of the variation. [Read more about skins here (keyword: template)](https://github.com/merkle-open/generator-nitro/blob/master/generators/app/templates/project/docs/nitro.md#render-patterns)
 	- Example: the `teaser-blue` variation has to be in `[components folder]/teaser/teaser-blue.[file extension]`
 	- Example: the `teaser-red` variation has to be in `[components folder]/teaser/teaser-red.[file extension]`
 
@@ -84,7 +84,7 @@ Explanation to the individual settings/properties:
 * **filters**: File paths which match with the `filters` regex are being ignored
 
 ### *Optional:* Add and register your own custom helpers
-As mentioned before, NitroNet comes with support for the [Nitro](https://github.com/namics/generator-nitro/) custom handlebars helpers by default.
+As mentioned before, NitroNet comes with support for the [Nitro](https://github.com/merkle-open/generator-nitro/) custom handlebars helpers by default.
 
 But you can add your own helpers as well. You can achieve this by doing the following steps (the instructions are shown using the Unity IoC framework):
 

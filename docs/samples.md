@@ -3,12 +3,12 @@
 - [Configuration](configuration.md)
 - [Getting started](getting-started.md)
 - [Samples](samples.md)
-- [Release Notes](https://github.com/namics/NitroNet/releases)
+- [Release Notes](https://github.com/merkle-open/NitroNet/releases)
 - [Known Issues](known-issues.md)
 
 ## Templating
 Please visit the [handlebars documentation](http://handlebarsjs.com) about informations and samples.  
-Or you can check out the [Nitro documentation](https://github.com/namics/generator-nitro/blob/master/packages/project-nitro/project/docs/nitro.md) if you want to build your frontend with this application.
+Or you can check out the [Nitro documentation](https://github.com/merkle-open/generator-nitro/blob/master/packages/project-nitro/project/docs/nitro.md) if you want to build your frontend with this application.
 
 
 ## Standard Handlebars helpers
