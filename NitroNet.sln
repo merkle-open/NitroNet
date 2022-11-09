@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroNet.Mvc", "NitroNet.Mvc\NitroNet.Mvc.csproj", "{B91E9371-631F-4F33-AD32-2B78724C85D3}"
 EndProject
@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroNet.Core", "NitroNet.C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{DA52C9ED-5676-4415-AC22-A26B74F354CE}"
 	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.targets = .nuget\NuGet.targets
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
@@ -96,5 +98,8 @@ Global
 		{3335691A-38B6-4DD1-96CB-A1C262CEF4CC} = {81827048-6FBD-4957-BDFC-247650732662}
 		{53891204-B74C-4FEF-AF1F-7E3081E83582} = {BD778325-2F52-4ED1-9E3D-1164D749367F}
 		{8E0FD9F2-77E0-4D4B-B241-9746B24E86B6} = {BD778325-2F52-4ED1-9E3D-1164D749367F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7232DBD2-1DD4-4E53-904B-F5439FA7DFA9}
 	EndGlobalSection
 EndGlobal
