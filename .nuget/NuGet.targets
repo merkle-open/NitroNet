@@ -93,13 +93,9 @@
         <DownloadNuGet OutputFilename="$(NuGetExePath)" Condition=" '$(DownloadNuGetExe)' == 'true' AND !Exists('$(NuGetExePath)')" />
     </Target>
 
-    <Target Name="RestorePackages" DependsOnTargets="CheckPrerequisites">        
+    <Target Name="RestorePackages" DependsOnTargets="CheckPrerequisites">
         <Exec Command="$(RestoreCommand)"
               Condition="'$(OS)' != 'Windows_NT' And Exists('$(PackagesConfig)')" />
-
-        <Exec Command="$(RestoreCommand)"
-              LogStandardErrorAsError="true"
-              Condition="'$(OS)' == 'Windows_NT' And Exists('$(PackagesConfig)')" />
     </Target>
 
     <Target Name="BuildPackage" DependsOnTargets="CheckPrerequisites">
