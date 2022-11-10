@@ -3,7 +3,7 @@
 - [Configuration](configuration.md)
 - [Getting started](getting-started.md)
 - [Samples](samples.md)
-- [Release Notes](https://github.com/namics/NitroNetSitecore/releases)
+- [Release Notes](https://github.com/merkle-open/NitroNetSitecore/releases)
 - [Known Issues](known-issues.md)
 
 ## Limitations
@@ -36,7 +36,7 @@ A possible way to mitigate the absence of master templates is to extract all the
 ### Nitro features
 
 #### Flexible attributes on component helper
-You will find the Nitro documentation for the flexible attribute [here](https://github.com/namics/generator-nitro/blob/master/generators/app/templates/project/docs/nitro.md#render-patterns).
+You will find the Nitro documentation for the flexible attribute [here](https://github.com/merkle-open/generator-nitro/blob/master/packages/generator-nitro/generators/app/templates/project/docs/nitro.md#render-patterns).
 
 ```
 {{pattern 'example' modifier='blue'}}
@@ -48,7 +48,7 @@ In the current version NitroNet does not support this feature. You need to pass 
 ```
 
 #### Render patterns with children
-You will find the Nitro documentation for patterns with children [here](https://github.com/namics/generator-nitro/blob/master/generators/app/templates/project/docs/nitro.md#render-patterns-with-children).
+You will find the Nitro documentation for patterns with children [here](https://github.com/merkle-open/generator-nitro/blob/master/generators/app/templates/project/docs/nitro.md#render-patterns-with-children).
 
 ```
 {{#pattern 'box'}}
